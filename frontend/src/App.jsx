@@ -5,6 +5,7 @@ import Readings from './pages/Readings'
 import Rosary from './pages/Rosary'
 import Examine from './pages/Examine'
 import Register from './pages/Register'
+import Login from './pages/Login'
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/rosary" element={<Rosary />} />
           <Route path="/examine" element={<Examine />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

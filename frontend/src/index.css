@@ -238,4 +238,10 @@ body {
   color: var(--gold);
   font-weight: 500;
   text-decoration: none;
+} 
+
+/* Logout button — slightly muted compared to nav tabs */
+.nav-item-logout {
+  color: var(--brown-light);
+  opacity: 0.7;
 }

@@ -55,3 +55,30 @@ def parse_reference(reference: str) -> dict:
         "chapter": chapter,
         "verse_ranges": verse_ranges
     }
+    
+def strip_markup(text: str) -> str:
+    """
+    Removes Douay-Rheims API markup tags from verse text.
+    
+    Tags seen in real API responses:
+        <cr>[1]</cr>  — cross-reference marker
+        <na>[1]</na>  — annotation/note marker  
+        <sc>TEXT</sc> — small caps formatting
+        <i>TEXT</i>   — italic formatting
+    
+    We keep the text content inside tags like <sc> and <i>,
+    but remove the annotation markers <cr> and <na> entirely
+    since their content is just reference numbers, not scripture.
+    """
+    # Remove annotation markers and their content entirely
+    text = re.sub(r'<cr>.*?</cr>', '', text)
+    text = re.sub(r'<na>.*?</na>', '', text)
+    
+    # Remove formatting tags but keep their text content
+    text = re.sub(r'<sc>(.*?)</sc>', r'\1', text)
+    text = re.sub(r'<i>(.*?)</i>', r'\1', text)
+    
+    # Clean up any double spaces left behind
+    text = re.sub(r' +', ' ', text)
+    
+    return text.strip()

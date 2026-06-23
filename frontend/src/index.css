@@ -245,3 +245,65 @@ body {
   color: var(--brown-light);
   opacity: 0.7;
 }
+
+/* Readings page */
+.readings-header {
+  background-color: var(--cream-dark);
+  margin: -24px -20px 24px;
+  padding: 28px 20px 20px;
+  border-bottom: 0.5px solid var(--cream-border);
+}
+
+.readings-eyebrow {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--brown-light);
+  margin-bottom: 4px;
+}
+
+.readings-season {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--brown-dark);
+}
+
+.readings-loading {
+  font-size: 14px;
+  color: var(--brown-light);
+  text-align: center;
+  padding: 40px 0;
+}
+
+.readings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.reading-block {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.reading-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--gold);
+  font-weight: 500;
+}
+
+.reading-ref {
+  font-size: 13px;
+  color: var(--brown-light);
+}
+
+.reading-text {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--brown-dark);
+}

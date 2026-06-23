@@ -1,22 +1,40 @@
+import { useState, useEffect } from 'react'
 import NavBar from '../components/NavBar'
 import HomeHeader from '../components/HomeHeader'
 import FeatureCard from '../components/FeatureCard'
 
 function Home() {
+  const [readings, setReadings] = useState(null)
+
+  useEffect(() => {
+    async function loadReadings() {
+      try {
+        const response = await fetch('http://localhost:8000/readings/today')
+        if (!response.ok) return
+        const data = await response.json()
+        setReadings(data)
+      } catch (err) {
+        // Silently fail — home screen still works without readings data
+      }
+    }
+
+    loadReadings()
+  }, [])
+
   return (
     <div className="page">
       <div className="page-content">
-        <HomeHeader />
+        <HomeHeader readings={readings} />
         <div className="card-list">
           <FeatureCard
             title="Today's Readings"
-            subtitle="Tap to read today's Mass readings"
+            subtitle={readings ? readings.first_reading_ref : "Loading..."}
             path="/readings"
             accent="#8b6914"
           />
           <FeatureCard
             title="Saint of the Day"
-            subtitle="Learn about today's saint"
+            subtitle={readings ? readings.saint_name : "Loading..."}
             path="/readings"
             accent="#6b5a4a"
           />

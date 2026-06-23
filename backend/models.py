@@ -11,7 +11,8 @@ class User(Base):
     email = Column(String, unique=True, index=True, nullable=False)
     hashed_password = Column(String, nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
-    
+
+
 class DailyContent(Base):
     __tablename__ = "daily_content"
 
@@ -29,6 +30,5 @@ class DailyContent(Base):
     saint_name = Column(String, nullable=True)
     saint_type = Column(String, nullable=True)
     saint_description = Column(String, nullable=True)
+    saint_quote = Column(String, nullable=True)
     fetched_at = Column(DateTime(timezone=True), server_default=func.now())
-    
-    

@@ -307,3 +307,64 @@ body {
   line-height: 1.8;
   color: var(--brown-dark);
 }
+
+/* Saint page */
+.saint-header {
+  background-color: var(--cream-dark);
+  margin: -24px -20px 24px;
+  padding: 28px 20px 20px;
+  border-bottom: 0.5px solid var(--cream-border);
+}
+
+.saint-name {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--brown-dark);
+  margin-bottom: 6px;
+}
+
+.saint-type {
+  font-size: 12px;
+  color: var(--brown-light);
+}
+
+.saint-body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.saint-quote-block {
+  background-color: var(--cream-dark);
+  border-left: 3px solid var(--gold-light);
+  border-radius: 0 12px 12px 0;
+  padding: 16px 16px 16px 20px;
+}
+
+.saint-quote-text {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--brown-mid);
+  margin-bottom: 8px;
+}
+
+.saint-quote-attr {
+  font-size: 12px;
+  color: var(--brown-light);
+}
+
+.saint-description-block {
+  background-color: #ffffff;
+  border-radius: 14px;
+  border: 0.5px solid var(--cream-border);
+  padding: 16px;
+}
+
+.saint-description {
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--brown-dark);
+}

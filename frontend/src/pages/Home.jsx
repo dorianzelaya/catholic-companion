@@ -35,7 +35,7 @@ function Home() {
           <FeatureCard
             title="Saint of the Day"
             subtitle={readings ? readings.saint_name : "Loading..."}
-            path="/readings"
+            path="/saint"
             accent="#6b5a4a"
           />
           <FeatureCard

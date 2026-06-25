@@ -32,3 +32,17 @@ class DailyContent(Base):
     saint_description = Column(String, nullable=True)
     saint_quote = Column(String, nullable=True)
     fetched_at = Column(DateTime(timezone=True), server_default=func.now())
+
+
+class ScripturePassage(Base):
+    __tablename__ = "scripture_passages"
+
+    id = Column(Integer, primary_key=True, index=True)
+    category = Column(String, index=True, nullable=False)
+    book = Column(String, nullable=False)
+    chapter = Column(Integer, nullable=False)
+    verse_start = Column(Integer, nullable=False)
+    verse_end = Column(Integer, nullable=False)
+    reference = Column(String, nullable=False)
+    text = Column(String, nullable=False)
+    created_at = Column(DateTime(timezone=True), server_default=func.now())

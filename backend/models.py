@@ -46,3 +46,24 @@ class ScripturePassage(Base):
     reference = Column(String, nullable=False)
     text = Column(String, nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+
+class StrugglePrayer(Base):
+    __tablename__ = "struggle_prayers"
+
+    id = Column(Integer, primary_key=True, index=True)
+    category = Column(String, index=True, nullable=False)
+    prayer_name = Column(String, nullable=False)
+    attribution = Column(String, nullable=True)
+    text = Column(String, nullable=False)
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+
+class StruggleSaint(Base):
+    __tablename__ = "struggle_saints"
+
+    id = Column(Integer, primary_key=True, index=True)
+    category = Column(String, index=True, nullable=False)
+    saint_name = Column(String, nullable=False)
+    description = Column(String, nullable=False)
+    created_at = Column(DateTime(timezone=True), server_default=func.now())

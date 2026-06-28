@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from database import engine, Base
 from routers import auth_routes
 from routers import readings_routes
+from routers import struggle_routes
 import models
 
 Base.metadata.create_all(bind=engine)
@@ -19,6 +20,7 @@ app.add_middleware(
 
 app.include_router(auth_routes.router)
 app.include_router(readings_routes.router)
+app.include_router(struggle_routes.router)
 
 
 @app.get("/")

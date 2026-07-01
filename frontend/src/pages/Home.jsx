@@ -53,7 +53,7 @@ function Home() {
           <FeatureCard
             title="Examination of Conscience"
             subtitle="Prepare for confession"
-            path="/examine"
+            path="/examination"
             accent="#6b5a4a"
           />
         </div>

@@ -7,10 +7,10 @@ function NavBar() {
   const { logout } = useAuth()
 
   const tabs = [
-    { label: 'Home',      path: '/home'      },
-    { label: 'Readings',  path: '/readings'  },
-    { label: 'Rosary',    path: '/rosary'    },
-    { label: 'Examine',   path: '/examine'   },
+    { label: 'Home',        path: '/home'        },
+    { label: 'Readings',    path: '/readings'    },
+    { label: 'Rosary',      path: '/rosary'      },
+    { label: 'Examination', path: '/examination' },
   ]
 
   function handleLogout() {

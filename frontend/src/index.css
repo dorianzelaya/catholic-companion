@@ -368,3 +368,300 @@ body {
   line-height: 1.8;
   color: var(--brown-dark);
 }
+
+/* Struggle matcher */
+.struggle-header {
+  background-color: var(--cream-dark);
+  margin: -24px -20px 24px;
+  padding: 28px 20px 20px;
+  border-bottom: 0.5px solid var(--cream-border);
+}
+
+.struggle-title {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--brown-dark);
+}
+
+.struggle-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.struggle-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.struggle-group-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--brown-light);
+}
+
+.struggle-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.struggle-pill {
+  background-color: #ffffff;
+  border: 0.5px solid var(--cream-border);
+  border-radius: 20px;
+  padding: 8px 14px;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: var(--brown-dark);
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.struggle-pill:active {
+  background-color: var(--gold);
+  border-color: var(--gold);
+  color: var(--cream);
+}
+
+/* Struggle result */
+.struggle-result-header {
+  background-color: var(--cream-dark);
+  margin: -24px -20px 24px;
+  padding: 20px 20px 20px;
+  border-bottom: 0.5px solid var(--cream-border);
+}
+
+.struggle-back {
+  background: none;
+  border: none;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: var(--gold);
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.struggle-category-title {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--brown-dark);
+}
+
+.struggle-result-body {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.struggle-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.struggle-section-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--gold);
+  font-weight: 500;
+}
+
+.struggle-passage {
+  background-color: #ffffff;
+  border-radius: 12px;
+  border: 0.5px solid var(--cream-border);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.struggle-ref {
+  font-size: 11px;
+  color: var(--brown-light);
+}
+
+.struggle-text {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--brown-dark);
+}
+
+.struggle-saint {
+  background-color: var(--cream-dark);
+  border-radius: 12px;
+  border: 0.5px solid var(--cream-border);
+  padding: 14px;
+}
+
+.struggle-saint-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--brown-dark);
+  margin-bottom: 4px;
+}
+
+.struggle-saint-desc {
+  font-size: 13px;
+  color: var(--brown-mid);
+  line-height: 1.6;
+}
+
+.struggle-prayer {
+  background-color: #ffffff;
+  border-radius: 12px;
+  border: 0.5px solid var(--cream-border);
+  border-left: 3px solid var(--gold-light);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.struggle-prayer-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--brown-dark);
+}
+
+.struggle-prayer-attr {
+  font-size: 11px;
+  color: var(--brown-light);
+  margin-bottom: 8px;
+}
+
+.struggle-prayer-text {
+  font-family: var(--font-serif);
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--brown-dark);
+}
+
+.struggle-crisis {
+  background-color: #fdf3f3;
+  border-radius: 12px;
+  border: 0.5px solid #e8c8c8;
+  padding: 14px;
+}
+
+.struggle-crisis-text {
+  font-size: 13px;
+  color: #7a3535;
+  line-height: 1.6;
+}
+
+/* Examination of Conscience */
+.examination-header {
+  background-color: var(--cream-dark);
+  margin: -24px -20px 24px;
+  padding: 28px 20px 20px;
+  border-bottom: 0.5px solid var(--cream-border);
+}
+
+.examination-title {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--brown-dark);
+  margin-bottom: 6px;
+}
+
+.examination-subtitle {
+  font-size: 13px;
+  color: var(--brown-light);
+}
+
+.examination-intro {
+  background-color: var(--cream-dark);
+  border-radius: 12px;
+  border: 0.5px solid var(--cream-border);
+  padding: 14px 16px;
+  margin-bottom: 8px;
+}
+
+.examination-intro-text {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--brown-mid);
+}
+
+.examination-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.examination-item {
+  background-color: #ffffff;
+  border-radius: 12px;
+  border: 0.5px solid var(--cream-border);
+  overflow: hidden;
+}
+
+.examination-commandment {
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 14px 16px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  cursor: pointer;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--brown-dark);
+  text-align: left;
+  line-height: 1.5;
+}
+
+.examination-chevron {
+  font-size: 18px;
+  color: var(--gold);
+  flex-shrink: 0;
+  margin-top: -2px;
+}
+
+.examination-questions {
+  padding: 0 16px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-top: 0.5px solid var(--cream-border);
+  padding-top: 12px;
+}
+
+.examination-question {
+  font-size: 13px;
+  color: var(--brown-mid);
+  line-height: 1.6;
+}
+
+.examination-closing {
+  background-color: var(--cream-dark);
+  border-radius: 12px;
+  border: 0.5px solid var(--cream-border);
+  padding: 14px 16px;
+  margin-top: 8px;
+}
+
+.examination-closing-text {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--brown-mid);
+}

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import NavBar from '../components/NavBar'
 import HomeHeader from '../components/HomeHeader'
 import FeatureCard from '../components/FeatureCard'
+import API_URL from '../config'
 
 function Home() {
   const [readings, setReadings] = useState(null)
@@ -9,7 +10,7 @@ function Home() {
   useEffect(() => {
     async function loadReadings() {
       try {
-        const response = await fetch('http://localhost:8000/readings/today')
+        const response = await fetch(`${API_URL}/readings/today`)
         if (!response.ok) return
         const data = await response.json()
         setReadings(data)

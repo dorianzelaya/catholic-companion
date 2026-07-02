@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import NavBar from '../components/NavBar'
+import API_URL from '../config'
 
 function Saint() {
   const [data, setData] = useState(null)
@@ -9,7 +10,7 @@ function Saint() {
   useEffect(() => {
     async function loadSaint() {
       try {
-        const response = await fetch('http://localhost:8000/readings/today')
+        const response = await fetch(`${API_URL}/readings/today`)
         if (!response.ok) throw new Error('Could not load saint data')
         const json = await response.json()
         setData(json)

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import API_URL from '../config'
 
 function Register() {
   const [firstName, setFirstName] = useState('')
@@ -18,7 +19,7 @@ function Register() {
     setLoading(true)
 
     try {
-      const registerResponse = await fetch('http://localhost:8000/auth/register', {
+      const registerResponse = await fetch(`${API_URL}/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ first_name: firstName, email, password })
@@ -29,7 +30,7 @@ function Register() {
         throw new Error(data.detail || 'Registration failed')
       }
 
-      const loginResponse = await fetch('http://localhost:8000/auth/login', {
+      const loginResponse = await fetch(`${API_URL}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })

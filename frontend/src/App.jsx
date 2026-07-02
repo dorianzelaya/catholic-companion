@@ -4,7 +4,7 @@ import ProtectedRoute from './components/ProtectedRoute'
 import Home from './pages/Home'
 import Readings from './pages/Readings'
 import Rosary from './pages/Rosary'
-import Examine from './pages/Examine'
+import Struggle from './pages/Struggle'
 import Register from './pages/Register'
 import Login from './pages/Login'
 import Saint from './pages/Saint'
@@ -28,8 +28,8 @@ function App() {
           <Route path="/rosary" element={
             <ProtectedRoute><Rosary /></ProtectedRoute>
           } />
-          <Route path="/examine" element={
-            <ProtectedRoute><Examine /></ProtectedRoute>
+          <Route path="/struggle" element={
+            <ProtectedRoute><Struggle /></ProtectedRoute>
           } />
           <Route path="/saint" element={
             <ProtectedRoute><Saint /></ProtectedRoute>

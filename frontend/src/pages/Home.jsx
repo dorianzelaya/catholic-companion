@@ -42,7 +42,7 @@ function Home() {
           <FeatureCard
             title="I'm struggling with..."
             subtitle="Find scripture for your moment"
-            path="/examine"
+            path="/struggle"
             accent="#4a3728"
           />
           <FeatureCard

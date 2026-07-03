@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import NavBar from '../components/NavBar'
+import BackButton from '../components/BackButton'
 import API_URL from '../config'
 
 function Readings() {
@@ -27,6 +28,7 @@ function Readings() {
   return (
     <div className="page">
       <div className="page-content">
+        <BackButton />
         <div className="readings-header">
           <p className="readings-eyebrow">Daily Mass Readings</p>
           {readings && (

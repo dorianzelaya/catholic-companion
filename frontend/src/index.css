@@ -250,7 +250,7 @@ body {
 .readings-header {
   background-color: var(--cream-dark);
   margin: -24px -20px 24px;
-  padding: 16px 20px 20px;;
+  padding: 12px 20px 20px;
   border-bottom: 0.5px solid var(--cream-border);
 }
 

@@ -676,5 +676,6 @@ body {
   cursor: pointer;
   padding: 0;
   margin-bottom: 12px;
+  margin-top: 4px;
   display: block;
 }

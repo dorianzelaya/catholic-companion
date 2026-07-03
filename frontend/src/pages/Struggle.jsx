@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import NavBar from '../components/NavBar'
+import BackButton from '../components/BackButton'
 import API_URL from '../config'
 
 const CATEGORIES = {
@@ -125,6 +126,7 @@ function Struggle() {
     <div className="page">
       <div className="page-content">
         <div className="struggle-header">
+          <BackButton />
           <p className="readings-eyebrow">Scripture & Prayer</p>
           <h1 className="struggle-title">I'm struggling with...</h1>
         </div>

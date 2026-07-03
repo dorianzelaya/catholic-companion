@@ -665,3 +665,16 @@ body {
   line-height: 1.7;
   color: var(--brown-mid);
 }
+
+/* Back button */
+.back-button {
+  background: none;
+  border: none;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: var(--gold);
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 12px;
+  display: block;
+}

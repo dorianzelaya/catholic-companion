@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import NavBar from '../components/NavBar'
+import BackButton from '../components/BackButton'
 
 const EXAMINATION = [
   {
@@ -115,6 +116,7 @@ function ExaminationOfConscience() {
     <div className="page">
       <div className="page-content">
         <div className="examination-header">
+          <BackButton />
           <p className="readings-eyebrow">Before Confession</p>
           <h1 className="examination-title">Examination of Conscience</h1>
           <p className="examination-subtitle">

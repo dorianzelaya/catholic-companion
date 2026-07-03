@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import NavBar from '../components/NavBar'
+import BackButton from '../components/BackButton'
 import API_URL from '../config'
 
 function Saint() {
@@ -36,6 +37,7 @@ function Saint() {
     <div className="page">
       <div className="page-content">
         <div className="saint-header">
+          <BackButton />
           <p className="readings-eyebrow">Saint of the Day</p>
           {data && <h1 className="saint-name">{data.saint_name}</h1>}
           {data && <p className="saint-type">{formatType(data.saint_type)}</p>}

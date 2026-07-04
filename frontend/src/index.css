@@ -39,14 +39,16 @@ body {
 .page {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
 }
 
-/* Scrollable content area above the nav bar */
+/* Scrollable content area — only this scrolls */
 .page-content {
   flex: 1;
   padding: 24px 20px;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Nav bar — fixed to the bottom of the screen */
@@ -57,8 +59,7 @@ body {
   padding: 12px 0 24px;
   background-color: var(--cream);
   border-top: 0.5px solid var(--cream-border);
-  position: sticky;
-  bottom: 0;
+  flex-shrink: 0;
 }
 
 /* Individual nav button */

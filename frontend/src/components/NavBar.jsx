@@ -20,17 +20,21 @@ function NavBar() {
 
   return (
     <nav className="navbar">
-      {tabs.map(tab => (
-        <button
-          key={tab.path}
-          className={`nav-item ${location.pathname === tab.path ? 'active' : ''}`}
-          onClick={() => navigate(tab.path)}
-        >
-          {tab.label}
-        </button>
-      ))}
+      {tabs.map(tab => {
+        const isActive = location.pathname === tab.path
+        return (
+          <button
+            key={tab.path}
+            className={`nav-item ${isActive ? 'active' : ''}`}
+            onClick={() => navigate(tab.path)}
+          >
+            {isActive && <span className="nav-indicator" />}
+            <span className="nav-label">{tab.label}</span>
+          </button>
+        )
+      })}
       <button className="nav-item nav-item-logout" onClick={handleLogout}>
-        Logout
+        <span className="nav-label">Logout</span>
       </button>
     </nav>
   )

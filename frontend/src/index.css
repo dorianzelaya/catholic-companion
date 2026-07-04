@@ -67,7 +67,7 @@ html {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  padding: 12px 0 24px;
+  padding: 8px 0 24px;
   background-color: var(--cream);
   border-top: 0.5px solid var(--cream-border);
   flex-shrink: 0;
@@ -78,16 +78,34 @@ html {
   background: none;
   border: none;
   font-family: var(--font-ui);
-  font-size: 12px;
+  font-size: 11px;
   color: var(--brown-light);
   cursor: pointer;
-  padding: 4px 12px;
+  padding: 4px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  position: relative;
 }
 
-/* Active nav item — highlighted in gold */
+/* Active nav item */
 .nav-item.active {
   color: var(--gold);
   font-weight: 500;
+}
+
+/* Gold pill indicator above active tab label */
+.nav-indicator {
+  display: block;
+  width: 24px;
+  height: 3px;
+  background-color: var(--gold);
+  border-radius: 2px;
+}
+
+.nav-label {
+  display: block;
 }
 
 /* Home header */
@@ -253,7 +271,7 @@ html {
   text-decoration: none;
 } 
 
-/* Logout button — slightly muted compared to nav tabs */
+/* Logout button */
 .nav-item-logout {
   color: var(--brown-light);
   opacity: 0.7;

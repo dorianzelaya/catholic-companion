@@ -41,35 +41,37 @@ function Login() {
   }
 
   return (
-    <div className="auth-page">
-      <h1 className="auth-title">Welcome back</h1>
+    <div className="page">
+      <div className="auth-page">
+        <h1 className="auth-title">Welcome back</h1>
 
-      <form className="auth-form" onSubmit={handleSubmit}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+        <form className="auth-form" onSubmit={handleSubmit}>
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
 
-        {error && <p className="auth-error">{error}</p>}
+          {error && <p className="auth-error">{error}</p>}
 
-        <button type="submit" disabled={loading}>
-          {loading ? 'Logging in...' : 'Log in'}
-        </button>
-      </form>
+          <button type="submit" disabled={loading}>
+            {loading ? 'Logging in...' : 'Log in'}
+          </button>
+        </form>
 
-      <p className="auth-switch">
-        Don't have an account? <a href="/register">Create one</a>
-      </p>
+        <p className="auth-switch">
+          Don't have an account? <a href="/register">Create one</a>
+        </p>
+      </div>
     </div>
   )
 }

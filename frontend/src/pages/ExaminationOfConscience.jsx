@@ -114,16 +114,14 @@ function ExaminationOfConscience() {
 
   return (
     <div className="page">
-      <div className="page-content">
-        <div className="examination-header">
-          <BackButton />
-          <p className="readings-eyebrow">Before Confession</p>
-          <h1 className="examination-title">Examination of Conscience</h1>
-          <p className="examination-subtitle">
-            Reflect quietly on each commandment. Tap to expand.
-          </p>
-        </div>
+      <div className="page-header">
+        <BackButton />
+        <p className="readings-eyebrow">Before Confession</p>
+        <h1 className="examination-title">Examination of Conscience</h1>
+        <p className="examination-subtitle">Reflect quietly on each commandment. Tap to expand.</p>
+      </div>
 
+      <div className="page-content">
         <div className="examination-intro">
           <p className="examination-intro-text">
             Begin with a prayer to the Holy Spirit, asking for the grace to know your sins clearly and to be truly sorry for them.

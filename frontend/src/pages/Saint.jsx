@@ -35,14 +35,14 @@ function Saint() {
 
   return (
     <div className="page">
-      <div className="page-content">
-        <div className="saint-header">
-          <BackButton />
-          <p className="readings-eyebrow">Saint of the Day</p>
-          {data && <h1 className="saint-name">{data.saint_name}</h1>}
-          {data && <p className="saint-type">{formatType(data.saint_type)}</p>}
-        </div>
+      <div className="page-header">
+        <BackButton />
+        <p className="readings-eyebrow">Saint of the Day</p>
+        {data && <h1 className="saint-name">{data.saint_name}</h1>}
+        {data && <p className="saint-type">{formatType(data.saint_type)}</p>}
+      </div>
 
+      <div className="page-content">
         {loading && <p className="readings-loading">Loading...</p>}
         {error && <p className="auth-error">{error}</p>}
 

@@ -60,9 +60,10 @@ function Struggle() {
   if (loading) {
     return (
       <div className="page">
-        <div className="page-content">
+        <div className="page-header">
           <p className="readings-loading">Finding scripture...</p>
         </div>
+        <div className="page-content" />
         <NavBar />
       </div>
     )
@@ -71,13 +72,13 @@ function Struggle() {
   if (result) {
     return (
       <div className="page">
-        <div className="page-content">
-          <div className="struggle-result-header">
-            <button className="struggle-back" onClick={handleBack}>← Back</button>
-            <p className="readings-eyebrow">I'm struggling with</p>
-            <h1 className="struggle-category-title">{selected}</h1>
-          </div>
+        <div className="page-header">
+          <button className="struggle-back" onClick={handleBack}>← Back</button>
+          <p className="readings-eyebrow">I'm struggling with</p>
+          <h1 className="struggle-category-title">{selected}</h1>
+        </div>
 
+        <div className="page-content">
           <div className="struggle-result-body">
             <div className="struggle-section">
               <p className="struggle-section-label">Scripture</p>
@@ -124,13 +125,13 @@ function Struggle() {
 
   return (
     <div className="page">
-      <div className="page-content">
-        <div className="struggle-header">
-          <BackButton />
-          <p className="readings-eyebrow">Scripture & Prayer</p>
-          <h1 className="struggle-title">I'm struggling with...</h1>
-        </div>
+      <div className="page-header">
+        <BackButton />
+        <p className="readings-eyebrow">Scripture & Prayer</p>
+        <h1 className="struggle-title">I'm struggling with...</h1>
+      </div>
 
+      <div className="page-content">
         {error && <p className="auth-error">{error}</p>}
 
         <div className="struggle-grid">
@@ -151,10 +152,3 @@ function Struggle() {
             </div>
           ))}
         </div>
-      </div>
-      <NavBar />
-    </div>
-  )
-}
-
-export default Struggle

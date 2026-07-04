@@ -24,8 +24,8 @@ function Home() {
 
   return (
     <div className="page">
+      <HomeHeader readings={readings} />
       <div className="page-content">
-        <HomeHeader readings={readings} />
         <div className="card-list">
           <FeatureCard
             title="Today's Readings"

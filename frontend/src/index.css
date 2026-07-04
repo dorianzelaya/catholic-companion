@@ -46,6 +46,14 @@ html {
   overflow: hidden;
 }
 
+/* Fixed page header — never scrolls */
+.page-header {
+  background-color: var(--cream-dark);
+  padding: 16px 20px 16px;
+  border-bottom: 0.5px solid var(--cream-border);
+  flex-shrink: 0;
+}
+
 /* Scrollable content area — only this scrolls */
 .page-content {
   flex: 1;
@@ -85,9 +93,9 @@ html {
 /* Home header */
 .home-header {
   background-color: var(--cream-dark);
-  margin: -24px -20px 24px;
-  padding: 28px 20px 20px;
+  padding: 20px 20px 20px;
   border-bottom: 0.5px solid var(--cream-border);
+  flex-shrink: 0;
 }
 
 .home-header-season {
@@ -173,8 +181,9 @@ html {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-height: 100vh;
+  flex: 1;
   padding: 24px 28px;
+  overflow-y: auto;
 }
 
 .auth-title {

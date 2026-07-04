@@ -27,15 +27,15 @@ function Readings() {
 
   return (
     <div className="page">
-      <div className="page-content">
-        <div className="readings-header">
-          <BackButton />
-          <p className="readings-eyebrow">Daily Mass Readings</p>
-          {readings && (
-            <p className="readings-season">{readings.liturgical_season}</p>
-          )}
-        </div>
+      <div className="page-header">
+        <BackButton />
+        <p className="readings-eyebrow">Daily Mass Readings</p>
+        {readings && (
+          <p className="readings-season">{readings.liturgical_season}</p>
+        )}
+      </div>
 
+      <div className="page-content">
         {loading && <p className="readings-loading">Loading today's readings...</p>}
         {error && <p className="auth-error">{error}</p>}
 

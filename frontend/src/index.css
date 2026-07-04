@@ -31,8 +31,6 @@ body {
   max-width: 430px;
   margin: 0 auto;
   min-height: 100vh;
-  height: 100%;
-  overflow: hidden;
 }
 
 html {
@@ -44,7 +42,7 @@ html {
 .page {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 100dvh;
   overflow: hidden;
 }
 

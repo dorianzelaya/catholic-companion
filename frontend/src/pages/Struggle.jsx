@@ -152,3 +152,10 @@ function Struggle() {
             </div>
           ))}
         </div>
+      </div>
+      <NavBar />
+    </div>
+  )
+}
+
+export default Struggle

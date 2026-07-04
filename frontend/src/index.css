@@ -22,17 +22,22 @@
   padding: 0;
 }
 
-/* Base app style */
 body {
   background-color: var(--cream);
   color: var(--brown-dark);
   font-family: var(--font-ui);
   font-size: 16px;
   line-height: 1.6;
-  /* Locks the app to a phone-width column on desktop */
   max-width: 430px;
   margin: 0 auto;
   min-height: 100vh;
+  height: 100%;
+  overflow: hidden;
+}
+
+html {
+  height: 100%;
+  overflow: hidden;
 }
 
 /* Page layout — makes each screen fill the full phone height */

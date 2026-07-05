@@ -710,3 +710,206 @@ html {
   margin-top: 4px;
   display: block;
 }
+
+/* Rosary */
+.rosary-title {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--brown-dark);
+}
+
+.rosary-today {
+  background-color: var(--cream-dark);
+  border-radius: 14px;
+  border: 0.5px solid var(--cream-border);
+  padding: 16px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.rosary-today-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--brown-light);
+  margin-bottom: 10px;
+}
+
+.rosary-today-btn {
+  background-color: var(--gold);
+  color: var(--cream);
+  border: none;
+  border-radius: 12px;
+  padding: 12px 24px;
+  font-family: var(--font-ui);
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  width: 100%;
+}
+
+.rosary-or {
+  text-align: center;
+  font-size: 12px;
+  color: var(--brown-light);
+  margin: 16px 0;
+}
+
+.rosary-mystery-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.rosary-mystery-btn {
+  background-color: #ffffff;
+  border: 0.5px solid var(--cream-border);
+  border-radius: 12px;
+  padding: 14px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  width: 100%;
+}
+
+.rosary-mystery-name {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--brown-dark);
+}
+
+.rosary-mystery-days {
+  font-size: 12px;
+  color: var(--brown-light);
+}
+
+/* Progress bar */
+.rosary-progress-bar {
+  height: 4px;
+  background-color: var(--cream-border);
+  border-radius: 2px;
+  margin: 10px 0 6px;
+  overflow: hidden;
+}
+
+.rosary-progress-fill {
+  height: 100%;
+  background-color: var(--gold);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+.rosary-progress-text {
+  font-size: 11px;
+  color: var(--brown-light);
+}
+
+/* Step content */
+.rosary-step {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.rosary-step-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--gold);
+  font-weight: 500;
+}
+
+.rosary-step-text {
+  font-family: var(--font-serif);
+  font-size: 17px;
+  line-height: 1.9;
+  color: var(--brown-dark);
+}
+
+.rosary-step-eyebrow {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--brown-light);
+}
+
+.rosary-step-mystery-name {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--brown-dark);
+}
+
+.rosary-step-meditation {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--brown-mid);
+}
+
+/* Next button */
+.rosary-next-container {
+  padding: 12px 20px;
+  background-color: var(--cream);
+  border-top: 0.5px solid var(--cream-border);
+  flex-shrink: 0;
+}
+
+.rosary-next-btn {
+  width: 100%;
+  background-color: var(--gold);
+  color: var(--cream);
+  border: none;
+  border-radius: 12px;
+  padding: 14px;
+  font-family: var(--font-ui);
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* Finished screen */
+.rosary-finished {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 40px 0;
+  text-align: center;
+}
+
+.rosary-finished-title {
+  font-size: 48px;
+  color: var(--gold);
+}
+
+.rosary-finished-text {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  line-height: 1.7;
+  color: var(--brown-dark);
+}
+
+.rosary-finished-sub {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 14px;
+  color: var(--brown-light);
+  line-height: 1.7;
+}
+
+.rosary-restart-btn {
+  background-color: var(--cream-dark);
+  border: 0.5px solid var(--cream-border);
+  border-radius: 12px;
+  padding: 12px 24px;
+  font-family: var(--font-ui);
+  font-size: 14px;
+  color: var(--brown-dark);
+  cursor: pointer;
+  margin-top: 8px;
+}

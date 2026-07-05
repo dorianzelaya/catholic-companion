@@ -1,19 +1,23 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from datetime import date
+from datetime import datetime
+import pytz
 from database import get_db
 from services import fetch_daily_content
 import models
 
 router = APIRouter(prefix="/readings", tags=["readings"])
 
+def get_us_eastern_date():
+    eastern = pytz.timezone('America/New_York')
+    return datetime.now(eastern).date()
+
 
 @router.get("/today")
 async def get_today_readings(db: Session = Depends(get_db)):
-    today = date.today()
+    today = get_us_eastern_date()
     today_str = today.strftime("%Y-%m-%d")
 
-    # Check if we already have today's content cached in the database
     cached = db.query(models.DailyContent).filter(
         models.DailyContent.date == today_str
     ).first()
@@ -36,13 +40,11 @@ async def get_today_readings(db: Session = Depends(get_db)):
             "saint_quote": cached.saint_quote,
         }
 
-    # Not cached — fetch from external APIs
     try:
         content = await fetch_daily_content(today)
     except Exception as e:
         raise HTTPException(status_code=503, detail=f"Could not fetch readings: {str(e)}")
 
-    # Save to database for subsequent requests today
     db_content = models.DailyContent(
         date=content["date"],
         liturgical_season=content["liturgical_season"],

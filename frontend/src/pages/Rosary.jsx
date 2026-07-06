@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import NavBar from '../components/NavBar'
 import BackButton from '../components/BackButton'
@@ -8,10 +8,36 @@ function Rosary() {
   const navigate = useNavigate()
   const todaysMysteries = getTodaysMysteries()
 
-  const [selectedMystery, setSelectedMystery] = useState(null)
-  const [steps, setSteps] = useState([])
-  const [currentStep, setCurrentStep] = useState(0)
+  const [selectedMystery, setSelectedMystery] = useState(() => {
+    const saved = localStorage.getItem('rosary_mystery')
+    return saved ? JSON.parse(saved) : null
+  })
+
+  const [steps, setSteps] = useState(() => {
+    const saved = localStorage.getItem('rosary_mystery')
+    if (saved) {
+      const mystery = JSON.parse(saved)
+      return buildRosarySteps(mystery)
+    }
+    return []
+  })
+
+  const [currentStep, setCurrentStep] = useState(() => {
+    const saved = localStorage.getItem('rosary_step')
+    return saved ? parseInt(saved) : 0
+  })
+
   const [finished, setFinished] = useState(false)
+
+  useEffect(() => {
+    if (selectedMystery) {
+      localStorage.setItem('rosary_mystery', JSON.stringify(selectedMystery))
+    }
+  }, [selectedMystery])
+
+  useEffect(() => {
+    localStorage.setItem('rosary_step', currentStep.toString())
+  }, [currentStep])
 
   function startRosary(mysteryName) {
     const mysterySet = { name: mysteryName, ...MYSTERIES[mysteryName] }
@@ -20,6 +46,8 @@ function Rosary() {
     setSteps(rosarySteps)
     setCurrentStep(0)
     setFinished(false)
+    localStorage.setItem('rosary_mystery', JSON.stringify(mysterySet))
+    localStorage.setItem('rosary_step', '0')
   }
 
   function handleNext() {
@@ -27,6 +55,8 @@ function Rosary() {
       setCurrentStep(currentStep + 1)
     } else {
       setFinished(true)
+      localStorage.removeItem('rosary_mystery')
+      localStorage.removeItem('rosary_step')
     }
   }
 
@@ -35,6 +65,8 @@ function Rosary() {
     setSteps([])
     setCurrentStep(0)
     setFinished(false)
+    localStorage.removeItem('rosary_mystery')
+    localStorage.removeItem('rosary_step')
   }
 
   function renderStep(step) {
@@ -79,7 +111,6 @@ function Rosary() {
     return Math.round((currentStep / (steps.length - 1)) * 100)
   }
 
-  // Selection screen
   if (!selectedMystery) {
     return (
       <div className="page">
@@ -124,7 +155,6 @@ function Rosary() {
     )
   }
 
-  // Finished screen
   if (finished) {
     return (
       <div className="page">
@@ -152,7 +182,6 @@ function Rosary() {
     )
   }
 
-  // Praying screen
   const step = steps[currentStep]
   const progress = getProgress()
 

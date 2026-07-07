@@ -200,9 +200,16 @@ function Rosary() {
       </div>
 
       <div className="rosary-next-container">
-        <button className="rosary-next-btn" onClick={handleNext}>
-          {currentStep < steps.length - 1 ? 'Next →' : 'Complete ✝'}
-        </button>
+        <div className="rosary-btn-row">
+          {currentStep > 0 && (
+            <button className="rosary-prev-btn" onClick={() => setCurrentStep(currentStep - 1)}>
+              ← Prev
+              </button>
+          )}
+          <button className="rosary-next-btn" onClick={handleNext}>
+            {currentStep < steps.length - 1 ? 'Next →' : 'Complete ✝'}
+          </button>
+        </div>
       </div>
 
       <NavBar />

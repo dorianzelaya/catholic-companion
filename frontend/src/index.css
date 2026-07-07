@@ -913,3 +913,44 @@ html {
   cursor: pointer;
   margin-top: 8px;
 }
+
+/* Rosary canvas container */
+.rosary-canvas-container {
+  background-color: var(--cream-dark);
+  padding: 4px 0;
+  flex-shrink: 0;
+  border-bottom: 0.5px solid var(--cream-border);
+  overflow: visible;
+}
+
+.rosary-btn-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.rosary-prev-btn {
+  background-color: var(--cream-dark);
+  border: 0.5px solid var(--cream-border);
+  border-radius: 12px;
+  padding: 14px 20px;
+  font-family: var(--font-ui);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--brown-dark);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.rosary-next-btn {
+  flex: 1;
+  background-color: var(--gold);
+  color: var(--cream);
+  border: none;
+  border-radius: 12px;
+  padding: 14px;
+  font-family: var(--font-ui);
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+}

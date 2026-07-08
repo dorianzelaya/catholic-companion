@@ -16,3 +16,7 @@ if ('serviceWorker' in navigator) {
       .catch(err => console.log('Service worker registration failed:', err))
   })
 }
+
+if (screen.orientation && screen.orientation.lock) {
+  screen.orientation.lock('portrait').catch(() => {})
+}

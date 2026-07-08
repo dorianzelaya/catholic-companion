@@ -6,21 +6,22 @@ function HomeHeader({ readings }) {
     day: 'numeric'
   })
 
+  const season = readings?.liturgical_season || 'Ordinary Time'
   const verseText = readings?.gospel_text
     ? readings.gospel_text.split(' ').slice(0, 20).join(' ') + '...'
-    : '"Be still and know that I am God."'
-
-  const verseRef = readings?.gospel_ref || 'Psalm 46:10'
-  const season = readings?.liturgical_season || 'Ordinary Time'
+    : null
+  const verseRef = readings?.gospel_ref || null
 
   return (
     <div className="home-header">
       <p className="home-header-season">{season}</p>
       <h1 className="home-header-date">{dateString}</h1>
-      <div className="home-header-verse">
-        <p className="verse-text">"{verseText}"</p>
-        <p className="verse-ref">{verseRef}</p>
-      </div>
+      {verseText && verseRef && (
+        <div className="home-header-verse">
+          <p className="verse-text">"{verseText}"</p>
+          <p className="verse-ref">{verseRef}</p>
+        </div>
+      )}
     </div>
   )
 }

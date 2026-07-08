@@ -57,15 +57,19 @@ function Struggle() {
   }
 
   if (loading) {
-    return (
-      <div className="page">
-        <div className="page-header">
-          <p className="readings-loading">Finding scripture...</p>
-        </div>
-        <div className="page-content" />
+  return (
+    <div className="page">
+      <div className="page-header">
+        <button className="struggle-back" onClick={handleBack}>← Back</button>
+        <p className="readings-eyebrow">Consolation</p>
+        <h1 className="struggle-title">{selected}</h1>
       </div>
-    )
-  }
+      <div className="page-content">
+        <p className="readings-loading">Finding scripture...</p>
+      </div>
+    </div>
+  )
+}
 
   if (result) {
     return (

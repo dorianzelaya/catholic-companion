@@ -129,7 +129,7 @@ function Struggle() {
       <div className="page-header">
         <BackButton />
         <p className="readings-eyebrow">Consolation</p>
-        <h1 className="struggle-title">Find Scripture For...</h1>
+        <h1 className="struggle-category-title">Find Scripture For...</h1>
       </div>
 
       <div className="page-content">

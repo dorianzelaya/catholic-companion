@@ -153,7 +153,6 @@ function Struggle() {
           ))}
         </div>
       </div>
-      <NavBar />
     </div>
   )
 }

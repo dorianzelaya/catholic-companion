@@ -75,7 +75,7 @@ function Readings() {
           </div>
         )}
       </div>
-      <NavBar />
+
     </div>
   )
 }

@@ -211,8 +211,6 @@ function Rosary() {
           </button>
         </div>
       </div>
-
-      <NavBar />
     </div>
   )
 }

@@ -59,7 +59,6 @@ function Home() {
           />
         </div>
       </div>
-      <NavBar />
     </div>
   )
 }

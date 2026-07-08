@@ -158,7 +158,6 @@ function ExaminationOfConscience() {
           </p>
         </div>
       </div>
-      <NavBar />
     </div>
   )
 }

@@ -69,7 +69,6 @@ function Saint() {
           </div>
         )}
       </div>
-      <NavBar />
     </div>
   )
 }

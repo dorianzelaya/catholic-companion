@@ -48,42 +48,44 @@ function Register() {
   }
 
   return (
-    <div className="auth-page">
-      <h1 className="auth-title">Create your account</h1>
+    <div className="page">
+      <div className="auth-page">
+        <h1 className="auth-title">Create your account</h1>
 
-      <form className="auth-form" onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="First name"
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
-          required
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+        <form className="auth-form" onSubmit={handleSubmit}>
+          <input
+            type="text"
+            placeholder="First name"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            required
+          />
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
 
-        {error && <p className="auth-error">{error}</p>}
+          {error && <p className="auth-error">{error}</p>}
 
-        <button type="submit" disabled={loading}>
-          {loading ? 'Creating account...' : 'Create account'}
-        </button>
-      </form>
+          <button type="submit" disabled={loading}>
+            {loading ? 'Creating account...' : 'Create account'}
+          </button>
+        </form>
 
-      <p className="auth-switch">
-        Already have an account? <a href="/login">Log in</a>
-      </p>
+        <p className="auth-switch">
+          Already have an account? <a href="/login">Log in</a>
+        </p>
+      </div>
     </div>
   )
 }

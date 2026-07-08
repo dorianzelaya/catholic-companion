@@ -56,7 +56,7 @@ function Struggle() {
     setError('')
   }
 
-  iif (loading) {
+  if (loading) {
   return (
     <div className="page">
       <div className="page-header">

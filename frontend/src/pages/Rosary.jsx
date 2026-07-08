@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import NavBar from '../components/NavBar'
 import BackButton from '../components/BackButton'
 import { MYSTERIES, PRAYERS, getTodaysMysteries, buildRosarySteps } from '../data/rosary'
 
@@ -150,7 +149,6 @@ function Rosary() {
             ))}
           </div>
         </div>
-        <NavBar />
       </div>
     )
   }
@@ -177,7 +175,7 @@ function Rosary() {
             </button>
           </div>
         </div>
-        <NavBar />
+
       </div>
     )
   }

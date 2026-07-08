@@ -1,11 +1,17 @@
 import { useState, useEffect } from 'react'
-import NavBar from '../components/NavBar'
 import HomeHeader from '../components/HomeHeader'
 import FeatureCard from '../components/FeatureCard'
 import API_URL from '../config'
 
 function Home() {
-  const [readings, setReadings] = useState(null)
+  const [readings, setReadings] = useState(() => {
+    try {
+      const saved = localStorage.getItem('cached_home_data')
+      return saved ? JSON.parse(saved) : null
+    } catch {
+      return null
+    }
+  })
 
   useEffect(() => {
     async function loadReadings() {
@@ -14,6 +20,7 @@ function Home() {
         if (!response.ok) return
         const data = await response.json()
         setReadings(data)
+        localStorage.setItem('cached_home_data', JSON.stringify(data))
       } catch (err) {
         // Silently fail — home screen still works without readings data
       }
@@ -29,13 +36,13 @@ function Home() {
         <div className="card-list">
           <FeatureCard
             title="Today's Readings"
-            subtitle={readings ? readings.first_reading_ref : "Loading..."}
+            subtitle={readings ? readings.first_reading_ref : ""}
             path="/readings"
             accent="#8b6914"
           />
           <FeatureCard
             title="Saint of the Day"
-            subtitle={readings ? readings.saint_name : "Loading..."}
+            subtitle={readings ? readings.saint_name : ""}
             path="/saint"
             accent="#6b5a4a"
           />

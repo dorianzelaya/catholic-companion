@@ -1,11 +1,16 @@
 import { useState, useEffect } from 'react'
-import NavBar from '../components/NavBar'
 import BackButton from '../components/BackButton'
 import API_URL from '../config'
 
 function Readings() {
-  const [readings, setReadings] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const [readings, setReadings] = useState(() => {
+    try {
+      const saved = localStorage.getItem('cached_home_data')
+      return saved ? JSON.parse(saved) : null
+    } catch {
+      return null
+    }
+  })
   const [error, setError] = useState('')
 
   useEffect(() => {
@@ -15,10 +20,9 @@ function Readings() {
         if (!response.ok) throw new Error('Could not load readings')
         const data = await response.json()
         setReadings(data)
+        localStorage.setItem('cached_home_data', JSON.stringify(data))
       } catch (err) {
         setError(err.message)
-      } finally {
-        setLoading(false)
       }
     }
 
@@ -36,7 +40,6 @@ function Readings() {
       </div>
 
       <div className="page-content">
-        {loading && <p className="readings-loading">Loading today's readings...</p>}
         {error && <p className="auth-error">{error}</p>}
 
         {readings && (
@@ -75,7 +78,6 @@ function Readings() {
           </div>
         )}
       </div>
-
     </div>
   )
 }

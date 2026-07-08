@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import NavBar from '../components/NavBar'
 import BackButton from '../components/BackButton'
 import API_URL from '../config'
 
@@ -64,7 +63,6 @@ function Struggle() {
           <p className="readings-loading">Finding scripture...</p>
         </div>
         <div className="page-content" />
-        <NavBar />
       </div>
     )
   }
@@ -118,7 +116,6 @@ function Struggle() {
             )}
           </div>
         </div>
-        <NavBar />
       </div>
     )
   }

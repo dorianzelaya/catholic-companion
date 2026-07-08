@@ -56,13 +56,13 @@ function Struggle() {
     setError('')
   }
 
-  if (loading) {
+  iif (loading) {
   return (
     <div className="page">
       <div className="page-header">
         <button className="struggle-back" onClick={handleBack}>← Back</button>
         <p className="readings-eyebrow">Consolation</p>
-        <h1 className="struggle-title">{selected}</h1>
+        <h1 className="struggle-category-title">{selected}</h1>
       </div>
       <div className="page-content">
         <p className="readings-loading">Finding scripture...</p>

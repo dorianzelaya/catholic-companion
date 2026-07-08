@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import BackButton from '../components/BackButton'
 import API_URL from '../config'
 
@@ -26,6 +27,7 @@ function Struggle() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [selected, setSelected] = useState('')
+  const navigate = useNavigate()
 
   async function handleSelect(category) {
     setSelected(category)
@@ -57,19 +59,19 @@ function Struggle() {
   }
 
   if (loading) {
-  return (
-    <div className="page">
-      <div className="page-header">
-        <button className="struggle-back" onClick={handleBack}>← Back</button>
-        <p className="readings-eyebrow">Consolation</p>
-        <h1 className="struggle-category-title">{selected}</h1>
+    return (
+      <div className="page">
+        <div className="page-header">
+          <button className="struggle-back" onClick={handleBack}>← Back</button>
+          <p className="readings-eyebrow">Consolation</p>
+          <h1 className="struggle-category-title">{selected}</h1>
+        </div>
+        <div className="page-content">
+          <p className="readings-loading">Finding scripture...</p>
+        </div>
       </div>
-      <div className="page-content">
-        <p className="readings-loading">Finding scripture...</p>
-      </div>
-    </div>
-  )
-}
+    )
+  }
 
   if (result) {
     return (
@@ -127,7 +129,7 @@ function Struggle() {
   return (
     <div className="page">
       <div className="page-header">
-        <BackButton />
+        <button className="struggle-back" onClick={() => navigate('/home')}>← Back</button>
         <p className="readings-eyebrow">Consolation</p>
         <h1 className="struggle-category-title">Find Scripture For...</h1>
       </div>

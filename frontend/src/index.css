@@ -990,15 +990,3 @@ html {
   flex-direction: column;
 }
 
-@media screen and (orientation: landscape) {
-  html {
-    transform: rotate(-90deg);
-    transform-origin: left top;
-    width: 100svh;
-    height: 100svw;
-    overflow-x: hidden;
-    position: fixed;
-    top: 100%;
-    left: 0;
-  }
-}

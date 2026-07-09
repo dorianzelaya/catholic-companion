@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { getDailyVerse } from '../data/daily_verses'
 
 function HomeHeader({ readings }) {
   const today = new Date()
@@ -7,6 +8,9 @@ function HomeHeader({ readings }) {
     month: 'long',
     day: 'numeric'
   })
+
+  const season = readings?.liturgical_season || 'Ordinary Time'
+  const dailyVerse = getDailyVerse()
 
   const [cachedVerse, setCachedVerse] = useState(() => {
     try {
@@ -18,23 +22,13 @@ function HomeHeader({ readings }) {
   })
 
   useEffect(() => {
-    if (readings?.gospel_text && readings?.gospel_ref) {
-      const verse = {
-        text: readings.gospel_text.split(' ').slice(0, 20).join(' ') + '...',
-        ref: readings.gospel_ref
-      }
-      setCachedVerse(verse)
-      localStorage.setItem('cached_verse', JSON.stringify(verse))
+    if (dailyVerse) {
+      setCachedVerse(dailyVerse)
+      localStorage.setItem('cached_verse', JSON.stringify(dailyVerse))
     }
-  }, [readings])
+  }, [])
 
-  const season = readings?.liturgical_season || 'Ordinary Time'
-  const verseToShow = readings?.gospel_text
-    ? {
-        text: readings.gospel_text.split(' ').slice(0, 20).join(' ') + '...',
-        ref: readings.gospel_ref
-      }
-    : cachedVerse
+  const verseToShow = dailyVerse || cachedVerse
 
   return (
     <div className="home-header">

@@ -75,4 +75,11 @@ def strip_markup(text: str) -> str:
     text = re.sub(r'<alt>(.*?)</alt>', r'\1', text)
     text = re.sub(r' +', ' ', text)
 
+    # Replace archaic ligatures
+    text = text.replace('Ægypt', 'Egypt')
+    text = text.replace('Æ', 'Ae')
+    text = text.replace('æ', 'ae')
+    text = text.replace('Œ', 'Oe')
+    text = text.replace('œ', 'oe')
+
     return text.strip()

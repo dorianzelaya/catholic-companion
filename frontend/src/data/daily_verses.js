@@ -206,7 +206,7 @@ const DAILY_VERSES = {
     { text: "Reveal thy way to the Lord, and hope in him: and he will do it.", ref: "Psalm 37:5" },
     { text: "Be not careful therefore, saying: what shall we eat, or what shall we drink?", ref: "Matthew 6:31" },
     { text: "Your Father knows that you need all these things.", ref: "Matthew 6:32" },
-    { text: "Seek first the Kingdom of God and his justice, and all these things shall be added unto you.", ref: "Matthew 6:33" },,
+    { text: "Seek first the Kingdom of God and his justice, and all these things shall be added unto you.", ref: "Matthew 6:33" },
     { text: "Is there anything hard to God?", ref: "Genesis 18:14" },
     { text: "I know whom I have believed, and I am sure that he is able to keep that which I have committed unto him.", ref: "2 Timothy 1:12" },
     { text: "I am the Lord thy God, who brought thee forth out of the land of Egypt.", ref: "Exodus 20:2" },

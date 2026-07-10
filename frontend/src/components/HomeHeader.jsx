@@ -1,4 +1,4 @@
-import { getDailyVerse } from '../data/daily_verses'
+import DAILY_VERSES, { getDailyVerse } from '../data/daily_verses'
 
 function HomeHeader({ readings }) {
   const today = new Date()
@@ -9,7 +9,10 @@ function HomeHeader({ readings }) {
   })
 
   const season = readings?.liturgical_season || 'Ordinary Time'
-  const dailyVerse = getDailyVerse()
+  const month = today.getMonth() + 1
+  const day = today.getDate()
+  const monthVerses = DAILY_VERSES[month]
+  const dailyVerse = monthVerses ? monthVerses[day - 1] : null
 
   return (
     <div className="home-header">

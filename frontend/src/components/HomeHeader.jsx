@@ -9,26 +9,35 @@ function HomeHeader({ readings }) {
     day: 'numeric'
   })
 
+  const todayKey = `${today.getMonth() + 1}-${today.getDate()}`
   const season = readings?.liturgical_season || 'Ordinary Time'
   const dailyVerse = getDailyVerse()
 
-  const [cachedVerse, setCachedVerse] = useState(() => {
+  const [verseToShow, setVerseToShow] = useState(() => {
     try {
       const saved = localStorage.getItem('cached_verse')
-      return saved ? JSON.parse(saved) : null
+      if (saved) {
+        const parsed = JSON.parse(saved)
+        // Only use cache if it's from today
+        if (parsed.dateKey === todayKey) {
+          return parsed.verse
+        }
+      }
     } catch {
-      return null
+      // ignore
     }
+    return dailyVerse
   })
 
   useEffect(() => {
     if (dailyVerse) {
-      setCachedVerse(dailyVerse)
-      localStorage.setItem('cached_verse', JSON.stringify(dailyVerse))
+      setVerseToShow(dailyVerse)
+      localStorage.setItem('cached_verse', JSON.stringify({
+        dateKey: todayKey,
+        verse: dailyVerse
+      }))
     }
   }, [])
-
-  const verseToShow = dailyVerse || cachedVerse
 
   return (
     <div className="home-header">

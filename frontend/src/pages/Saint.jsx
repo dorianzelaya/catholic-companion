@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import NavBar from '../components/NavBar'
 import BackButton from '../components/BackButton'
 import API_URL from '../config'
 
@@ -33,6 +32,8 @@ function Saint() {
       .replace(/\b\w/g, c => c.toUpperCase())
   }
 
+  const isFeria = data && !data.saint_description && !data.saint_quote
+
   return (
     <div className="page">
       <div className="page-header">
@@ -46,7 +47,7 @@ function Saint() {
         {loading && <p className="readings-loading">Loading...</p>}
         {error && <p className="auth-error">{error}</p>}
 
-        {data && (
+        {data && !isFeria && (
           <div className="saint-body">
             {data.saint_quote && (
               <div className="saint-quote-block">
@@ -60,12 +61,17 @@ function Saint() {
                 <p className="saint-description">{data.saint_description}</p>
               </div>
             )}
+          </div>
+        )}
 
-            {!data.saint_description && !data.saint_quote && (
-              <p className="readings-loading">
-                No additional information available for today's celebration.
-              </p>
-            )}
+        {data && isFeria && (
+          <div className="saint-feria">
+            <p className="saint-feria-title">This day is not yet dedicated to a Saint recognized by the Catholic Church.</p>
+            <p className="saint-feria-text">However, YOU can be a Saint today by following God's universal call to holiness. Remember to love the Lord your God with all your heart, mind, and soul — and to love your neighbor as He loved you.</p>
+            <div className="saint-feria-verse">
+              <p className="saint-feria-verse-text">"Be perfect, therefore, as your heavenly Father is perfect."</p>
+              <p className="saint-feria-verse-ref">Matthew 5:48</p>
+            </div>
           </div>
         )}
       </div>

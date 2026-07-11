@@ -990,3 +990,45 @@ html {
   flex-direction: column;
 }
 
+/* Saint feria message */
+.saint-feria {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 8px 0;
+}
+
+.saint-feria-title {
+  font-size: 14px;
+  color: var(--brown-light);
+  font-style: italic;
+  line-height: 1.7;
+}
+
+.saint-feria-text {
+  font-family: var(--font-serif);
+  font-size: 16px;
+  line-height: 1.9;
+  color: var(--brown-dark);
+}
+
+.saint-feria-verse {
+  background-color: var(--cream-dark);
+  border-left: 3px solid var(--gold-light);
+  border-radius: 0 12px 12px 0;
+  padding: 16px 16px 16px 20px;
+}
+
+.saint-feria-verse-text {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--brown-mid);
+  margin-bottom: 6px;
+}
+
+.saint-feria-verse-ref {
+  font-size: 12px;
+  color: var(--brown-light);
+}

@@ -98,16 +98,18 @@ function Saint() {
               </div>
             )}
 
-            {data.saint_quote && (
-              <div className="saint-quote-block">
-                <p className="saint-quote-text">"{data.saint_quote}"</p>
-                <p className="saint-quote-attr">— {data.saint_name}</p>
-              </div>
-            )}
-
-            {data.saint_description && (
-              <div className="saint-description-block">
-                <p className="saint-description">{data.saint_description}</p>
+            {(data.saint_quote || data.saint_description) && (
+              <div className="saint-summary-card">
+                {data.saint_quote && (
+                  <>
+                    <p className="saint-quote-text">"{data.saint_quote}"</p>
+                    <p className="saint-quote-attr">— {data.saint_name}</p>
+                    {data.saint_description && <div className="saint-card-divider" />}
+                  </>
+                )}
+                {data.saint_description && (
+                  <p className="saint-description">{data.saint_description}</p>
+                )}
               </div>
             )}
 

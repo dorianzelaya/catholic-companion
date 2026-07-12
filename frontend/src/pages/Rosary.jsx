@@ -186,11 +186,14 @@ function Rosary() {
   return (
     <div className="page">
       <div className="page-header">
-        <p className="readings-eyebrow">{selectedMystery.name} Mysteries</p>
+        <div className="rosary-header-row">
+          <p className="readings-eyebrow">{selectedMystery.name} Mysteries</p>
+          <button className="rosary-exit-btn" onClick={handleRestart}>✕ Exit</button>
+          </div>
         <div className="rosary-progress-bar">
           <div className="rosary-progress-fill" style={{ width: `${progress}%` }} />
         </div>
-        <p className="rosary-progress-text">{currentStep + 1} of {steps.length}</p>
+      <p className="rosary-progress-text">{currentStep + 1} of {steps.length}</p>
       </div>
 
       <div className="page-content">

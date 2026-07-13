@@ -44,6 +44,7 @@ async def fetch_reading_text(reference: str) -> str:
         book = parsed["book"]
         chapter = parsed["chapter"]
         verse_ranges = parsed["verse_ranges"]
+        cross_chapter_end = parsed.get("cross_chapter_end")
 
         # Handle psalm number conversion
         if book in ("Psalm", "Psalms"):
@@ -55,6 +56,17 @@ async def fetch_reading_text(reference: str) -> str:
                 verse_ranges = [(s + offset, e + offset) for s, e in verse_ranges]
 
         slug = get_slug(book)
+
+        if cross_chapter_end:
+            # Fetch from start verse to end of first chapter, then start of next chapter to end verse
+            end_chapter, end_verse = cross_chapter_end
+            start_verse = verse_ranges[0][0]
+
+            first_part = await fetch_verse_text(slug, chapter, [(start_verse, 999)])
+            second_part = await fetch_verse_text(slug, end_chapter, [(1, end_verse)])
+
+            return f"{first_part} {second_part}".strip()
+
         return await fetch_verse_text(slug, chapter, verse_ranges)
 
     except (ValueError, NotImplementedError) as e:

@@ -11,12 +11,14 @@ def parse_reference(reference: str) -> dict:
         "2 Kings 17:5-8, 13-15a"       -> range with letter suffix
         "2 Chronicles 24:17-25"        -> book with number prefix
         "Psalm 85:9 and 10, 11-12"     -> "and" as verse separator
+        "Matthew 10:34-11:1"           -> cross-chapter range
 
     Returns:
         {
             "book": "Matthew",
             "chapter": 6,
-            "verse_ranges": [(24, 34)]
+            "verse_ranges": [(24, 34)],
+            "cross_chapter_end": None  # or (chapter, verse) if range crosses chapters
         }
 
     Raises ValueError if the reference cannot be parsed.
@@ -32,6 +34,19 @@ def parse_reference(reference: str) -> dict:
     book = match.group(1).strip()
     chapter = int(match.group(2))
     verses_str = match.group(3).strip()
+
+    # Detect cross-chapter range like "34-11:1"
+    cross_chapter_match = re.match(r'^(\d+)-(\d+):(\d+)$', verses_str)
+    if cross_chapter_match:
+        start_verse = int(cross_chapter_match.group(1))
+        end_chapter = int(cross_chapter_match.group(2))
+        end_verse = int(cross_chapter_match.group(3))
+        return {
+            "book": book,
+            "chapter": chapter,
+            "verse_ranges": [(start_verse, start_verse)],
+            "cross_chapter_end": (end_chapter, end_verse)
+        }
 
     # Normalize "and" as a comma separator before splitting
     verses_str = re.sub(r'\s+and\s+', ', ', verses_str)
@@ -60,7 +75,8 @@ def parse_reference(reference: str) -> dict:
     return {
         "book": book,
         "chapter": chapter,
-        "verse_ranges": verse_ranges
+        "verse_ranges": verse_ranges,
+        "cross_chapter_end": None
     }
 
 

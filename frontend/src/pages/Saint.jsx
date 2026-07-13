@@ -9,7 +9,7 @@ async function fetchWikipediaData(saintName) {
       .replace(/,.*$/, '')
       .trim()
 
-    const searchUrl = `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(cleanName + ' saint')}&format=json&origin=*&srlimit=1`
+    const searchUrl = `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent('Saint ' + cleanName + ' Catholic')}&format=json&origin=*&srlimit=1`
     const searchResponse = await fetch(searchUrl)
     if (!searchResponse.ok) return null
     const searchData = await searchResponse.json()
@@ -24,9 +24,13 @@ async function fetchWikipediaData(saintName) {
 
     const pages = contentData.query.pages
     const page = Object.values(pages)[0]
+    if (!page.extract) return null
+
+    // Skip disambiguation pages
+    if (page.extract.includes('may refer to:')) return null
 
     return {
-      text: page.extract ? page.extract.trim() : null,
+      text: page.extract.trim(),
       image: page.original ? page.original.source : null
     }
 

@@ -64,6 +64,13 @@ function Home() {
             path="/examination"
             accent="#6b5a4a"
           />
+
+          <FeatureCard
+            title="Prayers"
+            subtitle="Traditional Catholic prayers"
+            path="/prayers"
+            accent="#8b6914"
+          />
         </div>
       </div>
     </div>

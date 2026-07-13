@@ -10,6 +10,7 @@ import Register from './pages/Register'
 import Login from './pages/Login'
 import Saint from './pages/Saint'
 import ExaminationOfConscience from './pages/ExaminationOfConscience'
+import Prayers from './pages/Prayers'
 
 function App() {
   return (
@@ -39,6 +40,10 @@ function App() {
               } />
               <Route path="/examination" element={
                 <ProtectedRoute><ExaminationOfConscience /></ProtectedRoute>
+              } />
+
+              <Route path="/prayers" element={
+                <ProtectedRoute><Prayers /></ProtectedRoute>
               } />
             </Routes>
           </div>

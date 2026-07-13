@@ -1122,3 +1122,48 @@ html {
   cursor: pointer;
   padding: 0;
 }
+
+/* Prayers page */
+.prayers-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.prayers-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.prayers-items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.prayer-item-btn {
+  background-color: #ffffff;
+  border: 0.5px solid var(--cream-border);
+  border-radius: 12px;
+  padding: 14px 16px;
+  text-align: left;
+  font-family: var(--font-ui);
+  font-size: 15px;
+  color: var(--brown-dark);
+  cursor: pointer;
+}
+
+.prayer-detail-card {
+  background-color: #ffffff;
+  border-radius: 14px;
+  border: 0.5px solid var(--cream-border);
+  padding: 20px;
+}
+
+.prayer-detail-text {
+  font-family: var(--font-serif);
+  font-size: 16px;
+  line-height: 1.9;
+  color: var(--brown-dark);
+}

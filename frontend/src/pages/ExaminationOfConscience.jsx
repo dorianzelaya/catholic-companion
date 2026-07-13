@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import NavBar from '../components/NavBar'
 import BackButton from '../components/BackButton'
 
 const EXAMINATION = [
@@ -105,6 +104,8 @@ const EXAMINATION = [
   },
 ]
 
+const ACT_OF_CONTRITION = "O My God, I am heartily sorry for having offended you, and I detest all my sins, because of your just punishments, but most of all, because they offend you, my God, who are all good and deserving of all my love. I firmly resolve, with the help of your grace, to sin no more, and to avoid the near occasions of sin. Amen."
+
 function ExaminationOfConscience() {
   const [expanded, setExpanded] = useState(null)
 
@@ -120,14 +121,12 @@ function ExaminationOfConscience() {
         <h1 className="examination-title">Examination of Conscience</h1>
         <p className="examination-subtitle">Reflect quietly on each commandment. Tap to expand.</p>
       </div>
-
       <div className="page-content">
         <div className="examination-intro">
           <p className="examination-intro-text">
             Begin with a prayer to the Holy Spirit, asking for the grace to know your sins clearly and to be truly sorry for them.
           </p>
         </div>
-
         <div className="examination-list">
           {EXAMINATION.map((item, index) => (
             <div key={index} className="examination-item">
@@ -140,7 +139,6 @@ function ExaminationOfConscience() {
                   {expanded === index ? '−' : '+'}
                 </span>
               </button>
-
               {expanded === index && (
                 <div className="examination-questions">
                   {item.questions.map((q, qi) => (
@@ -151,11 +149,14 @@ function ExaminationOfConscience() {
             </div>
           ))}
         </div>
-
         <div className="examination-closing">
           <p className="examination-closing-text">
             After your examination, make an Act of Contrition and approach the sacrament of Confession with confidence in God's mercy.
           </p>
+        </div>
+        <div className="examination-act-of-contrition">
+          <p className="examination-act-label">Act of Contrition</p>
+          <p className="examination-act-text">{ACT_OF_CONTRITION}</p>
         </div>
       </div>
     </div>

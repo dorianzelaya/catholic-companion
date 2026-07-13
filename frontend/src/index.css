@@ -1167,3 +1167,27 @@ html {
   line-height: 1.9;
   color: var(--brown-dark);
 }
+
+/* Act of Contrition on Examination page */
+.examination-act-of-contrition {
+  background-color: var(--cream-dark);
+  border-left: 3px solid var(--gold-light);
+  border-radius: 0 12px 12px 0;
+  padding: 16px 16px 16px 20px;
+  margin-top: 16px;
+}
+
+.examination-act-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--brown-light);
+  margin-bottom: 8px;
+}
+
+.examination-act-text {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--brown-dark);
+}

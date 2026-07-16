@@ -75,7 +75,7 @@ function Saint() {
       .replace(/\b\w/g, c => c.toUpperCase())
   }
 
-  const isFeria = data && !data.saint_description && !data.saint_quote
+  const isFeria = data && (data.saint_type === 'FERIA' || !data.saint_name)
 
   return (
     <div className="page">

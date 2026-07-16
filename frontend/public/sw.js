@@ -1,4 +1,4 @@
-const CACHE_NAME = 'catholic-companion-v5'
+const CACHE_NAME = 'catholic-companion-v6'
 
 const STATIC_ASSETS = [
   '/',

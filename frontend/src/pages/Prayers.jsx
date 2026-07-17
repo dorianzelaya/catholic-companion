@@ -99,7 +99,8 @@ const PRAYERS = {
   "Intercessory": [
     {
       name: "Prayer to St. Michael",
-      text: "Saint Michael the Archangel, defend us in battle. Be our defense against the wickedness and snares of the devil. May God rebuke him, we humbly pray; and do thou, O Prince of the heavenly host, by the power of God, thrust into Hell Satan and all the evil spirits who prowl about the world for the ruin of souls. Amen."
+      text: "Saint Michael the Archangel, defend us in battle. Be our defense against the wickedness and snares of the devil. May God rebuke him, we humbly pray; and do thou, O Prince of the heavenly host, by the power of God, thrust into Hell Satan and all the evil spirits who prowl about the world for the ruin of souls. Amen.",
+      image: "/prayer-cards/st-michael.jpg"
     },
     {
       name: "Prayer of St. Francis",
@@ -148,21 +149,30 @@ function Prayers() {
   const [selected, setSelected] = useState(null)
 
   if (selected) {
-    return (
-      <div className="page">
-        <div className="page-header">
-          <BackButton onClick={() => setSelected(null)} />
-          <p className="readings-eyebrow">Prayer</p>
-          <h1 className="struggle-category-title">{selected.name}</h1>
-        </div>
-        <div className="page-content">
-          <div className="prayer-detail-card">
-            <p className="prayer-detail-text">{selected.text}</p>
+  return (
+    <div className="page">
+      <div className="page-header">
+        <BackButton onClick={() => setSelected(null)} />
+        <p className="readings-eyebrow">Prayer</p>
+        <h1 className="struggle-category-title">{selected.name}</h1>
+      </div>
+      <div className="page-content">
+        {selected.image && (
+          <div className="prayer-image-block">
+            <img
+              src={selected.image}
+              alt={selected.name}
+              className="prayer-image"
+            />
           </div>
+        )}
+        <div className="prayer-detail-card">
+          <p className="prayer-detail-text">{selected.text}</p>
         </div>
       </div>
-    )
-  }
+    </div>
+  )
+}
 
   return (
     <div className="page">

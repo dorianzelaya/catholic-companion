@@ -1191,3 +1191,17 @@ html {
   line-height: 1.8;
   color: var(--brown-dark);
 }
+
+/* Prayer card images */
+.prayer-image-block {
+  width: 100%;
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.prayer-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}

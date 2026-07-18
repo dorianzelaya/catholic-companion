@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import BackButton from '../components/BackButton'
+import { useState, useEffect } from 'react'
 
 const PRAYERS = {
   "Daily Prayers": [
@@ -170,27 +171,27 @@ function Prayers() {
   const [category, setCategory] = useState(null)
   const [selected, setSelected] = useState(null)
 
+  useEffect(() => {
+    const el = document.querySelector('.page-content')
+    if (el) el.scrollTop = 0
+  }, [category, selected])
+
   function selectCategory(cat) {
     setCategory(cat)
-    window.scrollTo(0, 0)
   }
 
   function selectPrayer(prayer) {
     setSelected(prayer)
-    window.scrollTo(0, 0)
   }
 
   function backFromPrayer() {
     setSelected(null)
-    window.scrollTo(0, 0)
   }
 
   function backFromCategory() {
     setCategory(null)
-    window.scrollTo(0, 0)
   }
 
-  // Prayer detail view
   if (selected) {
     return (
       <div className="page">
@@ -217,7 +218,6 @@ function Prayers() {
     )
   }
 
-  // Prayer list view for a chosen category
   if (category) {
     return (
       <div className="page">
@@ -243,7 +243,6 @@ function Prayers() {
     )
   }
 
-  // Category selection view
   return (
     <div className="page">
       <div className="page-header">

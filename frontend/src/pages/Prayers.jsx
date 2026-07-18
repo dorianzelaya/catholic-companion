@@ -184,6 +184,17 @@ function Prayers() {
     if (el) el.scrollTop = 0
   }, [category, selected])
 
+  useEffect(() => {
+    if (category && PRAYERS[category]) {
+      PRAYERS[category].forEach(prayer => {
+        if (prayer.image) {
+          const img = new Image()
+          img.src = prayer.image
+        }
+      })
+    }
+  }, [category])
+
   function selectCategory(cat) {
     setCategory(cat)
   }

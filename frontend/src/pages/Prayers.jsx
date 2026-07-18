@@ -70,19 +70,23 @@ const PRAYERS = {
   "Acts": [
     {
       name: "Act of Contrition",
-      text: "O My God, I am heartily sorry for having offended you, and I detest all my sins, because of your just punishments, but most of all, because they offend you, my God, who are all good and deserving of all my love. I firmly resolve, with the help of your grace, to sin no more, and to avoid the near occasions of sin. Amen."
+      text: "O My God, I am heartily sorry for having offended you, and I detest all my sins, because of your just punishments, but most of all, because they offend you, my God, who are all good and deserving of all my love. I firmly resolve, with the help of your grace, to sin no more, and to avoid the near occasions of sin. Amen.",
+      image: "/prayer-cards/act-of-contrition.jpg"
     },
     {
       name: "Act of Faith",
-      text: "O my God, I firmly believe that you are one God in three divine Persons, Father, Son and Holy Spirit. I believe that your divine Son became flesh, died for our sins, and that he will come to judge the living and the dead. I believe these and all the truths that the Holy Catholic Church teaches because you have revealed them, who can neither deceive nor be deceived. Amen."
+      text: "O my God, I firmly believe that you are one God in three divine Persons, Father, Son and Holy Spirit. I believe that your divine Son became flesh, died for our sins, and that he will come to judge the living and the dead. I believe these and all the truths that the Holy Catholic Church teaches because you have revealed them, who can neither deceive nor be deceived. Amen.",
+      image: "/prayer-cards/act-of-faith.jpg"
     },
     {
       name: "Act of Hope",
-      text: "O my God, relying on your almighty power, infinite mercy and promises, I hope to obtain pardon for my sins, the help of your grace, and life everlasting through the merits of Jesus Christ, my Lord and Redeemer. Amen."
+      text: "O my God, relying on your almighty power, infinite mercy and promises, I hope to obtain pardon for my sins, the help of your grace, and life everlasting through the merits of Jesus Christ, my Lord and Redeemer. Amen.",
+      image: "/prayer-cards/act-of-hope.jpg"
     },
     {
       name: "Act of Love",
-      text: "O my God, I love you above all things, with my whole heart and soul, because you are all good and worthy of all love. I love my neighbor as myself for the love of you. I forgive all who have injured me and ask pardon of all whom I have injured. Amen."
+      text: "O my God, I love you above all things, with my whole heart and soul, because you are all good and worthy of all love. I love my neighbor as myself for the love of you. I forgive all who have injured me and ask pardon of all whom I have injured. Amen.",
+      image: "/prayer-cards/act-of-love.jpg"
     },
   ],
   "To the Holy Spirit": [

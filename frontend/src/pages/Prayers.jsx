@@ -85,15 +85,18 @@ const PRAYERS = {
   "To the Holy Spirit": [
     {
       name: "Prayer to the Holy Spirit",
-      text: "Breathe into me, Spirit of God, that I may think what is holy. Drive me, Spirit of God, that I may do what is holy. Draw me, Spirit of God, that I may love what is holy. Strengthen me, Spirit of God, that I may preserve what is holy. Guide me, Spirit of God, that I may never lose what is holy. Amen."
+      text: "Breathe into me, Spirit of God, that I may think what is holy. Drive me, Spirit of God, that I may do what is holy. Draw me, Spirit of God, that I may love what is holy. Strengthen me, Spirit of God, that I may preserve what is holy. Guide me, Spirit of God, that I may never lose what is holy. Amen.",
+      image: "/prayer-cards/holy-spirit.jpg"
     },
     {
       name: "Come, Holy Spirit",
-      text: "Come, Holy Spirit, fill the hearts of your faithful and enkindle in them the fire of your love. Send forth your Spirit and they shall be created, and you shall renew the face of the earth. O God, who has instructed the hearts of your faithful by the light of the Holy Spirit, grant that by the same Holy Spirit we may have a right judgment in all things and evermore rejoice in his consolations. Through Christ Our Lord. Amen."
+      text: "Come, Holy Spirit, fill the hearts of your faithful and enkindle in them the fire of your love. Send forth your Spirit and they shall be created, and you shall renew the face of the earth. O God, who has instructed the hearts of your faithful by the light of the Holy Spirit, grant that by the same Holy Spirit we may have a right judgment in all things and evermore rejoice in his consolations. Through Christ Our Lord. Amen.",
+      image: "/prayer-cards/come-holy-spirit.jpg"
     },
     {
       name: "Fatima Prayer",
-      text: "O my Jesus, forgive us our sins, save us from the fire of hell, lead all souls to heaven, especially those who are in most need of Thy mercy."
+      text: "O my Jesus, forgive us our sins, save us from the fire of hell, lead all souls to heaven, especially those who are in most need of Thy mercy.",
+      image: "/prayer-cards/fatima.jpg"
     },
   ],
   "Intercessory": [

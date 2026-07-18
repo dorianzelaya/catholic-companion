@@ -1205,3 +1205,24 @@ html {
   height: auto;
   display: block;
 }
+
+/* Prayers category grid */
+.prayers-category-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.prayers-category-btn {
+  background-color: #ffffff;
+  border: 0.5px solid var(--cream-border);
+  border-radius: 14px;
+  padding: 24px 12px;
+  text-align: center;
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--brown-dark);
+  cursor: pointer;
+  line-height: 1.4;
+}

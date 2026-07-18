@@ -151,34 +151,63 @@ const PRAYERS = {
 }
 
 function Prayers() {
+  const [category, setCategory] = useState(null)
   const [selected, setSelected] = useState(null)
 
+  // Prayer detail view
   if (selected) {
-  return (
-    <div className="page">
-      <div className="page-header">
-        <BackButton onClick={() => setSelected(null)} />
-        <p className="readings-eyebrow">Prayer</p>
-        <h1 className="struggle-category-title">{selected.name}</h1>
-      </div>
-      <div className="page-content">
-        {selected.image && (
-          <div className="prayer-image-block">
-            <img
-              src={selected.image}
-              alt={selected.name}
-              className="prayer-image"
-            />
+    return (
+      <div className="page">
+        <div className="page-header">
+          <BackButton onClick={() => setSelected(null)} />
+          <p className="readings-eyebrow">{category}</p>
+          <h1 className="struggle-category-title">{selected.name}</h1>
+        </div>
+        <div className="page-content">
+          {selected.image && (
+            <div className="prayer-image-block">
+              <img
+                src={selected.image}
+                alt={selected.name}
+                className="prayer-image"
+              />
+            </div>
+          )}
+          <div className="prayer-detail-card">
+            <p className="prayer-detail-text">{selected.text}</p>
           </div>
-        )}
-        <div className="prayer-detail-card">
-          <p className="prayer-detail-text">{selected.text}</p>
         </div>
       </div>
-    </div>
-  )
-}
+    )
+  }
 
+  // Prayer list view for a chosen category
+  if (category) {
+    return (
+      <div className="page">
+        <div className="page-header">
+          <BackButton onClick={() => setCategory(null)} />
+          <p className="readings-eyebrow">Prayers</p>
+          <h1 className="struggle-category-title">{category}</h1>
+        </div>
+        <div className="page-content">
+          <div className="prayers-items">
+            {PRAYERS[category].map(prayer => (
+              <button
+                key={prayer.name}
+                className="prayer-item-btn"
+                onClick={() => setSelected(prayer)}
+              >
+                {prayer.name}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // Category selection view
   return (
     <div className="page">
       <div className="page-header">
@@ -187,22 +216,15 @@ function Prayers() {
         <h1 className="struggle-category-title">Prayers</h1>
       </div>
       <div className="page-content">
-        <div className="prayers-list">
-          {Object.entries(PRAYERS).map(([category, items]) => (
-            <div key={category} className="prayers-group">
-              <p className="struggle-group-label">{category}</p>
-              <div className="prayers-items">
-                {items.map(prayer => (
-                  <button
-                    key={prayer.name}
-                    className="prayer-item-btn"
-                    onClick={() => setSelected(prayer)}
-                  >
-                    {prayer.name}
-                  </button>
-                ))}
-              </div>
-            </div>
+        <div className="prayers-category-grid">
+          {Object.keys(PRAYERS).map(cat => (
+            <button
+              key={cat}
+              className="prayers-category-btn"
+              onClick={() => setCategory(cat)}
+            >
+              {cat}
+            </button>
           ))}
         </div>
       </div>

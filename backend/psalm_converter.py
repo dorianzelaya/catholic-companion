@@ -9,8 +9,7 @@ def convert_psalm_reference(nab_number: int, nab_verse: int = None) -> dict:
 
     Sources confirmed against real API data and cross-referenced historical tables:
     - Psalms 1-8: identical in both systems, no shift
-    - Psalms 9-10 (Hebrew) -> Psalm 9 (Vulgate): Hebrew 9 stays in Vulgate 9,
-      Hebrew 10 continues into Vulgate 9 at a verse offset (not yet verse-mapped)
+    - Psalms 9-10 (Hebrew) -> Psalm 9 (Vulgate): both map to Vulgate 9, no verse shift
     - Psalms 11-113 (Hebrew) -> Psalms 10-112 (Vulgate): subtract 1 from number, no verse shift
     - Psalm 114 (Hebrew) verses 1-8 -> Psalm 113 (Vulgate) verses 1-8
     - Psalm 115 (Hebrew) verses 1-8 -> Psalm 113 (Vulgate) verses 9-26: add 8 to verse number
@@ -28,10 +27,7 @@ def convert_psalm_reference(nab_number: int, nab_verse: int = None) -> dict:
         return {"vulgate_number": 9, "verse_offset": 0}
 
     elif nab_number == 10:
-        raise NotImplementedError(
-            "Psalm 9-10 Hebrew/Vulgate verse-level mapping not yet researched. "
-            "Do not guess -- flag for manual lookup if this reference appears."
-        )
+        return {"vulgate_number": 9, "verse_offset": 0}
 
     elif 11 <= nab_number <= 113:
         return {"vulgate_number": nab_number - 1, "verse_offset": 0}

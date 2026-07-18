@@ -5,39 +5,48 @@ const PRAYERS = {
   "Daily Prayers": [
     {
       name: "Sign of the Cross",
-      text: "In the name of the Father, and of the Son, and of the Holy Spirit. Amen."
+      text: "In the name of the Father, and of the Son, and of the Holy Spirit. Amen.",
+      image: "/prayer-cards/sign-of-cross.jpg"
     },
     {
       name: "Glory Be",
-      text: "Glory be to the Father and to the Son and to the Holy Spirit. As it was in the beginning, is now, and ever shall be, world without end. Amen."
+      text: "Glory be to the Father and to the Son and to the Holy Spirit. As it was in the beginning, is now, and ever shall be, world without end. Amen.",
+      image: "/prayer-cards/glory-be.jpg"
     },
     {
       name: "Our Father",
-      text: "Our Father, who art in Heaven, hallowed be Thy name. Thy kingdom come, Thy will be done on earth as it is in Heaven. Give us this day our daily bread, and forgive us our trespasses as we forgive those who trespass against us. And lead us not into temptation, but deliver us from evil. Amen."
+      text: "Our Father, who art in Heaven, hallowed be Thy name. Thy kingdom come, Thy will be done on earth as it is in Heaven. Give us this day our daily bread, and forgive us our trespasses as we forgive those who trespass against us. And lead us not into temptation, but deliver us from evil. Amen.",
+      image: "/prayer-cards/our-father.jpg"
     },
     {
       name: "Hail Mary",
-      text: "Hail Mary, full of grace, the Lord is with Thee. Blessed art thou amongst women, and blessed is the fruit of thy womb, Jesus. Holy Mary, Mother of God, pray for us sinners, now and at the hour of our death. Amen."
+      text: "Hail Mary, full of grace, the Lord is with Thee. Blessed art thou amongst women, and blessed is the fruit of thy womb, Jesus. Holy Mary, Mother of God, pray for us sinners, now and at the hour of our death. Amen.",
+      image: "/prayer-cards/hail-mary.jpg"
     },
     {
       name: "Morning Offering",
-      text: "My God, I thank you for protecting me through the night. I praise you and give you thanks for all the blessings you have bestowed on me. In union with Jesus, I consecrate to you all my thoughts, words, actions, joys, and sufferings of this day. Mary, my mother, bless me this day and protect me from dangers. My Guardian Angel and all my patrons, pray for me. Amen."
+      text: "My God, I thank you for protecting me through the night. I praise you and give you thanks for all the blessings you have bestowed on me. In union with Jesus, I consecrate to you all my thoughts, words, actions, joys, and sufferings of this day. Mary, my mother, bless me this day and protect me from dangers. My Guardian Angel and all my patrons, pray for me. Amen.",
+      image: "/prayer-cards/morning-offering.jpg"
     },
     {
       name: "Night Prayer",
-      text: "Lord Jesus Christ, you have given your followers an example of gentleness and humility, a task that is easy, a burden that is light. Accept the prayers and work of this day, and give us the rest that will strengthen us to render more faithful service to you who live and reign forever and ever. Amen."
+      text: "Lord Jesus Christ, you have given your followers an example of gentleness and humility, a task that is easy, a burden that is light. Accept the prayers and work of this day, and give us the rest that will strengthen us to render more faithful service to you who live and reign forever and ever. Amen.",
+      image: "/prayer-cards/night-prayer.jpg"
     },
     {
       name: "Guardian Angel Prayer",
-      text: "Angel of God, my guardian dear, to whom God's love commits me here. Ever this day be at my side, to light and guard, to rule and guide. Amen."
+      text: "Angel of God, my guardian dear, to whom God's love commits me here. Ever this day be at my side, to light and guard, to rule and guide. Amen.",
+      image: "/prayer-cards/guardian-angel.jpg"
     },
     {
       name: "Grace Before Meals",
-      text: "Bless us, O Lord, in these your gifts, which we are about to receive from your bounty through Christ our Lord. Amen."
+      text: "Bless us, O Lord, in these your gifts, which we are about to receive from your bounty through Christ our Lord. Amen.",
+      image: "/prayer-cards/grace-before-meals.jpg"
     },
     {
       name: "Grace After Meals",
-      text: "We give you thanks, O Almighty God, for these your benefits, who lives and reigns, world without end. Amen."
+      text: "We give you thanks, O Almighty God, for these your benefits, who lives and reigns, world without end. Amen.",
+      image: "/prayer-cards/grace-after-meals.jpg"
     },
   ],
   "Creeds": [

@@ -118,7 +118,7 @@ const PRAYERS = {
     {
       name: "Anima Christi",
       text: "Soul of Christ, sanctify me. Body of Christ, save me. Water from the side of Christ, wash me. Passion of Christ, strengthen me. Good Jesus, hear me. Within your wounds, shelter me. From turning away, keep me. From the evil one, protect me. At the hour of my death, call me. Into your presence lead me, to praise you with all your saints, forever and ever. Amen.",
-      image: "/prayer-cards/christ-crucified.jpg"
+      image: "/prayer-cards/anima-christi.jpg"
     },
     {
       name: "Suscipe",
@@ -134,15 +134,18 @@ const PRAYERS = {
   "For Others": [
     {
       name: "Prayer for the Sick",
-      text: "O God, your Son accepted our sufferings to teach us the virtue of patience in human illness. Hear the prayers we offer for our sick brothers and sisters. May all who suffer pain, illness, or disease realize that they are chosen to be saints, and know that they are joined to Christ in his suffering for the salvation of the world, who lives and reigns with you and the Holy Spirit, one God, forever and ever. Amen."
+      text: "O God, your Son accepted our sufferings to teach us the virtue of patience in human illness. Hear the prayers we offer for our sick brothers and sisters. May all who suffer pain, illness, or disease realize that they are chosen to be saints, and know that they are joined to Christ in his suffering for the salvation of the world, who lives and reigns with you and the Holy Spirit, one God, forever and ever. Amen.",
+      image: "/prayer-cards/healing.jpg"
     },
     {
       name: "Prayer for the Faithful Departed",
-      text: "God, Creator and Redeemer of all the faithful, grant to the souls of your servants and handmaids the forgiveness of all their sins. Through our devout prayers may they obtain the pardon which they have always desired. We ask this through Christ our Lord. Amen."
+      text: "God, Creator and Redeemer of all the faithful, grant to the souls of your servants and handmaids the forgiveness of all their sins. Through our devout prayers may they obtain the pardon which they have always desired. We ask this through Christ our Lord. Amen.",
+      image: "/prayer-cards/faithful-departed.jpg"
     },
     {
       name: "Eternal Rest",
-      text: "Eternal rest grant unto them, O Lord, and let perpetual light shine upon them. May they rest in peace. Amen."
+      text: "Eternal rest grant unto them, O Lord, and let perpetual light shine upon them. May they rest in peace. Amen.",
+      image: "/prayer-cards/eternal-rest.jpg"
     },
   ],
   "Litany": [

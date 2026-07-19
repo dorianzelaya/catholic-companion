@@ -26,7 +26,6 @@ async function fetchWikipediaData(saintName) {
     const page = Object.values(pages)[0]
     if (!page.extract) return null
 
-    // Skip disambiguation pages
     if (page.extract.includes('may refer to:')) return null
 
     return {
@@ -128,6 +127,13 @@ function Saint() {
 
         {data && isFeria && (
           <div className="saint-feria">
+            <div className="saint-image-block">
+              <img
+                src="/transfiguration.jpg"
+                alt="The Transfiguration of Christ"
+                className="saint-image"
+              />
+            </div>
             <p className="saint-feria-title">This day is not yet dedicated to a Saint recognized by the Catholic Church.</p>
             <p className="saint-feria-text">However, YOU can be a Saint today by following God's universal call to holiness. Remember to love the Lord your God with all your heart, mind, and soul — and to love your neighbor as He loved you.</p>
             <div className="saint-feria-verse">

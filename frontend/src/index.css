@@ -1243,3 +1243,11 @@ html {
   cursor: pointer;
   line-height: 1.4;
 }
+
+.prayer-image-caption {
+  font-size: 11px;
+  color: var(--brown-light);
+  text-align: center;
+  padding: 6px 8px 0;
+  font-style: italic;
+}

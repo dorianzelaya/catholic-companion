@@ -1251,3 +1251,25 @@ html {
   padding: 6px 8px 0;
   font-style: italic;
 }
+
+/* Prayer history card */
+.prayer-history-card {
+  background-color: var(--cream-dark);
+  border-radius: 14px;
+  border: 0.5px solid var(--cream-border);
+  padding: 16px;
+}
+
+.prayer-history-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--brown-light);
+  margin-bottom: 8px;
+}
+
+.prayer-history-text {
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--brown-dark);
+}

@@ -1173,6 +1173,7 @@ html {
   border-radius: 14px;
   border: 0.5px solid var(--cream-border);
   padding: 20px;
+  margin-bottom: 16px;
 }
 
 .prayer-detail-text {

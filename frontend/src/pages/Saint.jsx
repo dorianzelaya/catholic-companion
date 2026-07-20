@@ -2,14 +2,18 @@ import { useState, useEffect } from 'react'
 import BackButton from '../components/BackButton'
 import API_URL from '../config'
 
-async function fetchWikipediaData(saintName) {
+async function fetchWikipediaData(saintName, saintDescription) {
   try {
     const cleanName = saintName
       .replace(/^(Saint|St\.|Blessed|Venerable)\s+/i, '')
       .replace(/,.*$/, '')
       .trim()
 
-    const searchUrl = `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent('Saint ' + cleanName + ' Catholic')}&format=json&origin=*&srlimit=1`
+    const contextWords = saintDescription
+      ? saintDescription.split(' ').slice(0, 5).join(' ')
+      : 'Catholic saint'
+
+    const searchUrl = `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent('Saint ' + cleanName + ' ' + contextWords)}&format=json&origin=*&srlimit=1`
     const searchResponse = await fetch(searchUrl)
     if (!searchResponse.ok) return null
     const searchData = await searchResponse.json()
@@ -53,7 +57,7 @@ function Saint() {
         setData(json)
 
         if (json.saint_name && json.saint_type !== 'FERIA') {
-          const wiki = await fetchWikipediaData(json.saint_name)
+          const wiki = await fetchWikipediaData(json.saint_name, json.saint_description)
           setWikiData(wiki)
         }
       } catch (err) {

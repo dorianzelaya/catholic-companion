@@ -104,6 +104,34 @@ const PRAYERS = {
       caption: "The Annunciation — Fra Angelico, c. 1426",
       history: "Mary's own canticle, recorded in Luke 1:46–55, was spoken during her visit to her relative Elizabeth while pregnant with Jesus. It draws heavily upon Hannah's prayer in 1 Samuel 2:1–10. The Church has prayed the Magnificat daily at Evening Prayer, or Vespers, since ancient times, making it one of the most frequently prayed canticles in Christian history."
     },
+    {
+      name: "Sub Tuum Praesidium",
+      text: "We fly to thy protection, O holy Mother of God. Despise not our petitions in our necessities, but deliver us always from all dangers, O glorious and blessed Virgin. Amen.",
+      image: "/prayer-cards/sub-tuum.jpg",
+      caption: "Madonna della Misericordia — Piero della Francesca, c. 1460–1462",
+      history: "The oldest known prayer to the Blessed Virgin Mary, found on a Greek papyrus (Papyrus Rylands 470) dated to around the 3rd century. It already addresses Mary as 'Theotokos' (Mother of God), confirming this title was in popular use long before the Council of Ephesus formally defined it in 431. The faithful have prayed these words for some seventeen centuries."
+    },
+    {
+      name: "The Angelus",
+      text: "The Angel of the Lord declared unto Mary, and she conceived of the Holy Spirit. Hail Mary... Behold the handmaid of the Lord, be it done unto me according to thy word. Hail Mary... And the Word was made flesh, and dwelt among us. Hail Mary... Pray for us, O Holy Mother of God, that we may be made worthy of the promises of Christ. Pour forth, we beseech thee, O Lord, thy grace into our hearts; that we, to whom the Incarnation of Christ thy Son was made known by the message of an Angel, may by his Passion and Cross be brought to the glory of his Resurrection. Through the same Christ our Lord. Amen.",
+      image: "/prayer-cards/angelus.jpg",
+      caption: "The Annunciation — Bartolomé Esteban Murillo, c. 1660",
+      history: "A devotion commemorating the Incarnation, prayed traditionally three times daily — at 6 a.m., noon, and 6 p.m. — when church bells ring. It takes its name from its opening Latin words, 'Angelus Domini.' The practice dates to at least the 13th century and pairs versicles from Scripture with the Hail Mary."
+    },
+    {
+      name: "Regina Caeli",
+      text: "Queen of Heaven, rejoice, alleluia. For He whom you merited to bear, alleluia, has risen as he said, alleluia. Pray for us to God, alleluia. Rejoice and be glad, O Virgin Mary, alleluia, for the Lord has truly risen, alleluia. O God, who gave joy to the world through the Resurrection of thy Son our Lord Jesus Christ, grant we beseech thee that through the intercession of the Virgin Mary his Mother, we may obtain the joys of everlasting life. Through the same Christ our Lord. Amen.",
+      image: "/prayer-cards/regina-caeli.jpg",
+      caption: "The Glorification of the Virgin — Fra Angelico, c. 1431–1435",
+      history: "The Marian antiphon prayed during the Easter season in place of the Angelus, from Holy Saturday through Pentecost. Dating to at least the 12th century, its joyful 'alleluia' refrains celebrate the Resurrection. Tradition holds that its opening lines were heard sung by angels."
+    },
+    {
+      name: "Prayer to Our Lady of Guadalupe",
+      text: "Our Lady of Guadalupe, mystical rose, make intercession for the holy Church, protect the Holy Father, help all those who invoke thee in their necessities, and since thou art the ever Virgin Mary and Mother of the true God, obtain for us from thy most holy Son the grace of keeping our faith, sweet hope in the midst of the bitterness of life, burning charity, and the precious gift of final perseverance. Amen.",
+      image: "/prayer-cards/guadalupe.jpg",
+      caption: "Virgin of Guadalupe — Antonio and Manuel de Arellano, 1691",
+      history: "Honors the 1531 apparition of the Virgin Mary to St. Juan Diego on Tepeyac hill near Mexico City, where her image was miraculously imprinted on his tilma. Our Lady of Guadalupe is the patroness of the Americas and one of the most beloved Marian devotions in the world."
+    },
   ],
   "Acts": [
     {
@@ -158,7 +186,37 @@ const PRAYERS = {
       history: "According to Sister Lúcia's account of the approved apparitions at Fátima, this prayer was given by Our Lady to Lúcia, Francisco, and Jacinta on July 13, 1917. Our Lady instructed them to pray it after each mystery of the Rosary. It has since become a widely used, though optional, addition after each decade."
     },
   ],
-  "Intercessory": [
+  "Eucharistic": [
+    {
+      name: "Act of Spiritual Communion",
+      text: "My Jesus, I believe that you are present in the Most Holy Sacrament. I love you above all things, and I desire to receive you into my soul. Since I cannot at this moment receive you sacramentally, come at least spiritually into my heart. I embrace you as if you were already there and unite myself wholly to you. Never permit me to be separated from you. Amen.",
+      image: "/prayer-cards/spiritual-communion.jpg",
+      caption: "The Communion of the Apostles — Justus van Gent, c. 1473–1476",
+      history: "Composed by St. Alphonsus Liguori (1696–1787), this prayer expresses a desire to receive Christ when one cannot receive Holy Communion sacramentally. St. Thomas Aquinas described spiritual communion as 'an ardent desire to receive Jesus.' Padre Pio prayed it many times throughout the day."
+    },
+    {
+      name: "O Salutaris Hostia",
+      text: "O saving Victim, opening wide the gate of Heaven to man below. Our foes press hard on every side; your aid supply, your strength bestow. To your great name be endless praise, immortal Godhead, One in Three. O grant us endless length of days in our true country. Amen.",
+      image: "/prayer-cards/o-salutaris.jpg",
+      caption: "The Disputation of the Holy Sacrament — Raphael, c. 1509–1510",
+      history: "Written by St. Thomas Aquinas for the Feast of Corpus Christi, established in 1264. It comprises the final two stanzas of his hymn 'Verbum Supernum Prodiens' and is traditionally sung at Benediction of the Blessed Sacrament, most often when the monstrance is placed upon the altar."
+    },
+    {
+      name: "Prayer of St. Thomas Aquinas Before Mass",
+      text: "Almighty and eternal God, behold I approach the Sacrament of your only-begotten Son, our Lord Jesus Christ. I come as one sick to the physician of life, as one unclean to the fountain of mercy, as one blind to the light of eternal brightness, as one poor and needy to the Lord of heaven and earth. I ask that you remedy the poverty of my nakedness, kindle the coldness of my heart, bring light to my blindness, and enrich my destitution. Grant that I may receive the bread of angels, the King of kings and Lord of lords, with such reverence and humility, with such contrition and devotion, with such purity and faith, with such purpose and intention, as may be profitable to my soul's salvation. Amen.",
+      image: "/prayer-cards/aquinas-before-mass.jpg",
+      caption: "Saint Thomas Aquinas — Carlo Crivelli, 1476",
+      history: "A preparation prayer composed by the Angelic Doctor (1225–1274), the Church's preeminent theologian. It approaches the Eucharist with profound humility, presenting the soul as sick, unclean, blind, and poor before the physician, fountain, light, and Lord of heaven and earth."
+    },
+    {
+      name: "Prayer of St. Thomas Aquinas After Mass",
+      text: "Lord, Father all-powerful and ever-living God, I thank you, for even though I am a sinner, your unprofitable servant, not because of my worth but in the kindness of your mercy, you have fed me with the Precious Body and Blood of your Son, our Lord Jesus Christ. I pray that this Holy Communion may not bring me condemnation and punishment but forgiveness and salvation. May it be a helmet of faith and a shield of good will. May it purify me from evil ways and put an end to my evil passions. May it bring me charity and patience, humility and obedience, and growth in the power to do good. May it be my strong defense against all my enemies, visible and invisible, and the perfect calming of all my evil impulses, bodily and spiritual. May it unite me more closely to you, the one true God, and lead me safely through death to everlasting happiness with you. And I pray that you will lead me, a sinner, to the banquet where you, with your Son and Holy Spirit, are true and perfect light, total fulfillment, everlasting joy, gladness without end, and perfect happiness to your saints. Grant this through Christ our Lord. Amen.",
+      image: "/prayer-cards/aquinas-after-mass.jpg",
+      caption: "The Triumph of Saint Thomas Aquinas — Benozzo Gozzoli, c. 1471",
+      history: "St. Thomas Aquinas's prayer of thanksgiving after receiving Holy Communion. It asks that the Eucharist received be a source of forgiveness, protection, and virtue, uniting the soul ever more closely to God and leading it safely to eternal happiness."
+    },
+  ],
+  "Saint Prayers": [
     {
       name: "Prayer to St. Michael",
       text: "Saint Michael the Archangel, defend us in battle. Be our defense against the wickedness and snares of the devil. May God rebuke him, we humbly pray; and do thou, O Prince of the heavenly host, by the power of God, thrust into Hell Satan and all the evil spirits who prowl about the world for the ruin of souls. Amen.",
@@ -181,6 +239,57 @@ const PRAYERS = {
       history: "Saint Jude Thaddaeus was one of the Twelve Apostles and is traditionally identified with Jude, the author named in the New Testament Epistle of Jude. He became widely invoked as the patron saint of desperate or seemingly hopeless causes. One popular explanation is that Christians were once hesitant to invoke him because his name resembled that of Judas Iscariot, although the historical origin of his patronage is uncertain. His feast is celebrated on October 28."
     },
     {
+      name: "Prayer to St. Joseph",
+      text: "To you, O blessed Joseph, do we come in our tribulation, and having implored the help of your most holy Spouse, we confidently invoke your patronage also. Through that charity which bound you to the Immaculate Virgin Mother of God and through the paternal love with which you embraced the Child Jesus, we humbly beg you graciously to regard the inheritance which Jesus Christ has purchased by his Blood, and with your power and strength to aid us in our necessities. O most watchful guardian of the Holy Family, defend the chosen children of Jesus Christ; O most loving father, ward off from us every contagion of error and corrupting influence; O our most mighty protector, be kind to us and from heaven assist us in our struggle with the power of darkness. As once you rescued the Child Jesus from deadly peril, so now protect God's Holy Church from the snares of the enemy and from all adversity; shield, too, each one of us by your constant protection, so that, supported by your example and your aid, we may be able to live piously, to die in holiness, and to obtain eternal happiness in heaven. Amen.",
+      image: "/prayer-cards/st-joseph.jpg",
+      caption: "Saint Joseph with the Infant Jesus — Guido Reni, c. 1625–1630",
+      history: "Composed by Pope Leo XIII in his 1889 encyclical Quamquam pluries. The Holy Father asked that it be added to the Rosary, especially during October. It invokes the foster father of Jesus and patron of the universal Church as a powerful protector against error and the powers of darkness."
+    },
+    {
+      name: "Prayer to St. Anthony",
+      text: "O Holy St. Anthony, gentlest of Saints, your love for God and charity for His creatures made you worthy, when on earth, to possess miraculous powers. Miracles waited on your word, which you were ever ready to speak for those in trouble or anxiety. Encouraged by this thought, I implore you to obtain for me the favor I seek. The answer to my prayer may require a miracle; even so, you are the Saint of Miracles. O gentle and loving St. Anthony, whose heart was ever full of human sympathy, whisper my petition into the ears of the sweet Infant Jesus, who loved to be folded in your arms, and the gratitude of my heart will ever be yours. Amen.",
+      image: "/prayer-cards/st-anthony.jpg",
+      caption: "The Apparition of the Child Jesus to Saint Anthony of Padua — attributed to Francisco de Zurbarán, c. 1627–1630",
+      history: "Known as the 'Unfailing Prayer to St. Anthony,' this invokes St. Anthony of Padua (1195–1231), the Franciscan 'Wonder Worker' and patron of lost things. Canonized less than a year after his death, he is often depicted holding the Infant Jesus, based on a reported vision."
+    },
+    {
+      name: "Prayer to St. Therese of Lisieux",
+      text: "O Little Therese of the Child Jesus, please pick for me a rose from the heavenly gardens and send it to me as a message of love. O Little Flower of Jesus, ask God today to grant the favors I now place with confidence in your hands. St. Therese, help me to always believe as you did, in God's great love for me, so that I might imitate your Little Way each day. Amen.",
+      image: "/prayer-cards/st-therese.jpg",
+      caption: "Saint Thérèse of Lisieux — photograph, c. 1890s",
+      history: "Invokes the 'Little Flower' (1873–1897), the Carmelite nun and Doctor of the Church known for her 'Little Way' of spiritual childhood. She promised to 'let fall a shower of roses' from heaven, and roses became the sign of her intercession."
+    },
+    {
+      name: "Prayer to St. Padre Pio",
+      text: "O God, you gave Saint Pio of Pietrelcina, Capuchin priest, the great privilege of participating in a unique way in the passion of your Son, grant me through his intercession the grace which I ardently desire; and above all grant me the grace of living in conformity with the death of Jesus, to arrive at the glory of the resurrection. Glory be to the Father... (three times)",
+      image: "/prayer-cards/padre-pio.jpg",
+      caption: "Saint Pio of Pietrelcina — photograph",
+      history: "Invokes St. Pio of Pietrelcina (1887–1968), the Capuchin friar who bore the stigmata for fifty years. Known for his gifts of healing, reading souls in confession, and profound devotion to the Eucharist, he was canonized by Pope John Paul II in 2002."
+    },
+    {
+      name: "Prayer to St. Christopher",
+      text: "O Glorious St. Christopher, you inherited a beautiful name, Christ-bearer, as a result of the wonderful legend that while carrying people across a raging stream you also carried the Child Jesus. Teach us to be true Christ-bearers to those who do not know Him. Protect all of us who travel both near and far and petition Jesus to remain with us always. Amen.",
+      image: "/prayer-cards/st-christopher.jpg",
+      caption: "Saint Christopher Carrying the Christ Child — Hieronymus Bosch, c. 1500",
+      history: "Invokes the patron saint of travelers, whose name means 'Christ-bearer.' According to legend, he carried a child across a raging river who grew impossibly heavy — the Christ Child bearing the weight of the world. He is invoked for safe journeys."
+    },
+    {
+      name: "Prayer to St. Ann",
+      text: "Good St. Ann, you were especially chosen by God to be the mother of the most holy Virgin Mary, the Mother of our Savior. By your power with your most pure daughter and with her divine Son, kindly obtain for us the grace and the favor we now seek. Please secure for us also forgiveness of our past sins, the strength to perform faithfully our daily duties and the help we need to persevere in the love of Jesus and Mary. Amen.",
+      image: "/prayer-cards/st-ann.jpg",
+      caption: "Saint Anne Teaching the Virgin to Read — anonymous Italian artist, 17th century",
+      history: "Invokes the mother of the Blessed Virgin Mary and grandmother of Jesus. Though not named in Scripture, ancient tradition honors her as the woman chosen to raise the Mother of God. She is a patroness of mothers, grandmothers, and those seeking to conceive."
+    },
+    {
+      name: "Prayer to St. Gerard",
+      text: "O good St. Gerard, powerful intercessor before God and Wonder-worker of our day, I call upon thee and seek thy aid. Thou who on earth didst always fulfill God's designs, help me to do the holy will of God. Beseech the Master of Life, from Whom all paternity proceedeth, to render me fruitful in offspring, that I may raise up children to God in this life and heirs to the Kingdom of His glory in the world to come. Amen.",
+      image: "/prayer-cards/st-gerard.jpg",
+      caption: "Saint Gerard Majella — artist unknown, late 19th–early 20th century",
+      history: "Invokes St. Gerard Majella (1726–1755), a Redemptorist lay brother and the patron saint of expectant mothers. A worker of many miracles in his short life, he became associated with motherhood after a miracle involving a safe childbirth, and is invoked for healthy pregnancies."
+    },
+  ],
+  "Devotional": [
+    {
       name: "Anima Christi",
       text: "Soul of Christ, sanctify me. Body of Christ, save me. Water from the side of Christ, wash me. Passion of Christ, strengthen me. Good Jesus, hear me. Within your wounds, shelter me. From turning away, keep me. From the evil one, protect me. At the hour of my death, call me. Into your presence lead me, to praise you with all your saints, forever and ever. Amen.",
       image: "/prayer-cards/anima-christi.jpg",
@@ -202,27 +311,64 @@ const PRAYERS = {
       history: "This prayer is traditionally prayed after receiving Holy Communion while kneeling before an image of Christ crucified. It meditates upon Christ's wounds and echoes Psalm 22. Under the Church's current discipline, praying it after Communion before a crucifix carries a partial indulgence; on Fridays during Lent, a plenary indulgence may be obtained under the usual conditions."
     },
   ],
-  "For Others": [
+  "Divine Mercy": [
     {
-      name: "Prayer for the Sick",
-      text: "O God, your Son accepted our sufferings to teach us the virtue of patience in human illness. Hear the prayers we offer for our sick brothers and sisters. May all who suffer pain, illness, or disease realize that they are chosen to be saints, and know that they are joined to Christ in his suffering for the salvation of the world, who lives and reigns with you and the Holy Spirit, one God, forever and ever. Amen.",
-      image: "/prayer-cards/healing.jpg",
-      caption: "Christ Healing the Paralytic at Bethesda — Bartolomé Esteban Murillo, c. 1667–1670",
-      history: "Rooted in the Church's tradition of anointing the sick (James 5:14-15), this prayer reflects the Catholic understanding that suffering united to Christ's passion has redemptive value. The Second Vatican Council reaffirmed that the sick are called to participate in Christ's saving work through their suffering."
+      name: "Chaplet Opening Prayer",
+      text: "You expired, Jesus, but the source of life gushed forth for souls, and the ocean of mercy opened up for the whole world. O Fount of Life, unfathomable Divine Mercy, envelop the whole world and empty yourself out upon us. O Blood and Water, which gushed forth from the Heart of Jesus as a fountain of mercy for us, I trust in you.",
+      image: "/prayer-cards/divine-mercy.jpg",
+      caption: "The Merciful Jesus (Divine Mercy) — Eugeniusz Kazimirowski, 1934",
+      history: "The Chaplet of Divine Mercy was given by Jesus to St. Faustina Kowalska in the 1930s, recorded in her Diary. The opening prayers meditate on the blood and water that flowed from the pierced side of Christ as the fountain of mercy for the world."
     },
     {
-      name: "Prayer for the Faithful Departed",
-      text: "God, Creator and Redeemer of all the faithful, grant to the souls of your servants and handmaids the forgiveness of all their sins. Through our devout prayers may they obtain the pardon which they have always desired. We ask this through Christ our Lord. Amen.",
-      image: "/prayer-cards/faithful-departed.jpg",
-      caption: "The Last Judgment — Fra Angelico, c. 1435–1440",
-      history: "Rooted in the ancient Jewish practice of praying for the dead (2 Maccabees 12:46), this prayer reflects the Catholic doctrine of Purgatory — the belief that souls being purified can be helped by the prayers of the living. All Souls' Day (November 2) is dedicated entirely to praying for the faithful departed."
+      name: "Chaplet Main Prayer",
+      text: "Eternal Father, I offer you the Body and Blood, Soul and Divinity of your dearly beloved Son, our Lord Jesus Christ, in atonement for our sins and those of the whole world.",
+      image: "/prayer-cards/divine-mercy-main.jpg",
+      caption: "The Sacred Heart of Jesus — José María Ibarrarán y Ponce, 1896",
+      history: "Prayed on the 'Our Father' beads of the Rosary, this offers the Body, Blood, Soul, and Divinity of Christ to the Eternal Father in atonement for the sins of the whole world. Jesus promised St. Faustina great graces to those who recite the chaplet."
     },
     {
-      name: "Eternal Rest",
-      text: "Eternal rest grant unto them, O Lord, and let perpetual light shine upon them. May they rest in peace. Amen.",
-      image: "/prayer-cards/eternal-rest.jpg",
-      caption: "Madonna and Child with Souls in Purgatory — Luca Giordano, c. 1665",
-      history: "Known in Latin as Requiem aeternam, this traditional prayer asks God to grant eternal rest and perpetual light to the faithful departed. Its language is rooted in 4 Esdras 2:34–35 and forms the opening antiphon of the traditional Requiem Mass. It has long held a central place in the Western Church's prayers and liturgy for the dead."
+      name: "Chaplet Decade Prayer",
+      text: "For the sake of his sorrowful Passion, have mercy on us and on the whole world.",
+      image: "/prayer-cards/divine-mercy-decade.jpg",
+      caption: "The Crowning with Thorns — Titian, c. 1540–1543",
+      history: "Prayed ten times on the 'Hail Mary' beads, this petition pleads for mercy 'for the sake of His sorrowful Passion.' Christ told St. Faustina that through the chaplet the soul obtains mercy, especially at the hour of death."
+    },
+    {
+      name: "Chaplet Closing Prayer",
+      text: "Holy God, Holy Mighty One, Holy Immortal One, have mercy on us and on the whole world. Eternal God, in whom mercy is endless and the treasury of compassion inexhaustible, look kindly upon us and increase your mercy in us, that in difficult moments we might not despair nor become despondent, but with great confidence submit ourselves to your holy will, which is Love and Mercy itself.",
+      image: "/prayer-cards/divine-mercy-closing.jpg",
+      caption: "Christ Pantocrator — Cefalù Cathedral, 1148",
+      history: "The threefold 'Holy God, Holy Mighty One, Holy Immortal One' echoes the ancient Trisagion hymn. The concluding prayer asks that, trusting in God's endless mercy, the faithful may never despair but submit always to His holy will."
+    },
+    {
+      name: "O Blood and Water",
+      text: "O Blood and Water, which gushed forth from the Heart of Jesus as a fountain of mercy for us, I trust in you.",
+      image: "/prayer-cards/blood-and-water.jpg",
+      caption: "The Martyrdom of Jesus of Nazareth — Aimé-Nicolas Morot, 1883",
+      history: "This short aspiration, drawn from St. Faustina's Diary, honors the blood and water that gushed from the Heart of Jesus on the Cross (John 19:34), which the Church has always seen as symbols of the Eucharist and Baptism, the fonts of divine mercy."
+    },
+  ],
+  "Penitential": [
+    {
+      name: "Confiteor",
+      text: "I confess to almighty God and to you, my brothers and sisters, that I have greatly sinned in my thoughts and in my words, in what I have done and in what I have failed to do, through my fault, through my fault, through my most grievous fault; therefore I ask blessed Mary ever-Virgin, all the Angels and Saints, and you, my brothers and sisters, to pray for me to the Lord our God.",
+      image: "/prayer-cards/confiteor.jpg",
+      caption: "The Penitent Saint Peter — El Greco, c. 1590–1595",
+      history: "The 'I confess' prayer, prayed at the beginning of Mass in the Penitential Act. In acknowledging sin 'through my fault, through my fault, through my most grievous fault,' the faithful ask the whole company of heaven and the gathered Church to pray for them. Its form dates to the early medieval period."
+    },
+    {
+      name: "De Profundis",
+      text: "Out of the depths I have cried to thee, O Lord: Lord, hear my voice. Let thine ears be attentive to the voice of my supplication. If thou, O Lord, wilt mark iniquities: Lord, who shall stand it? For with thee there is merciful forgiveness: and by reason of thy law, I have waited for thee, O Lord. My soul hath relied on his word: my soul hath hoped in the Lord. From the morning watch even until night, let Israel hope in the Lord. Because with the Lord there is mercy: and with him plentiful redemption. And he shall redeem Israel from all his iniquities.",
+      image: "/prayer-cards/de-profundis.jpg",
+      caption: "Jonah and the Whale — Pieter Lastman, 1621",
+      history: "Psalm 130, one of the seven Penitential Psalms, taking its name from its opening Latin words, 'Out of the depths.' It is prayed especially for the faithful departed and is a profound cry of trust in God's merciful forgiveness from the depths of sorrow and sin."
+    },
+    {
+      name: "Te Deum",
+      text: "You are God: we praise you. You are the Lord: we acclaim you. You are the eternal Father: all creation worships you. To you all angels, all the powers of heaven, cherubim and seraphim, sing in endless praise: Holy, holy, holy Lord, God of power and might, heaven and earth are full of your glory. The glorious company of apostles praise you. The noble fellowship of prophets praise you. The white-robed army of martyrs praise you. Throughout the world the holy Church acclaims you: Father of majesty unbounded, your true and only Son worthy of all worship, and the Holy Spirit advocate and guide. You Christ are the King of glory, the eternal Son of the Father. When you took our flesh to set us free you humbly chose the Virgin's womb. You overcame the sting of death and opened the kingdom of heaven to all believers. You are seated at God's right hand in glory. We believe that you will come to be our judge. Come then Lord and help your people, bought with the price of your own blood, and bring us with your saints to glory everlasting.",
+      image: "/prayer-cards/te-deum.jpg",
+      caption: "The Adoration of the Holy Trinity — Albrecht Dürer, 1511",
+      history: "An ancient hymn of praise traditionally attributed to Saints Ambrose and Augustine in the 4th century. Sung on occasions of great thanksgiving and solemnity, it praises the Father, Son, and Holy Spirit alongside the whole company of heaven — angels, apostles, prophets, and martyrs."
     },
   ],
   "Litany": [

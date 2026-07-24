@@ -9,17 +9,32 @@ async function fetchWikipediaData(saintName, saintDescription) {
       .replace(/,.*$/, '')
       .trim()
 
+    // Name parts we require the article title to match, ignoring short filler words
+    const nameParts = cleanName
+      .split(/\s+/)
+      .filter(w => w.length > 3)
+      .map(w => w.toLowerCase())
+
     const contextWords = saintDescription
       ? saintDescription.split(' ').slice(0, 5).join(' ')
       : 'Catholic saint'
 
-    const searchUrl = `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent('Saint ' + cleanName + ' ' + contextWords)}&format=json&origin=*&srlimit=1`
+    const searchUrl = `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent('Saint ' + cleanName + ' ' + contextWords)}&format=json&origin=*&srlimit=5`
     const searchResponse = await fetch(searchUrl)
     if (!searchResponse.ok) return null
     const searchData = await searchResponse.json()
 
-    if (!searchData.query.search.length) return null
-    const pageTitle = searchData.query.search[0].title
+    const results = searchData.query.search
+    if (!results.length) return null
+
+    // Only accept a result whose title actually contains the saint's name
+    const match = results.find(r => {
+      const title = r.title.toLowerCase()
+      return nameParts.length > 0 && nameParts.every(part => title.includes(part))
+    })
+    if (!match) return null
+
+    const pageTitle = match.title
 
     const contentUrl = `https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(pageTitle)}&prop=extracts|pageimages&exintro=true&explaintext=true&piprop=original&format=json&origin=*`
     const contentResponse = await fetch(contentUrl)

@@ -147,7 +147,7 @@ export const MYSTERIES = {
         name: "The Transfiguration",
         meditation: "On Mount Tabor, Jesus is transfigured before Peter, James, and John. His face shines like the sun and his garments become dazzling white.",
         scripture: "Matthew 17:1–8",
-        image: "/transfiguration.jpg",
+        image: "/rosary/transfiguration.jpg",
         imageCaption: "The Transfiguration — Raphael, 1520"
       },
       {

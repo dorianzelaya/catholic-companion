@@ -1,16 +1,68 @@
-import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
 import BackButton from '../components/BackButton'
 import { MYSTERIES, PRAYERS, getTodaysMysteries, buildRosarySteps } from '../data/rosary'
 
+const HOW_TO_STEPS = [
+  {
+    step: "1",
+    title: "Begin with the Sign of the Cross",
+    desc: "Hold the crucifix and make the Sign of the Cross. Then pray the Apostles' Creed."
+  },
+  {
+    step: "2",
+    title: "Pray the Our Father",
+    desc: "On the first large bead after the crucifix, pray the Our Father."
+  },
+  {
+    step: "3",
+    title: "Pray 3 Hail Marys",
+    desc: "On the next three small beads, pray a Hail Mary for each — offering them for an increase of Faith, Hope, and Charity."
+  },
+  {
+    step: "4",
+    title: "Pray the Glory Be",
+    desc: "After the three Hail Marys, pray the Glory Be."
+  },
+  {
+    step: "5",
+    title: "Announce the Mystery",
+    desc: "Announce the First Mystery and spend a moment meditating on the event in the life of Jesus or Mary."
+  },
+  {
+    step: "6",
+    title: "Pray the Our Father",
+    desc: "On the large bead before the decade, pray the Our Father."
+  },
+  {
+    step: "7",
+    title: "Pray 10 Hail Marys",
+    desc: "On each of the ten small beads, pray a Hail Mary while meditating on the mystery."
+  },
+  {
+    step: "8",
+    title: "Pray the Glory Be and Fatima Prayer",
+    desc: "After the ten Hail Marys, pray the Glory Be. Then pray the Fatima Prayer: 'O my Jesus, forgive us our sins...'"
+  },
+  {
+    step: "9",
+    title: "Repeat for Each Mystery",
+    desc: "Announce the next mystery and repeat steps 6 through 8 for all five mysteries."
+  },
+  {
+    step: "10",
+    title: "Close with the Hail Holy Queen",
+    desc: "After the fifth decade, pray the Hail Holy Queen and the closing prayers to complete the Rosary."
+  },
+]
+
 function Rosary() {
-  const navigate = useNavigate()
   const todaysMysteries = getTodaysMysteries()
 
   const [selectedMystery, setSelectedMystery] = useState(null)
   const [steps, setSteps] = useState([])
   const [currentStep, setCurrentStep] = useState(0)
   const [finished, setFinished] = useState(false)
+  const [showGuide, setShowGuide] = useState(false)
 
   function startRosary(mysteryName) {
     localStorage.removeItem('rosary_mystery')
@@ -22,7 +74,6 @@ function Rosary() {
     setCurrentStep(0)
     setFinished(false)
 
-    // Preload all mystery images
     mysterySet.mysteries.forEach(mystery => {
       if (mystery.image) {
         const img = new Image()
@@ -103,6 +154,33 @@ function Rosary() {
     return Math.round((currentStep / (steps.length - 1)) * 100)
   }
 
+  // How to pray guide
+  if (showGuide) {
+    return (
+      <div className="page">
+        <div className="page-header">
+          <BackButton onClick={() => setShowGuide(false)} />
+          <p className="readings-eyebrow">The Holy Rosary</p>
+          <h1 className="rosary-title">How to Pray the Rosary</h1>
+        </div>
+        <div className="page-content">
+          <div className="rosary-guide-list">
+            {HOW_TO_STEPS.map(item => (
+              <div key={item.step} className="rosary-guide-item">
+                <div className="rosary-guide-step-num">{item.step}</div>
+                <div className="rosary-guide-step-body">
+                  <p className="rosary-guide-step-title">{item.title}</p>
+                  <p className="rosary-guide-step-desc">{item.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // Mystery selection
   if (!selectedMystery) {
     return (
       <div className="page">
@@ -141,11 +219,19 @@ function Rosary() {
               </button>
             ))}
           </div>
+
+          <button
+            className="rosary-guide-btn"
+            onClick={() => setShowGuide(true)}
+          >
+            How to pray the Rosary
+          </button>
         </div>
       </div>
     )
   }
 
+  // Finished
   if (finished) {
     return (
       <div className="page">

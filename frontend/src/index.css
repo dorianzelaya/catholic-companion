@@ -1301,3 +1301,65 @@ html {
   text-align: center;
   margin-top: 6px;
 }
+
+/* Rosary guide */
+.rosary-guide-btn {
+  display: block;
+  width: 100%;
+  margin-top: 24px;
+  background: none;
+  border: 0.5px solid var(--cream-border);
+  border-radius: 12px;
+  padding: 14px;
+  font-family: var(--font-ui);
+  font-size: 14px;
+  color: var(--brown-light);
+  cursor: pointer;
+  text-align: center;
+}
+
+.rosary-guide-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.rosary-guide-item {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.rosary-guide-step-num {
+  background-color: var(--gold);
+  color: white;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 600;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.rosary-guide-step-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.rosary-guide-step-title {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  color: var(--brown-dark);
+  font-weight: 500;
+}
+
+.rosary-guide-step-desc {
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--brown-light);
+}

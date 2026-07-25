@@ -31,6 +31,7 @@ body {
   max-width: 430px;
   margin: 0 auto;
   min-height: 100vh;
+  overflow: hidden;
 }
 
 html {
@@ -47,6 +48,7 @@ html {
   margin: 0 auto;
   overflow: hidden;
   position: relative;
+  background-color: transparent;
 }
 
 .app-content {

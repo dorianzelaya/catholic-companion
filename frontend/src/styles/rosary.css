@@ -143,11 +143,13 @@
   margin-top: 10px;
 }
 
+/* Button bar — raised above the floating navbar */
 .rosary-next-container {
   padding: 12px 20px;
   background-color: var(--cream);
   border-top: 0.5px solid var(--cream-border);
   flex-shrink: 0;
+  margin-bottom: 92px;
 }
 
 .rosary-btn-row {

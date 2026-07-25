@@ -22,22 +22,27 @@
   padding: 0;
 }
 
+html {
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--cream);
+}
+
 body {
-  background-color: transparent;
+  background-color: var(--cream);
   color: var(--brown-dark);
   font-family: var(--font-ui);
   font-size: 16px;
   line-height: 1.6;
-  max-width: 430px;
-  margin: 0 auto;
-  min-height: 100vh;
+  height: 100%;
   overflow: hidden;
 }
 
-html {
+#root {
   height: 100%;
-  overflow: hidden;
-  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  background-color: var(--cream);
 }
 
 /* App shell */
@@ -45,20 +50,19 @@ html {
   display: flex;
   flex-direction: column;
   height: 100dvh;
+  width: 100%;
   max-width: 430px;
-  margin: 0 auto;
   overflow: hidden;
   position: relative;
   background-color: var(--cream);
 }
 
+/* Content fills the full height so it scrolls UNDER the floating navbar */
 .app-content {
   flex: 1;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  padding-bottom: 90px;
-  background-color: var(--cream);
 }
 
 /* Page layout */
@@ -76,9 +80,10 @@ html {
   flex-shrink: 0;
 }
 
+/* Bottom padding clears the floating navbar so the last item is reachable */
 .page-content {
   flex: 1;
-  padding: 24px 20px;
+  padding: 24px 20px 110px;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }

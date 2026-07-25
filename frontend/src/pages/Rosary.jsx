@@ -47,6 +47,14 @@ function Rosary() {
     setFinished(false)
     localStorage.setItem('rosary_mystery', JSON.stringify(mysterySet))
     localStorage.setItem('rosary_step', '0')
+
+    // Preload all mystery images
+    mysterySet.mysteries.forEach(mystery => {
+      if (mystery.image) {
+        const img = new Image()
+        img.src = mystery.image
+      }
+    })
   }
 
   function handleNext() {

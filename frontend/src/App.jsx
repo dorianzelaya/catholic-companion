@@ -1,7 +1,9 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
+import { AnimatePresence } from 'framer-motion'
 import { AuthProvider } from './context/AuthContext'
 import ProtectedRoute from './components/ProtectedRoute'
 import NavBar from './components/NavBar'
+import PageTransition from './components/PageTransition'
 import Home from './pages/Home'
 import Readings from './pages/Readings'
 import Rosary from './pages/Rosary'
@@ -12,40 +14,52 @@ import Saint from './pages/Saint'
 import ExaminationOfConscience from './pages/ExaminationOfConscience'
 import Prayers from './pages/Prayers'
 
+function AnimatedRoutes() {
+  const location = useLocation()
+
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={<Navigate to="/home" />} />
+        <Route path="/register" element={
+          <PageTransition><Register /></PageTransition>
+        } />
+        <Route path="/login" element={
+          <PageTransition><Login /></PageTransition>
+        } />
+        <Route path="/home" element={
+          <ProtectedRoute><PageTransition><Home /></PageTransition></ProtectedRoute>
+        } />
+        <Route path="/readings" element={
+          <ProtectedRoute><PageTransition><Readings /></PageTransition></ProtectedRoute>
+        } />
+        <Route path="/rosary" element={
+          <ProtectedRoute><PageTransition><Rosary /></PageTransition></ProtectedRoute>
+        } />
+        <Route path="/struggle" element={
+          <ProtectedRoute><PageTransition><Struggle /></PageTransition></ProtectedRoute>
+        } />
+        <Route path="/saint" element={
+          <ProtectedRoute><PageTransition><Saint /></PageTransition></ProtectedRoute>
+        } />
+        <Route path="/examination" element={
+          <ProtectedRoute><PageTransition><ExaminationOfConscience /></PageTransition></ProtectedRoute>
+        } />
+        <Route path="/prayers" element={
+          <ProtectedRoute><PageTransition><Prayers /></PageTransition></ProtectedRoute>
+        } />
+      </Routes>
+    </AnimatePresence>
+  )
+}
+
 function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
         <div className="app-shell">
           <div className="app-content">
-            <Routes>
-              <Route path="/" element={<Navigate to="/home" />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/login" element={<Login />} />
-
-              <Route path="/home" element={
-                <ProtectedRoute><Home /></ProtectedRoute>
-              } />
-              <Route path="/readings" element={
-                <ProtectedRoute><Readings /></ProtectedRoute>
-              } />
-              <Route path="/rosary" element={
-                <ProtectedRoute><Rosary /></ProtectedRoute>
-              } />
-              <Route path="/struggle" element={
-                <ProtectedRoute><Struggle /></ProtectedRoute>
-              } />
-              <Route path="/saint" element={
-                <ProtectedRoute><Saint /></ProtectedRoute>
-              } />
-              <Route path="/examination" element={
-                <ProtectedRoute><ExaminationOfConscience /></ProtectedRoute>
-              } />
-
-              <Route path="/prayers" element={
-                <ProtectedRoute><Prayers /></ProtectedRoute>
-              } />
-            </Routes>
+            <AnimatedRoutes />
           </div>
           <NavBar />
         </div>

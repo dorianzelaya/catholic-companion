@@ -188,7 +188,7 @@ export const PRAYERS = {
   },
   hailHolyQueen: {
     name: "Hail Holy Queen",
-    text: "Hail, Holy Queen, Mother of Mercy, our life, our sweetness and our hope. To thee do we cry, poor banished children of Eve. To thee do we send up our sighs, mourning and weeping in this valley of tears. Turn then, most gracious advocate, thine eyes of mercy toward us, and after this our exile, show unto us the blessed fruit of thy womb, Jesus. O clement, O loving, O sweet Virgin Mary. Amen."
+    text: "Hail, Holy Queen, Mother of Mercy, our life, our sweetness and our hope. To thee do we cry, poor banished children of Eve. To thee do we send up our sighs, mourning and weeping in this valley of tears. Turn then, most gracious advocate, thine eyes of mercy toward us, and after this our exile, show unto us the blessed fruit of thy womb, Jesus. O clement, O loving, O sweet Virgin Mary.\n\nV. Pray for us, O holy Mother of God.\nR. That we may be made worthy of the promises of Christ.\n\nLet us pray. Almighty and everlasting God, by the cooperation of the Holy Spirit you prepared the body and soul of Mary, glorious virgin and mother, to become the worthy habitation of your Son; grant that by her gracious intercession, in whose commemoration we rejoice, we may be delivered from present evils and from everlasting death. Through the same Christ our Lord. Amen.\n\nMay the divine assistance remain with us always. Amen."
   }
 }
 

@@ -1,13 +1,13 @@
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 
 const variants = {
-  initial: { opacity: 0, x: 30 },
+  initial: { opacity: 0, x: 15 },
   animate: { opacity: 1, x: 0 },
-  exit: { opacity: 0, x: -30 }
+  exit: { opacity: 0, x: -15 }
 }
 
 const transition = {
-  duration: 0.2,
+  duration: 0.12,
   ease: 'easeInOut'
 }
 

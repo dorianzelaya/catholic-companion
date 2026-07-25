@@ -46,6 +46,7 @@ html {
   max-width: 430px;
   margin: 0 auto;
   overflow: hidden;
+  position: relative;
 }
 
 .app-content {
@@ -53,6 +54,7 @@ html {
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  padding-bottom: 90px;
 }
 
 /* Page layout */

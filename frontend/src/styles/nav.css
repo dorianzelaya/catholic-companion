@@ -8,8 +8,10 @@
   border-radius: 30px;
   margin: 0 16px 20px;
   box-shadow: 0 4px 20px rgba(44, 31, 14, 0.12);
-  flex-shrink: 0;
-  position: relative;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 
 .nav-indicator-track {

@@ -103,6 +103,18 @@ function Rosary() {
           {step.mystery.scripture && (
             <p className="rosary-step-scripture">{step.mystery.scripture}</p>
           )}
+          {step.mystery.image && (
+            <div className="rosary-mystery-image-block">
+              <img
+                src={step.mystery.image}
+                alt={step.mystery.name}
+                className="rosary-mystery-image"
+              />
+              {step.mystery.imageCaption && (
+                <p className="rosary-mystery-image-caption">{step.mystery.imageCaption}</p>
+              )}
+            </div>
+          )}
         </div>
       )
     }

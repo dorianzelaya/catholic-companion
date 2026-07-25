@@ -5,27 +5,37 @@ export const MYSTERIES = {
       {
         name: "The Annunciation",
         meditation: "The Angel Gabriel announces to Mary that she will conceive and bear the Son of God. Mary responds with total trust: 'Be it done unto me according to thy word.'",
-        scripture: "Luke 1:26–38"
+        scripture: "Luke 1:26–38",
+        image: "/prayer-cards/magnificat.jpg",
+        imageCaption: "The Annunciation — Fra Angelico, c. 1426"
       },
       {
         name: "The Visitation",
         meditation: "Mary visits her cousin Elizabeth, who is with child. At Mary's greeting, the infant John leaps in the womb, and Elizabeth proclaims: 'Blessed art thou among women.'",
-        scripture: "Luke 1:39–56"
+        scripture: "Luke 1:39–56",
+        image: "/rosary/visitation.jpg",
+        imageCaption: "The Visitation with Mary Jacobi and Mary Salome — Domenico Ghirlandaio, 1491"
       },
       {
         name: "The Nativity",
         meditation: "Jesus is born in a stable in Bethlehem, wrapped in swaddling clothes and laid in a manger. The angels announce peace on earth and good will to men.",
-        scripture: "Luke 2:1–20"
+        scripture: "Luke 2:1–20",
+        image: "/rosary/nativity.jpg",
+        imageCaption: "The Holy Night (La Notte) — Correggio, c. 1528–1530"
       },
       {
         name: "The Presentation",
         meditation: "Mary and Joseph present the infant Jesus in the Temple. Simeon takes the child in his arms and prophesies that He will be a light to the nations.",
-        scripture: "Luke 2:22–38"
+        scripture: "Luke 2:22–38",
+        image: "/rosary/presentation.jpg",
+        imageCaption: "The Presentation of Christ in the Temple — Andrea Mantegna, c. 1454"
       },
       {
         name: "The Finding in the Temple",
         meditation: "After three days of searching, Mary and Joseph find the twelve-year-old Jesus in the Temple, sitting among the teachers, listening and asking questions.",
-        scripture: "Luke 2:41–52"
+        scripture: "Luke 2:41–52",
+        image: "/rosary/finding-temple.jpg",
+        imageCaption: "Jesus Among the Doctors — Jean-Auguste-Dominique Ingres, 1862"
       }
     ]
   },
@@ -35,27 +45,37 @@ export const MYSTERIES = {
       {
         name: "The Agony in the Garden",
         meditation: "Jesus prays in the Garden of Gethsemane, his sweat falling like drops of blood. He accepts the Father's will: 'Not my will, but thine be done.'",
-        scripture: "Luke 22:39–46"
+        scripture: "Luke 22:39–46",
+        image: "/prayer-cards/night-prayer.jpg",
+        imageCaption: "Christ in Gethsemane — Heinrich Hofmann, 1886"
       },
       {
         name: "The Scourging at the Pillar",
         meditation: "Jesus is bound to a pillar and scourged. He endures this suffering in silence, offering it for the sins of the world.",
-        scripture: "John 19:1"
+        scripture: "John 19:1",
+        image: "/rosary/scourging.jpg",
+        imageCaption: "The Flagellation of Our Lord Jesus Christ — William-Adolphe Bouguereau, 1880"
       },
       {
         name: "The Crowning with Thorns",
         meditation: "Soldiers place a crown of thorns on Jesus' head and mock him as King of the Jews. He bears this humiliation with patience and love.",
-        scripture: "Matthew 27:27–31"
+        scripture: "Matthew 27:27–31",
+        image: "/prayer-cards/divine-mercy-decade.jpg",
+        imageCaption: "The Crowning with Thorns — Titian, c. 1540–1543"
       },
       {
         name: "The Carrying of the Cross",
         meditation: "Jesus carries his cross through the streets of Jerusalem to Calvary, falling three times under its weight, meeting his Mother along the way.",
-        scripture: "John 19:17"
+        scripture: "John 19:17",
+        image: "/rosary/carrying-cross.jpg",
+        imageCaption: "Christ Carrying the Cross — attributed to Leonardo da Vinci, c. 1500"
       },
       {
         name: "The Crucifixion",
         meditation: "Jesus is nailed to the cross and dies after three hours of agony. His last words are: 'Father, into thy hands I commend my spirit.'",
-        scripture: "John 19:18–30"
+        scripture: "John 19:18–30",
+        image: "/prayer-cards/blood-and-water.jpg",
+        imageCaption: "The Martyrdom of Jesus of Nazareth — Aimé-Nicolas Morot, 1883"
       }
     ]
   },
@@ -65,27 +85,37 @@ export const MYSTERIES = {
       {
         name: "The Resurrection",
         meditation: "On the third day, Jesus rises from the dead, conquering sin and death. Mary Magdalene is the first to encounter the Risen Lord at the empty tomb.",
-        scripture: "John 20:1–18"
+        scripture: "John 20:1–18",
+        image: "/prayer-cards/act-of-hope.jpg",
+        imageCaption: "The Resurrection of Christ — Titian, c. 1542–1544"
       },
       {
         name: "The Ascension",
         meditation: "Forty days after the Resurrection, Jesus ascends into heaven before the eyes of his disciples, promising to send the Holy Spirit.",
-        scripture: "Acts 1:9–11"
+        scripture: "Acts 1:9–11",
+        image: "/rosary/ascension.jpg",
+        imageCaption: "The Ascension — John Singleton Copley, 1775"
       },
       {
         name: "The Descent of the Holy Spirit",
         meditation: "On Pentecost, the Holy Spirit descends upon Mary and the Apostles as tongues of fire. The Church is born and the Apostles go forth to preach.",
-        scripture: "Acts 2:1–4"
+        scripture: "Acts 2:1–4",
+        image: "/prayer-cards/holy-spirit.jpg",
+        imageCaption: "The Pentecost — El Greco, c. 1600"
       },
       {
         name: "The Assumption of Mary",
         meditation: "At the end of her earthly life, Mary is assumed body and soul into heavenly glory, a sign of the resurrection promised to all the faithful.",
-        scripture: "This mystery is a defined dogma of the Church, not directly narrated in Scripture."
+        scripture: "This mystery is a defined dogma of the Church, not directly narrated in Scripture.",
+        image: "/rosary/assumption.jpg",
+        imageCaption: "The Walpole Immaculate Conception — Bartolomé Esteban Murillo, c. 1680"
       },
       {
         name: "The Coronation of Mary",
         meditation: "Mary is crowned Queen of Heaven and Earth by her Son. She reigns as our Mother and Mediatrix, interceding for all her children.",
-        scripture: "This mystery is a defined dogma of the Church, not directly narrated in Scripture."
+        scripture: "This mystery is a defined dogma of the Church, not directly narrated in Scripture.",
+        image: "/prayer-cards/hail-holy-queen.jpg",
+        imageCaption: "The Coronation of the Virgin — Diego Velázquez, c. 1635–1636"
       }
     ]
   },
@@ -95,27 +125,37 @@ export const MYSTERIES = {
       {
         name: "The Baptism of Jesus",
         meditation: "Jesus is baptized in the Jordan by John. The heavens open and the Father's voice is heard: 'This is my beloved Son, in whom I am well pleased.'",
-        scripture: "Matthew 3:13–17"
+        scripture: "Matthew 3:13–17",
+        image: "/rosary/baptism.jpg",
+        imageCaption: "The Baptism of Christ — Andrea del Verrocchio with Leonardo da Vinci, c. 1470–1475"
       },
       {
         name: "The Wedding at Cana",
         meditation: "At Mary's intercession, Jesus performs his first miracle, turning water into wine. His disciples believe in him.",
-        scripture: "John 2:1–11"
+        scripture: "John 2:1–11",
+        image: "/prayer-cards/grace-before-meals.jpg",
+        imageCaption: "The Wedding at Cana — Garofalo (Benvenuto Tisi), 1531"
       },
       {
         name: "The Proclamation of the Kingdom",
         meditation: "Jesus proclaims the Kingdom of God, calls sinners to repentance, and forgives sins. He invites all to conversion of heart.",
-        scripture: "Mark 1:14–15"
+        scripture: "Mark 1:14–15",
+        image: "/rosary/proclamation.jpg",
+        imageCaption: "The Sermon on the Mount — Carl Heinrich Bloch, 1877"
       },
       {
         name: "The Transfiguration",
         meditation: "On Mount Tabor, Jesus is transfigured before Peter, James, and John. His face shines like the sun and his garments become dazzling white.",
-        scripture: "Matthew 17:1–8"
+        scripture: "Matthew 17:1–8",
+        image: "/transfiguration.jpg",
+        imageCaption: "The Transfiguration — Raphael, 1520"
       },
       {
         name: "The Institution of the Eucharist",
         meditation: "At the Last Supper, Jesus takes bread and wine and says: 'This is my body. This is my blood.' He gives himself completely as food for eternal life.",
-        scripture: "Matthew 26:26–28"
+        scripture: "Matthew 26:26–28",
+        image: "/prayer-cards/anima-christi.jpg",
+        imageCaption: "The Last Supper — Leonardo da Vinci, c. 1495–1498"
       }
     ]
   }

@@ -1281,3 +1281,23 @@ html {
   font-style: italic;
   margin-top: 10px;
 }
+
+/* Rosary mystery images */
+.rosary-mystery-image-block {
+  margin-top: 20px;
+}
+
+.rosary-mystery-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 14px;
+}
+
+.rosary-mystery-image-caption {
+  font-size: 11px;
+  color: var(--brown-light);
+  font-style: italic;
+  text-align: center;
+  margin-top: 6px;
+}

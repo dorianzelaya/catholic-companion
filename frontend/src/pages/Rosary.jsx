@@ -90,17 +90,17 @@ function Rosary() {
     if (step.type === 'hailMary') {
       const prayer = PRAYERS.hailMary
       return (
-      <div className="rosary-step">
-        <p className="rosary-step-label">
-          {step.total === 3
-            ? `Hail Mary — for ${step.intention}`
-            : `Hail Mary (10×)`
-          }
-        </p>
-      <p className="rosary-step-text">{prayer.text}</p>
-    </div>
-    )
-  }
+        <div className="rosary-step">
+          <p className="rosary-step-label">
+            {step.total === 3
+              ? `Hail Mary — for ${step.intention}`
+              : `Hail Mary (10×)`
+            }
+          </p>
+          <p className="rosary-step-text">{prayer.text}</p>
+        </div>
+      )
+    }
 
     if (step.type === 'mystery') {
       return (
@@ -198,7 +198,6 @@ function Rosary() {
             </button>
           </div>
         </div>
-
       </div>
     )
   }
@@ -212,11 +211,11 @@ function Rosary() {
         <div className="rosary-header-row">
           <p className="readings-eyebrow">{selectedMystery.name} Mysteries</p>
           <button className="rosary-exit-btn" onClick={handleRestart}>✕ Exit</button>
-          </div>
+        </div>
         <div className="rosary-progress-bar">
           <div className="rosary-progress-fill" style={{ width: `${progress}%` }} />
         </div>
-      <p className="rosary-progress-text">{currentStep + 1} of {steps.length}</p>
+        <p className="rosary-progress-text">{currentStep + 1} of {steps.length}</p>
       </div>
 
       <div className="page-content">
@@ -228,7 +227,7 @@ function Rosary() {
           {currentStep > 0 && (
             <button className="rosary-prev-btn" onClick={() => setCurrentStep(currentStep - 1)}>
               ← Prev
-              </button>
+            </button>
           )}
           <button className="rosary-next-btn" onClick={handleNext}>
             {currentStep < steps.length - 1 ? 'Next →' : 'Complete ✝'}

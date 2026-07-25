@@ -222,14 +222,12 @@ export function buildRosarySteps(mysterySet) {
     steps.push({ type: 'mystery', mystery, decadeNum, bead: `decade_large_${decadeNum}` })
     steps.push({ type: 'prayer', prayer: 'ourFather', bead: `decade_large_${decadeNum}` })
 
-    for (let i = 1; i <= 10; i++) {
-      steps.push({
-        type: 'hailMary',
-        count: i,
-        total: 10,
-        bead: `decade_${decadeNum}_${i}`
-      })
-    }
+    steps.push({
+      type: 'hailMary',
+      count: 1,
+      total: 10,
+      bead: `decade_${decadeNum}_1`
+    })
 
     steps.push({ type: 'prayer', prayer: 'gloryBe', bead: `decade_large_${decadeNum}` })
     steps.push({ type: 'prayer', prayer: 'fatimaPlayer', bead: `decade_large_${decadeNum}` })

@@ -90,17 +90,17 @@ function Rosary() {
     if (step.type === 'hailMary') {
       const prayer = PRAYERS.hailMary
       return (
-        <div className="rosary-step">
-          <p className="rosary-step-label">
-            {step.total === 3
-              ? `Hail Mary — for ${step.intention}`
-              : `Hail Mary ${step.count} of ${step.total}`
-            }
-          </p>
-          <p className="rosary-step-text">{prayer.text}</p>
-        </div>
-      )
-    }
+      <div className="rosary-step">
+        <p className="rosary-step-label">
+          {step.total === 3
+            ? `Hail Mary — for ${step.intention}`
+            : `Hail Mary (10×)`
+          }
+        </p>
+      <p className="rosary-step-text">{prayer.text}</p>
+    </div>
+    )
+  }
 
     if (step.type === 'mystery') {
       return (

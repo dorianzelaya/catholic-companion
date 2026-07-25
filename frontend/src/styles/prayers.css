@@ -1,0 +1,98 @@
+/* Prayers page */
+.prayers-items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.prayer-item-btn {
+  background-color: #ffffff;
+  border: 0.5px solid var(--cream-border);
+  border-radius: 12px;
+  padding: 14px 16px;
+  text-align: left;
+  font-family: var(--font-ui);
+  font-size: 15px;
+  color: var(--brown-dark);
+  cursor: pointer;
+}
+
+.prayer-detail-card {
+  background-color: #ffffff;
+  border-radius: 14px;
+  border: 0.5px solid var(--cream-border);
+  padding: 20px;
+  margin-bottom: 16px;
+}
+
+.prayer-detail-text {
+  font-family: var(--font-serif);
+  font-size: 16px;
+  line-height: 1.9;
+  color: var(--brown-dark);
+}
+
+.prayer-image-block {
+  width: 100%;
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.prayer-image {
+  width: 100%;
+  max-height: 300px;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  background-color: var(--cream-dark);
+}
+
+.prayers-category-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.prayers-category-btn {
+  background-color: #ffffff;
+  border: 0.5px solid var(--cream-border);
+  border-radius: 14px;
+  padding: 24px 12px;
+  text-align: center;
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--brown-dark);
+  cursor: pointer;
+  line-height: 1.4;
+}
+
+.prayer-image-caption {
+  font-size: 11px;
+  color: var(--brown-light);
+  text-align: center;
+  padding: 6px 8px 0;
+  font-style: italic;
+}
+
+.prayer-history-card {
+  background-color: var(--cream-dark);
+  border-radius: 14px;
+  border: 0.5px solid var(--cream-border);
+  padding: 16px;
+}
+
+.prayer-history-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--brown-light);
+  margin-bottom: 8px;
+}
+
+.prayer-history-text {
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--brown-dark);
+}

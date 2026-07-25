@@ -1,0 +1,121 @@
+/* Examination of Conscience */
+.examination-title {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--brown-dark);
+  margin-bottom: 6px;
+}
+
+.examination-subtitle {
+  font-size: 13px;
+  color: var(--brown-light);
+}
+
+.examination-intro {
+  background-color: var(--cream-dark);
+  border-radius: 12px;
+  border: 0.5px solid var(--cream-border);
+  padding: 14px 16px;
+  margin-bottom: 8px;
+}
+
+.examination-intro-text {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--brown-mid);
+}
+
+.examination-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.examination-item {
+  background-color: #ffffff;
+  border-radius: 12px;
+  border: 0.5px solid var(--cream-border);
+  overflow: hidden;
+}
+
+.examination-commandment {
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 14px 16px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  cursor: pointer;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--brown-dark);
+  text-align: left;
+  line-height: 1.5;
+}
+
+.examination-chevron {
+  font-size: 18px;
+  color: var(--gold);
+  flex-shrink: 0;
+  margin-top: -2px;
+}
+
+.examination-questions {
+  padding: 0 16px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-top: 0.5px solid var(--cream-border);
+  padding-top: 12px;
+}
+
+.examination-question {
+  font-size: 13px;
+  color: var(--brown-mid);
+  line-height: 1.6;
+}
+
+.examination-closing {
+  background-color: var(--cream-dark);
+  border-radius: 12px;
+  border: 0.5px solid var(--cream-border);
+  padding: 14px 16px;
+  margin-top: 8px;
+}
+
+.examination-closing-text {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--brown-mid);
+}
+
+.examination-act-of-contrition {
+  background-color: var(--cream-dark);
+  border-left: 3px solid var(--gold-light);
+  border-radius: 0 12px 12px 0;
+  padding: 16px 16px 16px 20px;
+  margin-top: 16px;
+}
+
+.examination-act-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--brown-light);
+  margin-bottom: 8px;
+}
+
+.examination-act-text {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--brown-dark);
+}

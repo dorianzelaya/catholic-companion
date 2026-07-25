@@ -1,0 +1,101 @@
+/* Import fonts */
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500&display=swap');
+
+/* Design tokens */
+:root {
+  --cream: #fdf8f0;
+  --cream-dark: #f5ede0;
+  --cream-border: #e8dcc8;
+  --gold: #8b6914;
+  --gold-light: #c9a84c;
+  --brown-dark: #2c1f0e;
+  --brown-mid: #4a3728;
+  --brown-light: #9a856a;
+  --font-ui: 'Inter', sans-serif;
+  --font-serif: 'Lora', serif;
+}
+
+/* Reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--cream);
+  color: var(--brown-dark);
+  font-family: var(--font-ui);
+  font-size: 16px;
+  line-height: 1.6;
+  max-width: 430px;
+  margin: 0 auto;
+  min-height: 100vh;
+}
+
+html {
+  height: 100%;
+  overflow: hidden;
+}
+
+/* App shell */
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  max-width: 430px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.app-content {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Page layout */
+.page {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+}
+
+.page-header {
+  background-color: var(--cream-dark);
+  padding: 16px 20px 16px;
+  border-bottom: 0.5px solid var(--cream-border);
+  flex-shrink: 0;
+}
+
+.page-content {
+  flex: 1;
+  padding: 24px 20px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Back button */
+.back-button {
+  background: none;
+  border: none;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: var(--gold);
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 12px;
+  margin-top: 4px;
+  display: block;
+}
+
+/* Shared eyebrow label */
+.readings-eyebrow {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--brown-light);
+  margin-bottom: 4px;
+}

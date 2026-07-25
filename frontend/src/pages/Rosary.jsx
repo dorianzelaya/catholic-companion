@@ -69,15 +69,18 @@ function Rosary() {
   }
 
   function renderStep(step) {
-    if (step.type === 'prayer') {
-      const prayer = PRAYERS[step.prayer]
+    if (step.type === 'mystery') {
       return (
-        <div className="rosary-step">
-          <p className="rosary-step-label">{prayer.name}</p>
-          <p className="rosary-step-text">{prayer.text}</p>
-        </div>
-      )
-    }
+      <div className="rosary-step">
+      <p className="rosary-step-eyebrow">The {step.decadeNum === 1 ? 'First' : step.decadeNum === 2 ? 'Second' : step.decadeNum === 3 ? 'Third' : step.decadeNum === 4 ? 'Fourth' : 'Fifth'} Mystery</p>
+      <p className="rosary-step-mystery-name">{step.mystery.name}</p>
+      <p className="rosary-step-meditation">{step.mystery.meditation}</p>
+      {step.mystery.scripture && (
+        <p className="rosary-step-scripture">{step.mystery.scripture}</p>
+        )}
+      </div>
+    )
+  }
 
     if (step.type === 'hailMary') {
       const prayer = PRAYERS.hailMary

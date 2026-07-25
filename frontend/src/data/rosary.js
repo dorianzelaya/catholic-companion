@@ -4,23 +4,28 @@ export const MYSTERIES = {
     mysteries: [
       {
         name: "The Annunciation",
-        meditation: "The Angel Gabriel announces to Mary that she will conceive and bear the Son of God. Mary responds with total trust: 'Be it done unto me according to thy word.'"
+        meditation: "The Angel Gabriel announces to Mary that she will conceive and bear the Son of God. Mary responds with total trust: 'Be it done unto me according to thy word.'",
+        scripture: "Luke 1:26–38"
       },
       {
         name: "The Visitation",
-        meditation: "Mary visits her cousin Elizabeth, who is with child. At Mary's greeting, the infant John leaps in the womb, and Elizabeth proclaims: 'Blessed art thou among women.'"
+        meditation: "Mary visits her cousin Elizabeth, who is with child. At Mary's greeting, the infant John leaps in the womb, and Elizabeth proclaims: 'Blessed art thou among women.'",
+        scripture: "Luke 1:39–56"
       },
       {
         name: "The Nativity",
-        meditation: "Jesus is born in a stable in Bethlehem, wrapped in swaddling clothes and laid in a manger. The angels announce peace on earth and good will to men."
+        meditation: "Jesus is born in a stable in Bethlehem, wrapped in swaddling clothes and laid in a manger. The angels announce peace on earth and good will to men.",
+        scripture: "Luke 2:1–20"
       },
       {
         name: "The Presentation",
-        meditation: "Mary and Joseph present the infant Jesus in the Temple. Simeon takes the child in his arms and prophesies that He will be a light to the nations."
+        meditation: "Mary and Joseph present the infant Jesus in the Temple. Simeon takes the child in his arms and prophesies that He will be a light to the nations.",
+        scripture: "Luke 2:22–38"
       },
       {
         name: "The Finding in the Temple",
-        meditation: "After three days of searching, Mary and Joseph find the twelve-year-old Jesus in the Temple, sitting among the teachers, listening and asking questions."
+        meditation: "After three days of searching, Mary and Joseph find the twelve-year-old Jesus in the Temple, sitting among the teachers, listening and asking questions.",
+        scripture: "Luke 2:41–52"
       }
     ]
   },
@@ -29,23 +34,28 @@ export const MYSTERIES = {
     mysteries: [
       {
         name: "The Agony in the Garden",
-        meditation: "Jesus prays in the Garden of Gethsemane, his sweat falling like drops of blood. He accepts the Father's will: 'Not my will, but thine be done.'"
+        meditation: "Jesus prays in the Garden of Gethsemane, his sweat falling like drops of blood. He accepts the Father's will: 'Not my will, but thine be done.'",
+        scripture: "Luke 22:39–46"
       },
       {
         name: "The Scourging at the Pillar",
-        meditation: "Jesus is bound to a pillar and scourged. He endures this suffering in silence, offering it for the sins of the world."
+        meditation: "Jesus is bound to a pillar and scourged. He endures this suffering in silence, offering it for the sins of the world.",
+        scripture: "John 19:1"
       },
       {
         name: "The Crowning with Thorns",
-        meditation: "Soldiers place a crown of thorns on Jesus' head and mock him as King of the Jews. He bears this humiliation with patience and love."
+        meditation: "Soldiers place a crown of thorns on Jesus' head and mock him as King of the Jews. He bears this humiliation with patience and love.",
+        scripture: "Matthew 27:27–31"
       },
       {
         name: "The Carrying of the Cross",
-        meditation: "Jesus carries his cross through the streets of Jerusalem to Calvary, falling three times under its weight, meeting his Mother along the way."
+        meditation: "Jesus carries his cross through the streets of Jerusalem to Calvary, falling three times under its weight, meeting his Mother along the way.",
+        scripture: "John 19:17"
       },
       {
         name: "The Crucifixion",
-        meditation: "Jesus is nailed to the cross and dies after three hours of agony. His last words are: 'Father, into thy hands I commend my spirit.'"
+        meditation: "Jesus is nailed to the cross and dies after three hours of agony. His last words are: 'Father, into thy hands I commend my spirit.'",
+        scripture: "John 19:18–30"
       }
     ]
   },
@@ -54,23 +64,28 @@ export const MYSTERIES = {
     mysteries: [
       {
         name: "The Resurrection",
-        meditation: "On the third day, Jesus rises from the dead, conquering sin and death. Mary Magdalene is the first to encounter the Risen Lord at the empty tomb."
+        meditation: "On the third day, Jesus rises from the dead, conquering sin and death. Mary Magdalene is the first to encounter the Risen Lord at the empty tomb.",
+        scripture: "John 20:1–18"
       },
       {
         name: "The Ascension",
-        meditation: "Forty days after the Resurrection, Jesus ascends into heaven before the eyes of his disciples, promising to send the Holy Spirit."
+        meditation: "Forty days after the Resurrection, Jesus ascends into heaven before the eyes of his disciples, promising to send the Holy Spirit.",
+        scripture: "Acts 1:9–11"
       },
       {
         name: "The Descent of the Holy Spirit",
-        meditation: "On Pentecost, the Holy Spirit descends upon Mary and the Apostles as tongues of fire. The Church is born and the Apostles go forth to preach."
+        meditation: "On Pentecost, the Holy Spirit descends upon Mary and the Apostles as tongues of fire. The Church is born and the Apostles go forth to preach.",
+        scripture: "Acts 2:1–4"
       },
       {
         name: "The Assumption of Mary",
-        meditation: "At the end of her earthly life, Mary is assumed body and soul into heavenly glory, a sign of the resurrection promised to all the faithful."
+        meditation: "At the end of her earthly life, Mary is assumed body and soul into heavenly glory, a sign of the resurrection promised to all the faithful.",
+        scripture: "This mystery is a defined dogma of the Church, not directly narrated in Scripture."
       },
       {
         name: "The Coronation of Mary",
-        meditation: "Mary is crowned Queen of Heaven and Earth by her Son. She reigns as our Mother and Mediatrix, interceding for all her children."
+        meditation: "Mary is crowned Queen of Heaven and Earth by her Son. She reigns as our Mother and Mediatrix, interceding for all her children.",
+        scripture: "This mystery is a defined dogma of the Church, not directly narrated in Scripture."
       }
     ]
   },
@@ -79,23 +94,28 @@ export const MYSTERIES = {
     mysteries: [
       {
         name: "The Baptism of Jesus",
-        meditation: "Jesus is baptized in the Jordan by John. The heavens open and the Father's voice is heard: 'This is my beloved Son, in whom I am well pleased.'"
+        meditation: "Jesus is baptized in the Jordan by John. The heavens open and the Father's voice is heard: 'This is my beloved Son, in whom I am well pleased.'",
+        scripture: "Matthew 3:13–17"
       },
       {
         name: "The Wedding at Cana",
-        meditation: "At Mary's intercession, Jesus performs his first miracle, turning water into wine. His disciples believe in him."
+        meditation: "At Mary's intercession, Jesus performs his first miracle, turning water into wine. His disciples believe in him.",
+        scripture: "John 2:1–11"
       },
       {
         name: "The Proclamation of the Kingdom",
-        meditation: "Jesus proclaims the Kingdom of God, calls sinners to repentance, and forgives sins. He invites all to conversion of heart."
+        meditation: "Jesus proclaims the Kingdom of God, calls sinners to repentance, and forgives sins. He invites all to conversion of heart.",
+        scripture: "Mark 1:14–15"
       },
       {
         name: "The Transfiguration",
-        meditation: "On Mount Tabor, Jesus is transfigured before Peter, James, and John. His face shines like the sun and his garments become dazzling white."
+        meditation: "On Mount Tabor, Jesus is transfigured before Peter, James, and John. His face shines like the sun and his garments become dazzling white.",
+        scripture: "Matthew 17:1–8"
       },
       {
         name: "The Institution of the Eucharist",
-        meditation: "At the Last Supper, Jesus takes bread and wine and says: 'This is my body. This is my blood.' He gives himself completely as food for eternal life."
+        meditation: "At the Last Supper, Jesus takes bread and wine and says: 'This is my body. This is my blood.' He gives himself completely as food for eternal life.",
+        scripture: "Matthew 26:26–28"
       }
     ]
   }

@@ -64,58 +64,58 @@ function Bible() {
 
   // Chapter reading view
   if (chapter !== null && book !== null) {
-    return (
-      <div className="page">
-        <div className="page-header">
-          <BackButton onClick={() => setChapter(null)} />
-          <p className="readings-eyebrow">{book.name}</p>
-          <h1 className="bible-chapter-title">Chapter {chapter}</h1>
-        </div>
-        <div className="page-content">
-          {loading && <p className="readings-loading">Loading...</p>}
-          {error && <p className="auth-error">{error}</p>}
-          {!loading && verses.length > 0 && (
-            <div className="bible-verses">
-              {verses.map(v => (
-                <div key={v.verse} className="bible-verse">
-                  <span className="bible-verse-num">{v.verse}</span>
-                  <span className="bible-verse-text">{v.text}</span>
-                </div>
-              ))}
-            </div>
-          )}
-          {!loading && !error && (
-            <div className="bible-nav-row">
-              {chapter > 1 && (
-                <button
-                  className="bible-nav-btn"
-                  onClick={() => {
-                    const prev = chapter - 1
-                    setChapter(prev)
-                    loadChapter(book.slug, prev)
-                  }}
-                >
-                  ← Chapter {chapter - 1}
-                </button>
-              )}
-              {chapter < book.chapters && (
-                <button
-                  className="bible-nav-btn"
-                  onClick={() => {
-                    const next = chapter + 1
-                    setChapter(next)
-                    loadChapter(book.slug, next)
-                  }}
-                >
-                  Chapter {chapter + 1} →
-                </button>
-              )}
-            </div>
-          )}
-        </div>
+  return (
+    <div className="bible-reading-page">
+      <div className="bible-reading-header">
+        <button className="bible-reading-back" onClick={() => setChapter(null)}>← Back</button>
+        <p className="bible-reading-eyebrow">{book.name}</p>
+        <h1 className="bible-reading-title">Chapter {chapter}</h1>
       </div>
-    )
-  }
+      <div className="bible-reading-content">
+        {loading && <p style={{ color: '#e8d5b7', textAlign: 'center', padding: '40px 0' }}>Loading...</p>}
+        {error && <p style={{ color: '#e8a0a0' }}>{error}</p>}
+        {!loading && verses.length > 0 && (
+          <div className="bible-verses">
+            {verses.map(v => (
+              <div key={v.verse} className="bible-verse">
+                <span className="bible-verse-num">{v.verse}</span>
+                <span className="bible-verse-text">{v.text}</span>
+              </div>
+            ))}
+          </div>
+        )}
+        {!loading && !error && (
+          <div className="bible-reading-nav-row">
+            {chapter > 1 && (
+              <button
+                className="bible-reading-nav-btn"
+                onClick={() => {
+                  const prev = chapter - 1
+                  setChapter(prev)
+                  loadChapter(book.slug, prev)
+                }}
+              >
+                ← Chapter {chapter - 1}
+              </button>
+            )}
+            {chapter < book.chapters && (
+              <button
+                className="bible-reading-nav-btn"
+                onClick={() => {
+                  const next = chapter + 1
+                  setChapter(next)
+                  loadChapter(book.slug, next)
+                }}
+              >
+                Chapter {chapter + 1} →
+              </button>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
 
   // Chapter selection view
   if (book !== null) {

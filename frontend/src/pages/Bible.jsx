@@ -19,6 +19,12 @@ function Bible() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
+  // Preload parchment image
+  useEffect(() => {
+    const img = new Image()
+    img.src = '/parchment.png'
+  }, [])
+
   // Restore chapter on mount if book and chapter are saved
   useEffect(() => {
     if (book && chapter) {

@@ -18,6 +18,7 @@ function Bible() {
   const [verses, setVerses] = useState([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [chapterCache, setChapterCache] = useState({})
 
   // Preload parchment image
   useEffect(() => {
@@ -54,19 +55,57 @@ function Bible() {
   }, [testament, book, chapter])
 
   async function loadChapter(bookSlug, chapterNum) {
-    setLoading(true)
-    setError('')
-    try {
-      const response = await fetch(`${API_URL}/bible/chapter/${bookSlug}/${chapterNum}`)
-      if (!response.ok) throw new Error('Could not load chapter')
-      const data = await response.json()
-      setVerses(data.verses)
-    } catch (err) {
-      setError(err.message)
-    } finally {
-      setLoading(false)
+  const cacheKey = `${bookSlug}-${chapterNum}`
+  
+  if (chapterCache[cacheKey]) {
+    setVerses(chapterCache[cacheKey])
+    return
+  }
+
+  useEffect(() => {
+  if (!book || !chapter) return
+  
+  // Preload next chapter
+  if (chapter < book.chapters) {
+    const nextKey = `${book.slug}-${chapter + 1}`
+    if (!chapterCache[nextKey]) {
+      fetch(`${API_URL}/bible/chapter/${book.slug}/${chapter + 1}`)
+        .then(r => r.json())
+        .then(data => {
+          setChapterCache(prev => ({ ...prev, [nextKey]: data.verses }))
+        })
+        .catch(() => {})
     }
   }
+  
+  // Preload previous chapter
+  if (chapter > 1) {
+    const prevKey = `${book.slug}-${chapter - 1}`
+    if (!chapterCache[prevKey]) {
+      fetch(`${API_URL}/bible/chapter/${book.slug}/${chapter - 1}`)
+        .then(r => r.json())
+        .then(data => {
+          setChapterCache(prev => ({ ...prev, [prevKey]: data.verses }))
+        })
+        .catch(() => {})
+    }
+  }
+}, [book, chapter])
+
+  setLoading(true)
+  setError('')
+  try {
+    const response = await fetch(`${API_URL}/bible/chapter/${bookSlug}/${chapterNum}`)
+    if (!response.ok) throw new Error('Could not load chapter')
+    const data = await response.json()
+    setVerses(data.verses)
+    setChapterCache(prev => ({ ...prev, [cacheKey]: data.verses }))
+  } catch (err) {
+    setError(err.message)
+  } finally {
+    setLoading(false)
+  }
+}
 
   // Chapter reading view
   if (chapter !== null && book !== null) {

@@ -4,6 +4,7 @@ from database import engine, Base
 from routers import auth_routes
 from routers import readings_routes
 from routers import struggle_routes
+from routers.bible_routes import router as bible_router
 import models
 
 Base.metadata.create_all(bind=engine)
@@ -24,6 +25,7 @@ app.add_middleware(
 app.include_router(auth_routes.router)
 app.include_router(readings_routes.router)
 app.include_router(struggle_routes.router)
+app.include_router(bible_router)
 
 
 @app.get("/")

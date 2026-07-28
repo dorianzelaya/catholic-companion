@@ -17,9 +17,8 @@ const ICONS = {
   ),
   Bible: (
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 2L12 22"/>
-      <path d="M4 6h8M4 10h8M4 14h8M4 18h8"/>
-      <path d="M12 6h8M12 10h8M12 14h8M12 18h8"/>
+      <line x1="12" y1="2" x2="12" y2="22"/>
+      <line x1="6" y1="8" x2="18" y2="8"/>
     </svg>
   ),
   Examination: (

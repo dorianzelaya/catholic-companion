@@ -1,6 +1,6 @@
 {
-  "name": "Catholic Companion",
-  "short_name": "Catholic",
+  "name": "Commune",
+  "short_name": "Commune",
   "description": "A daily Catholic companion for Mass readings, prayer, and scripture.",
   "start_url": "/",
   "display": "standalone",

@@ -13,6 +13,7 @@ import Login from './pages/Login'
 import Saint from './pages/Saint'
 import ExaminationOfConscience from './pages/ExaminationOfConscience'
 import Prayers from './pages/Prayers'
+import Bible from './pages/Bible'
 
 function AnimatedRoutes() {
   const location = useLocation()
@@ -47,6 +48,9 @@ function AnimatedRoutes() {
         } />
         <Route path="/prayers" element={
           <ProtectedRoute><PageTransition><Prayers /></PageTransition></ProtectedRoute>
+        } />
+        <Route path="/bible" element={
+          <ProtectedRoute><PageTransition><Bible /></PageTransition></ProtectedRoute>
         } />
       </Routes>
     </AnimatePresence>

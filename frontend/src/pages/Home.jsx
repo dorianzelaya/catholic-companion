@@ -41,6 +41,12 @@ function Home() {
             accent="#8b6914"
           />
           <FeatureCard
+            title="Bible"
+            subtitle="Douay-Rheims Catholic Bible"
+            path="/bible"
+            accent="#8b6914"
+          />
+          <FeatureCard
             title="Saint of the Day"
             subtitle={readings ? readings.saint_name : ""}
             path="/saint"

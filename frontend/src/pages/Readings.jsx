@@ -37,6 +37,7 @@ function Readings() {
         {readings && (
           <p className="readings-season">{readings.liturgical_season}</p>
         )}
+        <p className="readings-timezone-note">Readings update at midnight Eastern Time</p>
       </div>
 
       <div className="page-content">

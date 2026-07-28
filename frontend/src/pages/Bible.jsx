@@ -1,16 +1,46 @@
 import { useState, useEffect } from 'react'
 import BackButton from '../components/BackButton'
 import API_URL from '../config'
-import BIBLE_BOOKS from '../data/bible'
+import BIBLE_BOOKS, { getBookBySlug } from '../data/bible'
 
 function Bible() {
-  const [testament, setTestament] = useState(null)
-  const [book, setBook] = useState(null)
-  const [chapter, setChapter] = useState(null)
+  const [testament, setTestament] = useState(() => {
+    return localStorage.getItem('bible_testament') || null
+  })
+  const [book, setBook] = useState(() => {
+    const slug = localStorage.getItem('bible_book')
+    return slug ? getBookBySlug(slug) : null
+  })
+  const [chapter, setChapter] = useState(() => {
+    const ch = localStorage.getItem('bible_chapter')
+    return ch ? parseInt(ch) : null
+  })
   const [verses, setVerses] = useState([])
-  const [bookTitle, setBookTitle] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+
+  // Restore chapter on mount if book and chapter are saved
+  useEffect(() => {
+    if (book && chapter) {
+      loadChapter(book.slug, chapter)
+    }
+  }, [])
+
+  // Save position to localStorage whenever it changes
+  useEffect(() => {
+    if (testament) localStorage.setItem('bible_testament', testament)
+    else localStorage.removeItem('bible_testament')
+  }, [testament])
+
+  useEffect(() => {
+    if (book) localStorage.setItem('bible_book', book.slug)
+    else localStorage.removeItem('bible_book')
+  }, [book])
+
+  useEffect(() => {
+    if (chapter) localStorage.setItem('bible_chapter', chapter.toString())
+    else localStorage.removeItem('bible_chapter')
+  }, [chapter])
 
   useEffect(() => {
     const el = document.querySelector('.page-content')
@@ -25,7 +55,6 @@ function Bible() {
       if (!response.ok) throw new Error('Could not load chapter')
       const data = await response.json()
       setVerses(data.verses)
-      setBookTitle(data.book_title)
     } catch (err) {
       setError(err.message)
     } finally {
@@ -38,7 +67,7 @@ function Bible() {
     return (
       <div className="page">
         <div className="page-header">
-          <BackButton onClick={() => { setChapter(null) }} />
+          <BackButton onClick={() => setChapter(null)} />
           <p className="readings-eyebrow">{book.name}</p>
           <h1 className="bible-chapter-title">Chapter {chapter}</h1>
         </div>
@@ -55,18 +84,20 @@ function Bible() {
               ))}
             </div>
           )}
-          {!loading && !error && chapter > 1 && (
+          {!loading && !error && (
             <div className="bible-nav-row">
-              <button
-                className="bible-nav-btn"
-                onClick={() => {
-                  const prev = chapter - 1
-                  setChapter(prev)
-                  loadChapter(book.slug, prev)
-                }}
-              >
-                ← Chapter {chapter - 1}
-              </button>
+              {chapter > 1 && (
+                <button
+                  className="bible-nav-btn"
+                  onClick={() => {
+                    const prev = chapter - 1
+                    setChapter(prev)
+                    loadChapter(book.slug, prev)
+                  }}
+                >
+                  ← Chapter {chapter - 1}
+                </button>
+              )}
               {chapter < book.chapters && (
                 <button
                   className="bible-nav-btn"
@@ -79,20 +110,6 @@ function Bible() {
                   Chapter {chapter + 1} →
                 </button>
               )}
-            </div>
-          )}
-          {!loading && !error && chapter === 1 && chapter < book.chapters && (
-            <div className="bible-nav-row">
-              <button
-                className="bible-nav-btn"
-                onClick={() => {
-                  const next = chapter + 1
-                  setChapter(next)
-                  loadChapter(book.slug, next)
-                }}
-              >
-                Chapter {chapter + 1} →
-              </button>
             </div>
           )}
         </div>

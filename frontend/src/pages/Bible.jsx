@@ -111,7 +111,7 @@ function Bible() {
     return (
       <div className="bible-reading-page">
         <div className="bible-reading-header">
-          <button className="bible-reading-back" onClick={() => setChapter(null)}>← Back</button>
+          <button className="bible-reading-back" onClick={() => { setChapter(null); setVerses([]) }}>← Back</button>
           <p className="bible-reading-eyebrow">{book.name}</p>
           <h1 className="bible-reading-title">Chapter {chapter}</h1>
         </div>

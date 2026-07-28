@@ -50,117 +50,116 @@ function Bible() {
   }, [chapter])
 
   useEffect(() => {
-    const el = document.querySelector('.page-content')
+    const el = document.querySelector('.bible-reading-content')
     if (el) el.scrollTop = 0
-  }, [testament, book, chapter])
+  }, [chapter])
+
+  // Preload adjacent chapters
+  useEffect(() => {
+    if (!book || !chapter) return
+
+    if (chapter < book.chapters) {
+      const nextKey = `${book.slug}-${chapter + 1}`
+      if (!chapterCache[nextKey]) {
+        fetch(`${API_URL}/bible/chapter/${book.slug}/${chapter + 1}`)
+          .then(r => r.json())
+          .then(data => {
+            setChapterCache(prev => ({ ...prev, [nextKey]: data.verses }))
+          })
+          .catch(() => {})
+      }
+    }
+
+    if (chapter > 1) {
+      const prevKey = `${book.slug}-${chapter - 1}`
+      if (!chapterCache[prevKey]) {
+        fetch(`${API_URL}/bible/chapter/${book.slug}/${chapter - 1}`)
+          .then(r => r.json())
+          .then(data => {
+            setChapterCache(prev => ({ ...prev, [prevKey]: data.verses }))
+          })
+          .catch(() => {})
+      }
+    }
+  }, [book, chapter])
 
   async function loadChapter(bookSlug, chapterNum) {
-  const cacheKey = `${bookSlug}-${chapterNum}`
-  
-  if (chapterCache[cacheKey]) {
-    setVerses(chapterCache[cacheKey])
-    return
-  }
+    const cacheKey = `${bookSlug}-${chapterNum}`
 
-  useEffect(() => {
-  if (!book || !chapter) return
-  
-  // Preload next chapter
-  if (chapter < book.chapters) {
-    const nextKey = `${book.slug}-${chapter + 1}`
-    if (!chapterCache[nextKey]) {
-      fetch(`${API_URL}/bible/chapter/${book.slug}/${chapter + 1}`)
-        .then(r => r.json())
-        .then(data => {
-          setChapterCache(prev => ({ ...prev, [nextKey]: data.verses }))
-        })
-        .catch(() => {})
+    if (chapterCache[cacheKey]) {
+      setVerses(chapterCache[cacheKey])
+      return
+    }
+
+    setLoading(true)
+    setError('')
+    try {
+      const response = await fetch(`${API_URL}/bible/chapter/${bookSlug}/${chapterNum}`)
+      if (!response.ok) throw new Error('Could not load chapter')
+      const data = await response.json()
+      setVerses(data.verses)
+      setChapterCache(prev => ({ ...prev, [cacheKey]: data.verses }))
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
     }
   }
-  
-  // Preload previous chapter
-  if (chapter > 1) {
-    const prevKey = `${book.slug}-${chapter - 1}`
-    if (!chapterCache[prevKey]) {
-      fetch(`${API_URL}/bible/chapter/${book.slug}/${chapter - 1}`)
-        .then(r => r.json())
-        .then(data => {
-          setChapterCache(prev => ({ ...prev, [prevKey]: data.verses }))
-        })
-        .catch(() => {})
-    }
-  }
-}, [book, chapter])
-
-  setLoading(true)
-  setError('')
-  try {
-    const response = await fetch(`${API_URL}/bible/chapter/${bookSlug}/${chapterNum}`)
-    if (!response.ok) throw new Error('Could not load chapter')
-    const data = await response.json()
-    setVerses(data.verses)
-    setChapterCache(prev => ({ ...prev, [cacheKey]: data.verses }))
-  } catch (err) {
-    setError(err.message)
-  } finally {
-    setLoading(false)
-  }
-}
 
   // Chapter reading view
   if (chapter !== null && book !== null) {
-  return (
-    <div className="bible-reading-page">
-      <div className="bible-reading-header">
-        <button className="bible-reading-back" onClick={() => setChapter(null)}>← Back</button>
-        <p className="bible-reading-eyebrow">{book.name}</p>
-        <h1 className="bible-reading-title">Chapter {chapter}</h1>
+    return (
+      <div className="bible-reading-page">
+        <div className="bible-reading-header">
+          <button className="bible-reading-back" onClick={() => setChapter(null)}>← Back</button>
+          <p className="bible-reading-eyebrow">{book.name}</p>
+          <h1 className="bible-reading-title">Chapter {chapter}</h1>
+        </div>
+        <div className="bible-reading-content">
+          {loading && <p style={{ color: '#2c1f0e', textAlign: 'center', padding: '40px 0' }}>Loading...</p>}
+          {error && <p style={{ color: '#a32d2d' }}>{error}</p>}
+          {!loading && verses.length > 0 && (
+            <div className="bible-verses">
+              {verses.map(v => (
+                <div key={v.verse} className="bible-verse">
+                  <span className="bible-verse-num">{v.verse}</span>
+                  <span className="bible-verse-text">{v.text}</span>
+                </div>
+              ))}
+            </div>
+          )}
+          {!loading && !error && (
+            <div className="bible-reading-nav-row">
+              {chapter > 1 && (
+                <button
+                  className="bible-reading-nav-btn"
+                  onClick={() => {
+                    const prev = chapter - 1
+                    setChapter(prev)
+                    loadChapter(book.slug, prev)
+                  }}
+                >
+                  ← Chapter {chapter - 1}
+                </button>
+              )}
+              {chapter < book.chapters && (
+                <button
+                  className="bible-reading-nav-btn"
+                  onClick={() => {
+                    const next = chapter + 1
+                    setChapter(next)
+                    loadChapter(book.slug, next)
+                  }}
+                >
+                  Chapter {chapter + 1} →
+                </button>
+              )}
+            </div>
+          )}
+        </div>
       </div>
-      <div className="bible-reading-content">
-        {loading && <p style={{ color: '#e8d5b7', textAlign: 'center', padding: '40px 0' }}>Loading...</p>}
-        {error && <p style={{ color: '#e8a0a0' }}>{error}</p>}
-        {!loading && verses.length > 0 && (
-          <div className="bible-verses">
-            {verses.map(v => (
-              <div key={v.verse} className="bible-verse">
-                <span className="bible-verse-num">{v.verse}</span>
-                <span className="bible-verse-text">{v.text}</span>
-              </div>
-            ))}
-          </div>
-        )}
-        {!loading && !error && (
-          <div className="bible-reading-nav-row">
-            {chapter > 1 && (
-              <button
-                className="bible-reading-nav-btn"
-                onClick={() => {
-                  const prev = chapter - 1
-                  setChapter(prev)
-                  loadChapter(book.slug, prev)
-                }}
-              >
-                ← Chapter {chapter - 1}
-              </button>
-            )}
-            {chapter < book.chapters && (
-              <button
-                className="bible-reading-nav-btn"
-                onClick={() => {
-                  const next = chapter + 1
-                  setChapter(next)
-                  loadChapter(book.slug, next)
-                }}
-              >
-                Chapter {chapter + 1} →
-              </button>
-            )}
-          </div>
-        )}
-      </div>
-    </div>
-  )
-}
+    )
+  }
 
   // Chapter selection view
   if (book !== null) {

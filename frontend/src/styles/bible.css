@@ -252,3 +252,14 @@
   cursor: pointer;
   flex: 1;
 }
+
+.bible-section-heading {
+  font-family: var(--font-serif);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-top: 24px;
+  margin-bottom: 6px;
+}

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import BackButton from '../components/BackButton'
 import API_URL from '../config'
 import BIBLE_BOOKS, { getBookBySlug } from '../data/bible'
+import PERICOPES from '../data/pericopes'
 
 function Bible() {
   const [testament, setTestament] = useState(() => {
@@ -120,12 +121,19 @@ function Bible() {
           {error && <p className="auth-error">{error}</p>}
           {!loading && verses.length > 0 && (
             <div className="bible-verses">
-              {verses.map(v => (
-                <div key={v.verse} className="bible-verse">
-                  <span className="bible-verse-num">{v.verse}</span>
-                  <span className="bible-verse-text">{v.text}</span>
-                </div>
-              ))}
+              {verses.map(v => {
+                const bookPericopes = PERICOPES[book.slug]
+                const heading = bookPericopes?.[chapter]?.[v.verse]
+                return (
+                  <div key={v.verse}>
+                    {heading && <p className="bible-section-heading">{heading}</p>}
+                    <div className="bible-verse">
+                      <span className="bible-verse-num">{v.verse}</span>
+                      <span className="bible-verse-text">{v.text}</span>
+                    </div>
+                  </div>
+                  )
+                })}
             </div>
           )}
           {!loading && !error && (

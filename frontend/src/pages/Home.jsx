@@ -40,42 +40,47 @@ function Home() {
             path="/readings"
             accent="#8b6914"
           />
+
           <FeatureCard
             title="Bible"
             subtitle="Douay-Rheims Catholic Bible"
             path="/bible"
             accent="#8b6914"
           />
-          <FeatureCard
-            title="Saint of the Day"
-            subtitle={readings ? readings.saint_name : ""}
-            path="/saint"
-            accent="#6b5a4a"
-          />
-          <FeatureCard
-            title="Consolation"
-            subtitle="Strength for today"
-            path="/struggle"
-            accent="#4a3728"
-          />
+
           <FeatureCard
             title="Rosary"
             subtitle="Pray a mystery"
             path="/rosary"
             accent="#8b6914"
           />
-          <FeatureCard
-            title="Examination of Conscience"
-            subtitle="Prepare for confession"
-            path="/examination"
-            accent="#6b5a4a"
-          />
-
+          
           <FeatureCard
             title="Prayers"
             subtitle="Traditional Catholic prayers"
             path="/prayers"
             accent="#8b6914"
+          />
+
+          <FeatureCard
+            title="Saint of the Day"
+            subtitle={readings ? readings.saint_name : ""}
+            path="/saint"
+            accent="#6b5a4a"
+          />
+
+          <FeatureCard
+            title="Consolation"
+            subtitle="Strength for today"
+            path="/struggle"
+            accent="#4a3728"
+          />
+          
+          <FeatureCard
+            title="Examination of Conscience"
+            subtitle="Prepare for confession"
+            path="/examination"
+            accent="#6b5a4a"
           />
         </div>
       </div>

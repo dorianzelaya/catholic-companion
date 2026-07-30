@@ -1,5 +1,4 @@
 import { useNavigate, useLocation } from 'react-router-dom'
-import { useAuth } from '../context/AuthContext'
 import { useEffect, useRef, useState } from 'react'
 
 const ICONS = {
@@ -27,11 +26,10 @@ const ICONS = {
       <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
     </svg>
   ),
-  Logout: (
+  Profile: (
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/>
-      <polyline points="16 17 21 12 16 7"/>
-      <line x1="21" y1="12" x2="9" y2="12"/>
+      <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+      <circle cx="12" cy="7" r="4"/>
     </svg>
   ),
 }
@@ -39,7 +37,6 @@ const ICONS = {
 function NavBar() {
   const navigate = useNavigate()
   const location = useLocation()
-  const { logout } = useAuth()
   const [indicatorStyle, setIndicatorStyle] = useState({})
   const [ready, setReady] = useState(false)
   const tabRefs = useRef([])
@@ -49,6 +46,7 @@ function NavBar() {
     { label: 'Readings',    path: '/readings'    },
     { label: 'Bible',       path: '/bible'       },
     { label: 'Examination', path: '/examination' },
+    { label: 'Profile',     path: '/profile'     },
   ]
 
   const activeIndex = tabs.findIndex(tab => tab.path === location.pathname)
@@ -63,11 +61,6 @@ function NavBar() {
       setReady(true)
     }
   }, [activeIndex])
-
-  function handleLogout() {
-    logout()
-    navigate('/login')
-  }
 
   return (
     <nav className="navbar">
@@ -94,10 +87,6 @@ function NavBar() {
           </button>
         )
       })}
-      <button className="nav-item nav-item-logout" onClick={handleLogout}>
-        <span className="nav-icon">{ICONS.Logout}</span>
-        <span className="nav-label">Logout</span>
-      </button>
     </nav>
   )
 }

@@ -1,0 +1,144 @@
+/* Profile page */
+.profile-title {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--brown-dark);
+}
+
+.profile-section-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--brown-light);
+  margin-bottom: 8px;
+  margin-top: 24px;
+}
+
+.profile-section {
+  background-color: #ffffff;
+  border-radius: 14px;
+  border: 0.5px solid var(--cream-border);
+  overflow: hidden;
+}
+
+/* Account card */
+.profile-account-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+}
+
+.profile-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: var(--gold);
+  color: #ffffff;
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.profile-account-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.profile-name {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--brown-dark);
+}
+
+.profile-email {
+  font-size: 12px;
+  color: var(--brown-light);
+}
+
+.profile-logout-btn {
+  width: 100%;
+  background: none;
+  border: none;
+  border-top: 0.5px solid var(--cream-border);
+  padding: 14px 16px;
+  font-family: var(--font-ui);
+  font-size: 14px;
+  color: #a32d2d;
+  cursor: pointer;
+  text-align: left;
+}
+
+/* Rows */
+.profile-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+}
+
+.profile-row-label {
+  font-size: 14px;
+  color: var(--brown-dark);
+}
+
+.profile-row-value {
+  font-size: 14px;
+  color: var(--brown-light);
+}
+
+.profile-divider {
+  height: 0.5px;
+  background-color: var(--cream-border);
+  margin: 0 16px;
+}
+
+.profile-feature-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.profile-feature-arrow {
+  font-size: 20px;
+  color: var(--cream-border);
+}
+
+/* Toggle */
+.profile-toggle {
+  width: 44px;
+  height: 26px;
+  border-radius: 13px;
+  background-color: var(--cream-border);
+  border: none;
+  cursor: pointer;
+  padding: 3px;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.2s ease;
+}
+
+.profile-toggle.active {
+  background-color: var(--gold);
+  justify-content: flex-end;
+}
+
+.profile-toggle-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}

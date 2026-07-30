@@ -50,9 +50,9 @@ function Bible() {
   }, [chapter])
 
   useEffect(() => {
-    const el = document.querySelector('.bible-reading-content')
+    const el = document.querySelector('.page-content')
     if (el) el.scrollTop = 0
-  }, [chapter])
+  }, [testament, book, chapter])
 
   // Preload adjacent chapters
   useEffect(() => {
@@ -109,15 +109,15 @@ function Bible() {
   // Chapter reading view
   if (chapter !== null && book !== null) {
     return (
-      <div className="bible-reading-page">
-        <div className="bible-reading-header">
-          <button className="bible-reading-back" onClick={() => { setChapter(null); setVerses([]) }}>← Back</button>
-          <p className="bible-reading-eyebrow">{book.name}</p>
-          <h1 className="bible-reading-title">Chapter {chapter}</h1>
+      <div className="page">
+        <div className="page-header">
+          <BackButton onClick={() => { setChapter(null); setVerses([]) }} />
+          <p className="readings-eyebrow">{book.name}</p>
+          <h1 className="bible-chapter-title">Chapter {chapter}</h1>
         </div>
-        <div className="bible-reading-content">
-          {loading && <p style={{ color: '#2c1f0e', textAlign: 'center', padding: '40px 0' }}>Loading...</p>}
-          {error && <p style={{ color: '#a32d2d' }}>{error}</p>}
+        <div className="page-content">
+          {loading && <p className="readings-loading">Loading...</p>}
+          {error && <p className="auth-error">{error}</p>}
           {!loading && verses.length > 0 && (
             <div className="bible-verses">
               {verses.map(v => (
@@ -129,10 +129,10 @@ function Bible() {
             </div>
           )}
           {!loading && !error && (
-            <div className="bible-reading-nav-row">
+            <div className="bible-nav-row">
               {chapter > 1 && (
                 <button
-                  className="bible-reading-nav-btn"
+                  className="bible-nav-btn"
                   onClick={() => {
                     const prev = chapter - 1
                     setChapter(prev)
@@ -144,7 +144,7 @@ function Bible() {
               )}
               {chapter < book.chapters && (
                 <button
-                  className="bible-reading-nav-btn"
+                  className="bible-nav-btn"
                   onClick={() => {
                     const next = chapter + 1
                     setChapter(next)

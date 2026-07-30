@@ -219,7 +219,8 @@
   font-family: var(--font-serif);
   font-size: 16px;
   line-height: 1.8;
-  color: #2c1f0e;
+  color: var(--brown-dark);
+  font-weight: 500;
 }
 
 .bible-verse-num {

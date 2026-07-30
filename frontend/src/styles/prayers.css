@@ -27,7 +27,7 @@
 
 .prayer-detail-text {
   font-family: var(--font-serif);
-  font-size: 16px;
+  font-size: 17px;
   line-height: 1.9;
   color: var(--brown-dark);
 }
@@ -92,7 +92,7 @@
 }
 
 .prayer-history-text {
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.8;
   color: var(--brown-dark);
 }

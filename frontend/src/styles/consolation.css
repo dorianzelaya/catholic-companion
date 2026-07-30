@@ -94,7 +94,7 @@
 .struggle-text {
   font-family: var(--font-serif);
   font-style: italic;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.7;
   color: var(--brown-dark);
 }
@@ -144,7 +144,7 @@
 
 .struggle-prayer-text {
   font-family: var(--font-serif);
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.8;
   color: var(--brown-dark);
 }

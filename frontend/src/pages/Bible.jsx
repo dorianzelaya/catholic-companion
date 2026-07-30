@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import BackButton from '../components/BackButton'
 import API_URL from '../config'
 import BIBLE_BOOKS, { getBookBySlug } from '../data/bible'
@@ -20,6 +21,9 @@ function Bible() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [chapterCache, setChapterCache] = useState({})
+  const [direction, setDirection] = useState(0) // -1 = going back, 1 = going forward
+  const dragStartX = useRef(null)
+  const dragStartY = useRef(null)
 
   // Preload parchment image
   useEffect(() => {
@@ -107,6 +111,42 @@ function Bible() {
     }
   }
 
+  function goToChapter(num, dir) {
+    setDirection(dir)
+    setChapter(num)
+    loadChapter(book.slug, num)
+  }
+
+  function handleTouchStart(e) {
+    dragStartX.current = e.touches[0].clientX
+    dragStartY.current = e.touches[0].clientY
+  }
+
+  function handleTouchEnd(e) {
+    if (dragStartX.current === null) return
+    const dx = e.changedTouches[0].clientX - dragStartX.current
+    const dy = e.changedTouches[0].clientY - dragStartY.current
+    dragStartX.current = null
+    dragStartY.current = null
+
+    // Only trigger if horizontal swipe is dominant and long enough
+    if (Math.abs(dx) < 60 || Math.abs(dx) < Math.abs(dy) * 1.5) return
+
+    if (dx < 0 && chapter < book.chapters) {
+      // Swipe left = next chapter
+      goToChapter(chapter + 1, 1)
+    } else if (dx > 0 && chapter > 1) {
+      // Swipe right = previous chapter
+      goToChapter(chapter - 1, -1)
+    }
+  }
+
+  const slideVariants = {
+    enter: (dir) => ({ x: dir > 0 ? 200 : -200, opacity: 0 }),
+    center: { x: 0, opacity: 1 },
+    exit: (dir) => ({ x: dir > 0 ? -200 : 200, opacity: 0 }),
+  }
+
   // Chapter reading view
   if (chapter !== null && book !== null) {
     return (
@@ -116,54 +156,62 @@ function Bible() {
           <p className="readings-eyebrow">{book.name}</p>
           <h1 className="bible-chapter-title">Chapter {chapter}</h1>
         </div>
-        <div className="page-content">
-          {loading && <p className="readings-loading">Loading...</p>}
-          {error && <p className="auth-error">{error}</p>}
-          {!loading && verses.length > 0 && (
-            <div className="bible-verses">
-              {verses.map(v => {
-                const bookPericopes = PERICOPES[book.slug]
-                const heading = bookPericopes?.[chapter]?.[v.verse]
-                return (
-                  <div key={v.verse}>
-                    {heading && <p className="bible-section-heading">{heading}</p>}
-                    <div className="bible-verse">
-                      <span className="bible-verse-num">{v.verse}</span>
-                      <span className="bible-verse-text">{v.text}</span>
-                    </div>
-                  </div>
-                  )
-                })}
-            </div>
-          )}
-          {!loading && !error && (
-            <div className="bible-nav-row">
-              {chapter > 1 && (
-                <button
-                  className="bible-nav-btn"
-                  onClick={() => {
-                    const prev = chapter - 1
-                    setChapter(prev)
-                    loadChapter(book.slug, prev)
-                  }}
-                >
-                  ← Chapter {chapter - 1}
-                </button>
+        <div
+          className="page-content"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
+          <AnimatePresence mode="wait" custom={direction}>
+            <motion.div
+              key={chapter}
+              custom={direction}
+              variants={slideVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{ duration: 0.18, ease: 'easeOut' }}
+            >
+              {loading && <p className="readings-loading">Loading...</p>}
+              {error && <p className="auth-error">{error}</p>}
+              {!loading && verses.length > 0 && (
+                <div className="bible-verses">
+                  {verses.map(v => {
+                    const bookPericopes = PERICOPES[book.slug]
+                    const heading = bookPericopes?.[chapter]?.[v.verse]
+                    return (
+                      <div key={v.verse}>
+                        {heading && <p className="bible-section-heading">{heading}</p>}
+                        <div className="bible-verse">
+                          <span className="bible-verse-num">{v.verse}</span>
+                          <span className="bible-verse-text">{v.text}</span>
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
               )}
-              {chapter < book.chapters && (
-                <button
-                  className="bible-nav-btn"
-                  onClick={() => {
-                    const next = chapter + 1
-                    setChapter(next)
-                    loadChapter(book.slug, next)
-                  }}
-                >
-                  Chapter {chapter + 1} →
-                </button>
+              {!loading && !error && (
+                <div className="bible-nav-row">
+                  {chapter > 1 && (
+                    <button
+                      className="bible-nav-btn"
+                      onClick={() => goToChapter(chapter - 1, -1)}
+                    >
+                      ← Chapter {chapter - 1}
+                    </button>
+                  )}
+                  {chapter < book.chapters && (
+                    <button
+                      className="bible-nav-btn"
+                      onClick={() => goToChapter(chapter + 1, 1)}
+                    >
+                      Chapter {chapter + 1} →
+                    </button>
+                  )}
+                </div>
               )}
-            </div>
-          )}
+            </motion.div>
+          </AnimatePresence>
         </div>
       </div>
     )
@@ -186,6 +234,7 @@ function Bible() {
                 key={num}
                 className="bible-chapter-btn"
                 onClick={() => {
+                  setDirection(1)
                   setChapter(num)
                   loadChapter(book.slug, num)
                 }}

@@ -2,58 +2,17 @@ import { useState, useEffect } from 'react'
 import BackButton from '../components/BackButton'
 import API_URL from '../config'
 
-const WIKI_HEADERS = {
-  'User-Agent': 'Commune Catholic App/1.0 (https://catholic-companion-production.up.railway.app)'
-}
-
 async function fetchWikipediaData(saintName, saintDescription) {
   try {
-    const cleanName = saintName
-      .replace(/^(Saint|St\.|Blessed|Venerable)\s+/i, '')
-      .replace(/,.*$/, '')
-      .trim()
-
-    const nameParts = cleanName
-      .split(/\s+/)
-      .filter(w => w.length > 3)
-      .map(w => w.toLowerCase())
-
-    const contextWords = saintDescription
-      ? saintDescription.split(' ').slice(0, 5).join(' ')
-      : 'Catholic saint'
-
-    const searchUrl = `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent('Saint ' + cleanName + ' ' + contextWords)}&format=json&origin=*&srlimit=5`
-    const searchResponse = await fetch(searchUrl, { headers: WIKI_HEADERS })
-    if (!searchResponse.ok) return null
-    const searchData = await searchResponse.json()
-
-    const results = searchData.query.search
-    if (!results.length) return null
-
-    const match = results.find(r => {
-      const title = r.title.toLowerCase()
-      return nameParts.length > 0 && nameParts.every(part => title.includes(part))
+    const params = new URLSearchParams({
+      name: saintName,
+      description: saintDescription || ''
     })
-    if (!match) return null
-
-    const pageTitle = match.title
-
-    const contentUrl = `https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(pageTitle)}&prop=extracts|pageimages&exintro=true&explaintext=true&piprop=original&format=json&origin=*`
-    const contentResponse = await fetch(contentUrl, { headers: WIKI_HEADERS })
-    if (!contentResponse.ok) return null
-    const contentData = await contentResponse.json()
-
-    const pages = contentData.query.pages
-    const page = Object.values(pages)[0]
-    if (!page.extract) return null
-
-    if (page.extract.includes('may refer to:')) return null
-
-    return {
-      text: page.extract.trim(),
-      image: page.original ? page.original.source : null
-    }
-
+    const response = await fetch(`${API_URL}/readings/saint-wiki?${params}`)
+    if (!response.ok) return null
+    const data = await response.json()
+    if (!data.text && !data.image) return null
+    return data
   } catch {
     return null
   }

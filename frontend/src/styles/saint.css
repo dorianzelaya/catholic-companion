@@ -20,16 +20,17 @@
 
 .saint-image-block {
   width: 100%;
-  border-radius: 14px;
-  overflow: hidden;
+  display: flex;
+  justify-content: center;
 }
 
 .saint-image {
   width: 100%;
-  height: 320px;
-  object-fit: cover;
-  object-position: top;
+  max-height: 400px;
+  height: auto;
+  object-fit: contain;
   display: block;
+  border-radius: 14px;
 }
 
 .saint-summary-card {

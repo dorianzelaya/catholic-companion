@@ -259,9 +259,10 @@ function Profile() {
           <button className="profile-feature-row" onClick={() => setView('reading-plan')}>
             <div className="profile-feature-row-left">
               <span className="profile-row-label">Reading Plan</span>
-              {totalChaptersRead > 0 && (
-                <span className="profile-feature-badge">{totalChaptersRead} ch</span>
-              )}
+              <button className="profile-feature-row" onClick={() => setView('reading-plan')}>
+                <span className="profile-row-label">Reading Plan</span>
+                <span className="profile-feature-arrow">›</span>
+              </button>
             </div>
             <span className="profile-feature-arrow">›</span>
           </button>

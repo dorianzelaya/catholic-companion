@@ -195,3 +195,10 @@
   color: var(--brown-light);
   margin-top: 4px;
 }
+
+/* Read state for mark button */
+.bible-mark-read-btn.read {
+  background-color: transparent;
+  color: var(--gold);
+  border: 1.5px solid var(--gold);
+}

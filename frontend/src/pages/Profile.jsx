@@ -57,7 +57,7 @@ function Profile() {
   const [streak, setStreak] = useState({ count: 0, lastDate: null })
   const [savedPrayers, setSavedPrayers] = useState([])
   const [readChapters, setReadChapters] = useState({})
-  const [view, setView] = useState('main') // 'main' | 'saved' | 'reading-plan'
+  const [view, setView] = useState('main')
   const [selectedPrayer, setSelectedPrayer] = useState(null)
 
   useEffect(() => {
@@ -79,10 +79,9 @@ function Profile() {
     navigate('/login')
   }
 
-  // Books that have at least one chapter read
   const allBooks = [...BIBLE_BOOKS.OT, ...BIBLE_BOOKS.NT]
-  const startedBooks = allBooks.filter(b => readChapters[b.slug]?.length > 0)
   const totalChaptersRead = Object.values(readChapters).reduce((sum, chs) => sum + chs.length, 0)
+  const hasStarted = totalChaptersRead > 0
 
   // Selected saved prayer view
   if (selectedPrayer) {
@@ -154,40 +153,37 @@ function Profile() {
           <BackButton onClick={() => setView('main')} />
           <p className="readings-eyebrow">Profile</p>
           <h1 className="profile-title">Reading Plan</h1>
-          {totalChaptersRead > 0 && (
-            <p className="profile-reading-total">{totalChaptersRead} chapters read total</p>
+          {hasStarted && (
+            <p className="profile-reading-total">{totalChaptersRead} of 1,189 chapters read</p>
           )}
         </div>
         <div className="page-content">
-          {startedBooks.length === 0 ? (
-            <div className="profile-empty">
-              <p className="profile-empty-text">No chapters marked as read yet. Open a Bible chapter and tap "Mark as Read" at the bottom.</p>
-            </div>
-          ) : (
-            <div className="profile-reading-list">
-              {startedBooks.map(b => {
-                const readCount = readChapters[b.slug]?.length || 0
-                const pct = Math.round((readCount / b.chapters) * 100)
-                const done = readCount === b.chapters
-                return (
-                  <div key={b.slug} className="profile-reading-item">
-                    <div className="profile-reading-item-header">
-                      <span className="profile-reading-book-name">{b.name}</span>
-                      <span className="profile-reading-book-count">
-                        {done ? '✓ Complete' : `${readCount}/${b.chapters}`}
-                      </span>
-                    </div>
-                    <div className="profile-reading-bar-bg">
-                      <div
-                        className="profile-reading-bar-fill"
-                        style={{ width: `${pct}%` }}
-                      />
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
+          {!hasStarted && (
+            <p className="profile-reading-prompt">Start reading the Bible to track your progress here.</p>
           )}
+          <div className="profile-reading-list">
+            {allBooks.map(b => {
+              const readCount = readChapters[b.slug]?.length || 0
+              const pct = Math.round((readCount / b.chapters) * 100)
+              const done = readCount === b.chapters
+              return (
+                <div key={b.slug} className="profile-reading-item">
+                  <div className="profile-reading-item-header">
+                    <span className="profile-reading-book-name">{b.name}</span>
+                    <span className={`profile-reading-book-count ${done ? 'done' : ''}`}>
+                      {done ? '✓ Complete' : `${readCount}/${b.chapters}`}
+                    </span>
+                  </div>
+                  <div className="profile-reading-bar-bg">
+                    <div
+                      className="profile-reading-bar-fill"
+                      style={{ width: `${pct}%` }}
+                    />
+                  </div>
+                </div>
+              )
+            })}
+          </div>
         </div>
       </div>
     )
@@ -218,7 +214,7 @@ function Profile() {
         </div>
 
         {/* Daily Streak */}
-        <p className="profile-section-label">Daily Streak</p>
+        <p className="profile-section-label">Prayer Streak</p>
         <div className="profile-section">
           <div className="profile-streak-card">
             <div className="profile-streak-flame">🔥</div>

@@ -13,18 +13,16 @@ function getReadChapters() {
   }
 }
 
-function markChapterRead(bookSlug, chapterNum) {
+function toggleChapterRead(bookSlug, chapterNum) {
   const read = getReadChapters()
   if (!read[bookSlug]) read[bookSlug] = []
-  if (!read[bookSlug].includes(chapterNum)) {
+  if (read[bookSlug].includes(chapterNum)) {
+    read[bookSlug] = read[bookSlug].filter(c => c !== chapterNum)
+  } else {
     read[bookSlug].push(chapterNum)
-    localStorage.setItem('bible_read_chapters', JSON.stringify(read))
   }
-}
-
-function isChapterRead(bookSlug, chapterNum) {
-  const read = getReadChapters()
-  return read[bookSlug]?.includes(chapterNum) || false
+  localStorage.setItem('bible_read_chapters', JSON.stringify(read))
+  return read
 }
 
 function Bible() {
@@ -48,20 +46,17 @@ function Bible() {
   const dragStartX = useRef(null)
   const dragStartY = useRef(null)
 
-  // Preload parchment image
   useEffect(() => {
     const img = new Image()
     img.src = '/parchment.png'
   }, [])
 
-  // Restore chapter on mount if book and chapter are saved
   useEffect(() => {
     if (book && chapter) {
       loadChapter(book.slug, chapter)
     }
   }, [])
 
-  // Save position to localStorage whenever it changes
   useEffect(() => {
     if (testament) localStorage.setItem('bible_testament', testament)
     else localStorage.removeItem('bible_testament')
@@ -82,7 +77,6 @@ function Bible() {
     if (el) el.scrollTop = 0
   }, [testament, book, chapter])
 
-  // Preload adjacent chapters
   useEffect(() => {
     if (!book || !chapter) return
 
@@ -91,9 +85,7 @@ function Bible() {
       if (!chapterCache[nextKey]) {
         fetch(`${API_URL}/bible/chapter/${book.slug}/${chapter + 1}`)
           .then(r => r.json())
-          .then(data => {
-            setChapterCache(prev => ({ ...prev, [nextKey]: data.verses }))
-          })
+          .then(data => setChapterCache(prev => ({ ...prev, [nextKey]: data.verses })))
           .catch(() => {})
       }
     }
@@ -103,9 +95,7 @@ function Bible() {
       if (!chapterCache[prevKey]) {
         fetch(`${API_URL}/bible/chapter/${book.slug}/${chapter - 1}`)
           .then(r => r.json())
-          .then(data => {
-            setChapterCache(prev => ({ ...prev, [prevKey]: data.verses }))
-          })
+          .then(data => setChapterCache(prev => ({ ...prev, [prevKey]: data.verses })))
           .catch(() => {})
       }
     }
@@ -113,12 +103,10 @@ function Bible() {
 
   async function loadChapter(bookSlug, chapterNum) {
     const cacheKey = `${bookSlug}-${chapterNum}`
-
     if (chapterCache[cacheKey]) {
       setVerses(chapterCache[cacheKey])
       return
     }
-
     setLoading(true)
     setError('')
     try {
@@ -140,9 +128,9 @@ function Bible() {
     loadChapter(book.slug, num)
   }
 
-  function handleMarkRead() {
-    markChapterRead(book.slug, chapter)
-    setReadChapters(getReadChapters())
+  function handleToggleRead() {
+    const updated = toggleChapterRead(book.slug, chapter)
+    setReadChapters({ ...updated })
   }
 
   function handleTouchStart(e) {
@@ -156,14 +144,9 @@ function Bible() {
     const dy = e.changedTouches[0].clientY - dragStartY.current
     dragStartX.current = null
     dragStartY.current = null
-
     if (Math.abs(dx) < 60 || Math.abs(dx) < Math.abs(dy) * 1.5) return
-
-    if (dx < 0 && chapter < book.chapters) {
-      goToChapter(chapter + 1, 1)
-    } else if (dx > 0 && chapter > 1) {
-      goToChapter(chapter - 1, -1)
-    }
+    if (dx < 0 && chapter < book.chapters) goToChapter(chapter + 1, 1)
+    else if (dx > 0 && chapter > 1) goToChapter(chapter - 1, -1)
   }
 
   const slideVariants = {
@@ -182,11 +165,7 @@ function Bible() {
           <p className="readings-eyebrow">{book.name}</p>
           <h1 className="bible-chapter-title">Chapter {chapter}</h1>
         </div>
-        <div
-          className="page-content"
-          onTouchStart={handleTouchStart}
-          onTouchEnd={handleTouchEnd}
-        >
+        <div className="page-content" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
           <AnimatePresence mode="wait" custom={direction}>
             <motion.div
               key={chapter}
@@ -202,8 +181,7 @@ function Bible() {
               {!loading && verses.length > 0 && (
                 <div className="bible-verses">
                   {verses.map(v => {
-                    const bookPericopes = PERICOPES[book.slug]
-                    const heading = bookPericopes?.[chapter]?.[v.verse]
+                    const heading = PERICOPES[book.slug]?.[chapter]?.[v.verse]
                     return (
                       <div key={v.verse}>
                         {heading && <p className="bible-section-heading">{heading}</p>}
@@ -219,28 +197,21 @@ function Bible() {
               {!loading && !error && verses.length > 0 && (
                 <>
                   <div className="bible-mark-read-row">
-                    {alreadyRead ? (
-                      <p className="bible-read-label">✓ Read</p>
-                    ) : (
-                      <button className="bible-mark-read-btn" onClick={handleMarkRead}>
-                        Mark as Read
-                      </button>
-                    )}
+                    <button
+                      className={`bible-mark-read-btn ${alreadyRead ? 'read' : ''}`}
+                      onClick={handleToggleRead}
+                    >
+                      {alreadyRead ? '✓ Read — tap to unmark' : 'Mark as Read'}
+                    </button>
                   </div>
                   <div className="bible-nav-row">
                     {chapter > 1 && (
-                      <button
-                        className="bible-nav-btn"
-                        onClick={() => goToChapter(chapter - 1, -1)}
-                      >
+                      <button className="bible-nav-btn" onClick={() => goToChapter(chapter - 1, -1)}>
                         ← Chapter {chapter - 1}
                       </button>
                     )}
                     {chapter < book.chapters && (
-                      <button
-                        className="bible-nav-btn"
-                        onClick={() => goToChapter(chapter + 1, 1)}
-                      >
+                      <button className="bible-nav-btn" onClick={() => goToChapter(chapter + 1, 1)}>
                         Chapter {chapter + 1} →
                       </button>
                     )}
@@ -304,16 +275,10 @@ function Bible() {
             {books.map(b => {
               const bookRead = readChapters[b.slug] || []
               return (
-                <button
-                  key={b.slug}
-                  className="bible-book-btn"
-                  onClick={() => setBook(b)}
-                >
+                <button key={b.slug} className="bible-book-btn" onClick={() => setBook(b)}>
                   <span className="bible-book-name">{b.name}</span>
                   <span className="bible-book-chapters">
-                    {bookRead.length > 0
-                      ? `${bookRead.length}/${b.chapters}`
-                      : `${b.chapters} ch`}
+                    {bookRead.length > 0 ? `${bookRead.length}/${b.chapters}` : `${b.chapters} ch`}
                   </span>
                 </button>
               )
@@ -334,17 +299,11 @@ function Bible() {
       </div>
       <div className="page-content">
         <div className="bible-testament-btns">
-          <button
-            className="bible-testament-btn"
-            onClick={() => setTestament('OT')}
-          >
+          <button className="bible-testament-btn" onClick={() => setTestament('OT')}>
             <p className="bible-testament-btn-title">Old Testament</p>
             <p className="bible-testament-btn-sub">46 books</p>
           </button>
-          <button
-            className="bible-testament-btn"
-            onClick={() => setTestament('NT')}
-          >
+          <button className="bible-testament-btn" onClick={() => setTestament('NT')}>
             <p className="bible-testament-btn-title">New Testament</p>
             <p className="bible-testament-btn-sub">27 books</p>
           </button>

@@ -84,7 +84,7 @@ function Profile() {
         </div>
 
         {/* Daily Streak */}
-        <p className="profile-section-label">Prayer Streak</p>
+        <p className="profile-section-label">Daily Streak</p>
         <div className="profile-section">
           <div className="profile-streak-card">
             <div className="profile-streak-flame">🔥</div>

@@ -20,10 +20,16 @@ const ICONS = {
       <line x1="6" y1="8" x2="18" y2="8"/>
     </svg>
   ),
-  Examination: (
+  Rosary: (
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M9 11l3 3L22 4"/>
-      <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+      <path d="M8 18c0 2 1.5 4 4 4s4-2 4-4"/>
+      <path d="M8 18c-3-1-5-4-5-7a9 9 0 0 1 18 0c0 3-2 6-5 7"/>
+      <circle cx="12" cy="11" r="1.5" fill="currentColor"/>
+      <circle cx="7.5" cy="13" r="1" fill="currentColor"/>
+      <circle cx="16.5" cy="13" r="1" fill="currentColor"/>
+      <circle cx="9" cy="7.5" r="1" fill="currentColor"/>
+      <circle cx="15" cy="7.5" r="1" fill="currentColor"/>
+      <line x1="12" y1="22" x2="12" y2="24"/>
     </svg>
   ),
   Profile: (
@@ -42,11 +48,11 @@ function NavBar() {
   const tabRefs = useRef([])
 
   const tabs = [
-    { label: 'Home',        path: '/home'        },
-    { label: 'Readings',    path: '/readings'    },
-    { label: 'Bible',       path: '/bible'       },
-    { label: 'Examination', path: '/examination' },
-    { label: 'Profile',     path: '/profile'     },
+    { label: 'Home',     path: '/home'     },
+    { label: 'Readings', path: '/readings' },
+    { label: 'Bible',    path: '/bible'    },
+    { label: 'Rosary',   path: '/rosary'   },
+    { label: 'Profile',  path: '/profile'  },
   ]
 
   const activeIndex = tabs.findIndex(tab => tab.path === location.pathname)

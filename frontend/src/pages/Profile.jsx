@@ -1,12 +1,46 @@
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+
+function getTodayStr() {
+  return new Date().toISOString().split('T')[0]
+}
+
+function updateStreak() {
+  const today = getTodayStr()
+  try {
+    const raw = localStorage.getItem('prayer_streak')
+    if (!raw) {
+      const newStreak = { count: 1, lastDate: today }
+      localStorage.setItem('prayer_streak', JSON.stringify(newStreak))
+      return newStreak
+    }
+    const { count, lastDate } = JSON.parse(raw)
+    if (lastDate === today) {
+      return { count, lastDate }
+    }
+    const last = new Date(lastDate)
+    const now = new Date(today)
+    const diffDays = Math.round((now - last) / (1000 * 60 * 60 * 24))
+    const newCount = diffDays === 1 ? count + 1 : 1
+    const newStreak = { count: newCount, lastDate: today }
+    localStorage.setItem('prayer_streak', JSON.stringify(newStreak))
+    return newStreak
+  } catch {
+    return { count: 1, lastDate: today }
+  }
+}
 
 function Profile() {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
   const [darkMode, setDarkMode] = useState(false)
-  const [language, setLanguage] = useState('English')
+  const [streak, setStreak] = useState({ count: 0, lastDate: null })
+
+  useEffect(() => {
+    const s = updateStreak()
+    setStreak(s)
+  }, [])
 
   const initial = user?.username
     ? user.username[0].toUpperCase()
@@ -19,6 +53,11 @@ function Profile() {
   function handleLogout() {
     logout()
     navigate('/login')
+  }
+
+  function streakLabel(count) {
+    if (count === 1) return 'day'
+    return 'days'
   }
 
   return (
@@ -42,6 +81,22 @@ function Profile() {
           <button className="profile-logout-btn" onClick={handleLogout}>
             Log Out
           </button>
+        </div>
+
+        {/* Daily Streak */}
+        <p className="profile-section-label">Prayer Streak</p>
+        <div className="profile-section">
+          <div className="profile-streak-card">
+            <div className="profile-streak-flame">🔥</div>
+            <div className="profile-streak-info">
+              <p className="profile-streak-count">{streak.count} {streakLabel(streak.count)}</p>
+              <p className="profile-streak-sub">
+                {streak.count === 1
+                  ? 'You opened the app today. Keep it going!'
+                  : `${streak.count} consecutive days of prayer. Well done.`}
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* Settings */}
@@ -73,11 +128,6 @@ function Profile() {
           <div className="profile-divider" />
           <button className="profile-feature-row">
             <span className="profile-row-label">Reading Plan</span>
-            <span className="profile-feature-arrow">›</span>
-          </button>
-          <div className="profile-divider" />
-          <button className="profile-feature-row">
-            <span className="profile-row-label">Daily Streak</span>
             <span className="profile-feature-arrow">›</span>
           </button>
           <div className="profile-divider" />

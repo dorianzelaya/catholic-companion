@@ -142,3 +142,35 @@
   background-color: #ffffff;
   box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 }
+
+/* Streak card */
+.profile-streak-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+}
+
+.profile-streak-flame {
+  font-size: 36px;
+  flex-shrink: 0;
+}
+
+.profile-streak-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.profile-streak-count {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--brown-dark);
+}
+
+.profile-streak-sub {
+  font-size: 13px;
+  color: var(--brown-light);
+  line-height: 1.5;
+}

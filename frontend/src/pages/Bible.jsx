@@ -5,6 +5,28 @@ import API_URL from '../config'
 import BIBLE_BOOKS, { getBookBySlug } from '../data/bible'
 import PERICOPES from '../data/pericopes'
 
+function getReadChapters() {
+  try {
+    return JSON.parse(localStorage.getItem('bible_read_chapters') || '{}')
+  } catch {
+    return {}
+  }
+}
+
+function markChapterRead(bookSlug, chapterNum) {
+  const read = getReadChapters()
+  if (!read[bookSlug]) read[bookSlug] = []
+  if (!read[bookSlug].includes(chapterNum)) {
+    read[bookSlug].push(chapterNum)
+    localStorage.setItem('bible_read_chapters', JSON.stringify(read))
+  }
+}
+
+function isChapterRead(bookSlug, chapterNum) {
+  const read = getReadChapters()
+  return read[bookSlug]?.includes(chapterNum) || false
+}
+
 function Bible() {
   const [testament, setTestament] = useState(() => {
     return localStorage.getItem('bible_testament') || null
@@ -21,7 +43,8 @@ function Bible() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [chapterCache, setChapterCache] = useState({})
-  const [direction, setDirection] = useState(0) // -1 = going back, 1 = going forward
+  const [direction, setDirection] = useState(0)
+  const [readChapters, setReadChapters] = useState(getReadChapters)
   const dragStartX = useRef(null)
   const dragStartY = useRef(null)
 
@@ -117,6 +140,11 @@ function Bible() {
     loadChapter(book.slug, num)
   }
 
+  function handleMarkRead() {
+    markChapterRead(book.slug, chapter)
+    setReadChapters(getReadChapters())
+  }
+
   function handleTouchStart(e) {
     dragStartX.current = e.touches[0].clientX
     dragStartY.current = e.touches[0].clientY
@@ -129,14 +157,11 @@ function Bible() {
     dragStartX.current = null
     dragStartY.current = null
 
-    // Only trigger if horizontal swipe is dominant and long enough
     if (Math.abs(dx) < 60 || Math.abs(dx) < Math.abs(dy) * 1.5) return
 
     if (dx < 0 && chapter < book.chapters) {
-      // Swipe left = next chapter
       goToChapter(chapter + 1, 1)
     } else if (dx > 0 && chapter > 1) {
-      // Swipe right = previous chapter
       goToChapter(chapter - 1, -1)
     }
   }
@@ -149,6 +174,7 @@ function Bible() {
 
   // Chapter reading view
   if (chapter !== null && book !== null) {
+    const alreadyRead = readChapters[book.slug]?.includes(chapter)
     return (
       <div className="page">
         <div className="page-header">
@@ -190,25 +216,36 @@ function Bible() {
                   })}
                 </div>
               )}
-              {!loading && !error && (
-                <div className="bible-nav-row">
-                  {chapter > 1 && (
-                    <button
-                      className="bible-nav-btn"
-                      onClick={() => goToChapter(chapter - 1, -1)}
-                    >
-                      ← Chapter {chapter - 1}
-                    </button>
-                  )}
-                  {chapter < book.chapters && (
-                    <button
-                      className="bible-nav-btn"
-                      onClick={() => goToChapter(chapter + 1, 1)}
-                    >
-                      Chapter {chapter + 1} →
-                    </button>
-                  )}
-                </div>
+              {!loading && !error && verses.length > 0 && (
+                <>
+                  <div className="bible-mark-read-row">
+                    {alreadyRead ? (
+                      <p className="bible-read-label">✓ Read</p>
+                    ) : (
+                      <button className="bible-mark-read-btn" onClick={handleMarkRead}>
+                        Mark as Read
+                      </button>
+                    )}
+                  </div>
+                  <div className="bible-nav-row">
+                    {chapter > 1 && (
+                      <button
+                        className="bible-nav-btn"
+                        onClick={() => goToChapter(chapter - 1, -1)}
+                      >
+                        ← Chapter {chapter - 1}
+                      </button>
+                    )}
+                    {chapter < book.chapters && (
+                      <button
+                        className="bible-nav-btn"
+                        onClick={() => goToChapter(chapter + 1, 1)}
+                      >
+                        Chapter {chapter + 1} →
+                      </button>
+                    )}
+                  </div>
+                </>
               )}
             </motion.div>
           </AnimatePresence>
@@ -220,19 +257,23 @@ function Bible() {
   // Chapter selection view
   if (book !== null) {
     const chapterNums = Array.from({ length: book.chapters }, (_, i) => i + 1)
+    const bookRead = readChapters[book.slug] || []
     return (
       <div className="page">
         <div className="page-header">
           <BackButton onClick={() => setBook(null)} />
           <p className="readings-eyebrow">{testament === 'OT' ? 'Old Testament' : 'New Testament'}</p>
           <h1 className="bible-book-title">{book.name}</h1>
+          {bookRead.length > 0 && (
+            <p className="bible-book-progress">{bookRead.length} of {book.chapters} chapters read</p>
+          )}
         </div>
         <div className="page-content">
           <div className="bible-chapter-grid">
             {chapterNums.map(num => (
               <button
                 key={num}
-                className="bible-chapter-btn"
+                className={`bible-chapter-btn ${bookRead.includes(num) ? 'read' : ''}`}
                 onClick={() => {
                   setDirection(1)
                   setChapter(num)
@@ -260,16 +301,23 @@ function Bible() {
         </div>
         <div className="page-content">
           <div className="bible-book-list">
-            {books.map(b => (
-              <button
-                key={b.slug}
-                className="bible-book-btn"
-                onClick={() => setBook(b)}
-              >
-                <span className="bible-book-name">{b.name}</span>
-                <span className="bible-book-chapters">{b.chapters} ch</span>
-              </button>
-            ))}
+            {books.map(b => {
+              const bookRead = readChapters[b.slug] || []
+              return (
+                <button
+                  key={b.slug}
+                  className="bible-book-btn"
+                  onClick={() => setBook(b)}
+                >
+                  <span className="bible-book-name">{b.name}</span>
+                  <span className="bible-book-chapters">
+                    {bookRead.length > 0
+                      ? `${bookRead.length}/${b.chapters}`
+                      : `${b.chapters} ch`}
+                  </span>
+                </button>
+              )
+            })}
           </div>
         </div>
       </div>

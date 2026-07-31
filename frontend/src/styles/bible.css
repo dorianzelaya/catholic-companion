@@ -157,109 +157,41 @@
   flex: 1;
 }
 
-/* Sepia reading theme for Bible */
-.bible-reading-page {
-  background-image: url('/parchment.png');
-  background-repeat: repeat;
-  background-size: 512px 512px;
-  flex: 1;
+/* Mark as Read */
+.bible-mark-read-row {
   display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.bible-reading-header {
-  background-image: url('/parchment.png');
-  background-repeat: repeat;
-  background-size: 512px 512px;
-  padding: 16px 20px;
-  border-bottom: 0.5px solid #3d2d1a;
-  flex-shrink: 0;
-}
-
-.bible-reading-eyebrow {
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: #8b6914;
-  margin-bottom: 4px;
-}
-
-.bible-reading-title {
-  font-family: var(--font-serif);
-  font-size: 22px;
-  font-weight: 500;
-  color: #2c1f0e;
-}
-
-.bible-reading-back {
-  background: none;
-  border: none;
-  font-family: var(--font-ui);
-  font-size: 13px;
-  color: #8b6914;
-  cursor: pointer;
-  padding: 0;
-  margin-bottom: 12px;
-  margin-top: 4px;
-  display: block;
-}
-
-.bible-reading-content {
-  flex: 1;
-  padding: 24px 20px 110px;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  background-image: url('/parchment.png');
-  background-repeat: repeat;
-  background-size: 512px 512px;
-}
-
-.bible-verse-text {
-  font-family: var(--font-serif);
-  font-size: 16px;
-  line-height: 1.8;
-  color: var(--brown-dark);
-  font-weight: 500;
-}
-
-.bible-verse-num {
-  font-size: 11px;
-  color: #8b6914;
-  font-weight: 600;
-  min-width: 20px;
-  padding-top: 3px;
-  flex-shrink: 0;
-}
-
-.bible-reading-nav-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  margin-top: 32px;
-  padding-top: 16px;
-  border-top: 0.5px solid #c9a84c;
-}
-
-.bible-reading-nav-btn {
-  background-color: rgba(255, 255, 255, 0.4);
-  border: 0.5px solid #c9a84c;
-  border-radius: 12px;
-  padding: 12px 16px;
-  font-family: var(--font-ui);
-  font-size: 13px;
-  color: #2c1f0e;
-  cursor: pointer;
-  flex: 1;
-}
-
-.bible-section-heading {
-  font-family: var(--font-serif);
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--gold);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
+  justify-content: center;
   margin-top: 24px;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
+}
+
+.bible-mark-read-btn {
+  background-color: var(--gold);
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 28px;
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.bible-read-label {
+  font-size: 13px;
+  color: var(--gold);
+  font-weight: 500;
+}
+
+/* Read chapter in grid */
+.bible-chapter-btn.read {
+  background-color: var(--gold);
+  color: #ffffff;
+  border-color: var(--gold);
+}
+
+.bible-book-progress {
+  font-size: 12px;
+  color: var(--brown-light);
+  margin-top: 4px;
 }

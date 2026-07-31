@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useState, useEffect } from 'react'
+import BIBLE_BOOKS from '../data/bible'
 
 function getTodayStr() {
   return new Date().toISOString().split('T')[0]
@@ -37,19 +38,32 @@ function getSavedPrayers() {
   }
 }
 
+function getReadChapters() {
+  try {
+    return JSON.parse(localStorage.getItem('bible_read_chapters') || '{}')
+  } catch {
+    return {}
+  }
+}
+
+function BackButton({ onClick }) {
+  return <button className="back-button" onClick={onClick}>← Back</button>
+}
+
 function Profile() {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
   const [darkMode, setDarkMode] = useState(false)
   const [streak, setStreak] = useState({ count: 0, lastDate: null })
   const [savedPrayers, setSavedPrayers] = useState([])
-  const [showSaved, setShowSaved] = useState(false)
+  const [readChapters, setReadChapters] = useState({})
+  const [view, setView] = useState('main') // 'main' | 'saved' | 'reading-plan'
   const [selectedPrayer, setSelectedPrayer] = useState(null)
 
   useEffect(() => {
-    const s = updateStreak()
-    setStreak(s)
+    setStreak(updateStreak())
     setSavedPrayers(getSavedPrayers())
+    setReadChapters(getReadChapters())
   }, [])
 
   const initial = user?.username
@@ -65,9 +79,10 @@ function Profile() {
     navigate('/login')
   }
 
-  function streakLabel(count) {
-    return count === 1 ? 'day' : 'days'
-  }
+  // Books that have at least one chapter read
+  const allBooks = [...BIBLE_BOOKS.OT, ...BIBLE_BOOKS.NT]
+  const startedBooks = allBooks.filter(b => readChapters[b.slug]?.length > 0)
+  const totalChaptersRead = Object.values(readChapters).reduce((sum, chs) => sum + chs.length, 0)
 
   // Selected saved prayer view
   if (selectedPrayer) {
@@ -99,12 +114,12 @@ function Profile() {
     )
   }
 
-  // Saved prayers list view
-  if (showSaved) {
+  // Saved prayers list
+  if (view === 'saved') {
     return (
       <div className="page">
         <div className="page-header">
-          <BackButton onClick={() => setShowSaved(false)} />
+          <BackButton onClick={() => setView('main')} />
           <p className="readings-eyebrow">Profile</p>
           <h1 className="profile-title">Saved Prayers</h1>
         </div>
@@ -124,6 +139,53 @@ function Profile() {
                   {prayer.name}
                 </button>
               ))}
+            </div>
+          )}
+        </div>
+      </div>
+    )
+  }
+
+  // Reading plan view
+  if (view === 'reading-plan') {
+    return (
+      <div className="page">
+        <div className="page-header">
+          <BackButton onClick={() => setView('main')} />
+          <p className="readings-eyebrow">Profile</p>
+          <h1 className="profile-title">Reading Plan</h1>
+          {totalChaptersRead > 0 && (
+            <p className="profile-reading-total">{totalChaptersRead} chapters read total</p>
+          )}
+        </div>
+        <div className="page-content">
+          {startedBooks.length === 0 ? (
+            <div className="profile-empty">
+              <p className="profile-empty-text">No chapters marked as read yet. Open a Bible chapter and tap "Mark as Read" at the bottom.</p>
+            </div>
+          ) : (
+            <div className="profile-reading-list">
+              {startedBooks.map(b => {
+                const readCount = readChapters[b.slug]?.length || 0
+                const pct = Math.round((readCount / b.chapters) * 100)
+                const done = readCount === b.chapters
+                return (
+                  <div key={b.slug} className="profile-reading-item">
+                    <div className="profile-reading-item-header">
+                      <span className="profile-reading-book-name">{b.name}</span>
+                      <span className="profile-reading-book-count">
+                        {done ? '✓ Complete' : `${readCount}/${b.chapters}`}
+                      </span>
+                    </div>
+                    <div className="profile-reading-bar-bg">
+                      <div
+                        className="profile-reading-bar-fill"
+                        style={{ width: `${pct}%` }}
+                      />
+                    </div>
+                  </div>
+                )
+              })}
             </div>
           )}
         </div>
@@ -161,7 +223,7 @@ function Profile() {
           <div className="profile-streak-card">
             <div className="profile-streak-flame">🔥</div>
             <div className="profile-streak-info">
-              <p className="profile-streak-count">{streak.count} {streakLabel(streak.count)}</p>
+              <p className="profile-streak-count">{streak.count} {streak.count === 1 ? 'day' : 'days'}</p>
               <p className="profile-streak-sub">
                 {streak.count === 1
                   ? 'You opened the app today. Keep it going!'
@@ -198,15 +260,17 @@ function Profile() {
             <span className="profile-feature-arrow">›</span>
           </button>
           <div className="profile-divider" />
-          <button className="profile-feature-row">
-            <span className="profile-row-label">Reading Plan</span>
+          <button className="profile-feature-row" onClick={() => setView('reading-plan')}>
+            <div className="profile-feature-row-left">
+              <span className="profile-row-label">Reading Plan</span>
+              {totalChaptersRead > 0 && (
+                <span className="profile-feature-badge">{totalChaptersRead} ch</span>
+              )}
+            </div>
             <span className="profile-feature-arrow">›</span>
           </button>
           <div className="profile-divider" />
-          <button
-            className="profile-feature-row"
-            onClick={() => setShowSaved(true)}
-          >
+          <button className="profile-feature-row" onClick={() => setView('saved')}>
             <div className="profile-feature-row-left">
               <span className="profile-row-label">Saved Prayers</span>
               {savedPrayers.length > 0 && (
@@ -219,13 +283,6 @@ function Profile() {
 
       </div>
     </div>
-  )
-}
-
-// Inline BackButton since we need it inside Profile
-function BackButton({ onClick }) {
-  return (
-    <button className="back-button" onClick={onClick}>← Back</button>
   )
 }
 

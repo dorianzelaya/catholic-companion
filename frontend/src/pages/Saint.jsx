@@ -2,6 +2,10 @@ import { useState, useEffect } from 'react'
 import BackButton from '../components/BackButton'
 import API_URL from '../config'
 
+const WIKI_HEADERS = {
+  'User-Agent': 'Commune Catholic App/1.0 (https://catholic-companion-production.up.railway.app)'
+}
+
 async function fetchWikipediaData(saintName, saintDescription) {
   try {
     const params = new URLSearchParams({
@@ -18,23 +22,75 @@ async function fetchWikipediaData(saintName, saintDescription) {
   }
 }
 
+function getTodayKey() {
+  return new Date().toISOString().split('T')[0]
+}
+
 function Saint() {
-  const [data, setData] = useState(null)
-  const [wikiData, setWikiData] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const [data, setData] = useState(() => {
+    try {
+      const cached = localStorage.getItem('cached_saint_data')
+      if (!cached) return null
+      const { date, payload } = JSON.parse(cached)
+      if (date === getTodayKey()) return payload
+      return null
+    } catch {
+      return null
+    }
+  })
+
+  const [wikiData, setWikiData] = useState(() => {
+    try {
+      const cached = localStorage.getItem('cached_saint_wiki')
+      if (!cached) return null
+      const { date, payload } = JSON.parse(cached)
+      if (date === getTodayKey()) return payload
+      return null
+    } catch {
+      return null
+    }
+  })
+
+  const [loading, setLoading] = useState(!data)
   const [error, setError] = useState('')
 
   useEffect(() => {
+    if (data && wikiData !== undefined) return // already loaded from cache
+
     async function loadSaint() {
       try {
         const response = await fetch(`${API_URL}/readings/today`)
         if (!response.ok) throw new Error('Could not load saint data')
         const json = await response.json()
         setData(json)
+        localStorage.setItem('cached_saint_data', JSON.stringify({
+          date: getTodayKey(),
+          payload: json
+        }))
 
-        if (json.saint_name && json.saint_type !== 'FERIA') {
+        const isFeria = (
+          json.saint_type === 'FERIA' ||
+          json.saint_type === 'SUNDAY' ||
+          json.saint_type === 'SOLEMNITY' ||
+          !json.saint_name ||
+          (!json.saint_description && !json.saint_quote &&
+            !json.saint_type?.includes('MEMORIAL') &&
+            !json.saint_type?.includes('FEAST'))
+        )
+
+        if (!isFeria) {
           const wiki = await fetchWikipediaData(json.saint_name, json.saint_description)
           setWikiData(wiki)
+          localStorage.setItem('cached_saint_wiki', JSON.stringify({
+            date: getTodayKey(),
+            payload: wiki
+          }))
+        } else {
+          setWikiData(null)
+          localStorage.setItem('cached_saint_wiki', JSON.stringify({
+            date: getTodayKey(),
+            payload: null
+          }))
         }
       } catch (err) {
         setError(err.message)
@@ -59,7 +115,9 @@ function Saint() {
     data.saint_type === 'SUNDAY' ||
     data.saint_type === 'SOLEMNITY' ||
     !data.saint_name ||
-    (!data.saint_description && !data.saint_quote && !data.saint_type?.includes('MEMORIAL') && !data.saint_type?.includes('FEAST'))
+    (!data.saint_description && !data.saint_quote &&
+      !data.saint_type?.includes('MEMORIAL') &&
+      !data.saint_type?.includes('FEAST'))
   )
 
   return (

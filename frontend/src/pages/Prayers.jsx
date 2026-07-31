@@ -2,9 +2,24 @@ import { useState, useEffect } from 'react'
 import BackButton from '../components/BackButton'
 import PRAYERS from '../data/prayers'
 
+function getSavedPrayers() {
+  try {
+    return JSON.parse(localStorage.getItem('saved_prayers') || '[]')
+  } catch {
+    return []
+  }
+}
+
+function setSavedPrayers(list) {
+  localStorage.setItem('saved_prayers', JSON.stringify(list))
+}
+
 function Prayers() {
   const [category, setCategory] = useState(null)
   const [selected, setSelected] = useState(null)
+  const [savedNames, setSavedNames] = useState(() => {
+    return getSavedPrayers().map(p => p.name)
+  })
 
   useEffect(() => {
     const el = document.querySelector('.page-content')
@@ -21,6 +36,19 @@ function Prayers() {
       })
     }
   }, [category])
+
+  function toggleSave(prayer) {
+    const saved = getSavedPrayers()
+    const exists = saved.find(p => p.name === prayer.name)
+    let updated
+    if (exists) {
+      updated = saved.filter(p => p.name !== prayer.name)
+    } else {
+      updated = [...saved, { name: prayer.name, category, text: prayer.text, image: prayer.image, caption: prayer.caption, history: prayer.history }]
+    }
+    setSavedPrayers(updated)
+    setSavedNames(updated.map(p => p.name))
+  }
 
   function selectCategory(cat) {
     setCategory(cat)
@@ -39,12 +67,22 @@ function Prayers() {
   }
 
   if (selected) {
+    const isSaved = savedNames.includes(selected.name)
     return (
       <div className="page">
         <div className="page-header">
           <BackButton onClick={backFromPrayer} />
           <p className="readings-eyebrow">{category}</p>
-          <h1 className="struggle-category-title">{selected.name}</h1>
+          <div className="prayer-header-row">
+            <h1 className="struggle-category-title">{selected.name}</h1>
+            <button
+              className={`prayer-bookmark-btn ${isSaved ? 'saved' : ''}`}
+              onClick={() => toggleSave(selected)}
+              aria-label={isSaved ? 'Remove bookmark' : 'Bookmark prayer'}
+            >
+              {isSaved ? '★' : '☆'}
+            </button>
+          </div>
         </div>
         <div className="page-content">
           {selected.image && (
@@ -90,6 +128,9 @@ function Prayers() {
                 onClick={() => selectPrayer(prayer)}
               >
                 {prayer.name}
+                {savedNames.includes(prayer.name) && (
+                  <span className="prayer-item-saved">★</span>
+                )}
               </button>
             ))}
           </div>

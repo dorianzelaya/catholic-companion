@@ -27,7 +27,7 @@
 
 .prayer-detail-text {
   font-family: var(--font-serif);
-  font-size: 17px;
+  font-size: 16px;
   line-height: 1.9;
   color: var(--brown-dark);
 }
@@ -92,7 +92,36 @@
 }
 
 .prayer-history-text {
-  font-size: 16px;
+  font-size: 14px;
   line-height: 1.8;
   color: var(--brown-dark);
+}
+
+/* Bookmark button */
+.prayer-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.prayer-bookmark-btn {
+  background: none;
+  border: none;
+  font-size: 22px;
+  color: var(--cream-border);
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.prayer-bookmark-btn.saved {
+  color: var(--gold);
+}
+
+.prayer-item-saved {
+  color: var(--gold);
+  margin-left: 8px;
+  font-size: 12px;
 }

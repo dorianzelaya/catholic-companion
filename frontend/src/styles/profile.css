@@ -174,3 +174,32 @@
   color: var(--brown-light);
   line-height: 1.5;
 }
+
+/* Feature badge */
+.profile-feature-row-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.profile-feature-badge {
+  background-color: var(--gold);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 10px;
+  font-family: var(--font-ui);
+}
+
+/* Empty state */
+.profile-empty {
+  padding: 40px 0;
+  text-align: center;
+}
+
+.profile-empty-text {
+  font-size: 14px;
+  color: var(--brown-light);
+  line-height: 1.7;
+}

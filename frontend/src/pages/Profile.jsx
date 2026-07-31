@@ -16,9 +16,7 @@ function updateStreak() {
       return newStreak
     }
     const { count, lastDate } = JSON.parse(raw)
-    if (lastDate === today) {
-      return { count, lastDate }
-    }
+    if (lastDate === today) return { count, lastDate }
     const last = new Date(lastDate)
     const now = new Date(today)
     const diffDays = Math.round((now - last) / (1000 * 60 * 60 * 24))
@@ -31,15 +29,27 @@ function updateStreak() {
   }
 }
 
+function getSavedPrayers() {
+  try {
+    return JSON.parse(localStorage.getItem('saved_prayers') || '[]')
+  } catch {
+    return []
+  }
+}
+
 function Profile() {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
   const [darkMode, setDarkMode] = useState(false)
   const [streak, setStreak] = useState({ count: 0, lastDate: null })
+  const [savedPrayers, setSavedPrayers] = useState([])
+  const [showSaved, setShowSaved] = useState(false)
+  const [selectedPrayer, setSelectedPrayer] = useState(null)
 
   useEffect(() => {
     const s = updateStreak()
     setStreak(s)
+    setSavedPrayers(getSavedPrayers())
   }, [])
 
   const initial = user?.username
@@ -56,10 +66,72 @@ function Profile() {
   }
 
   function streakLabel(count) {
-    if (count === 1) return 'day'
-    return 'days'
+    return count === 1 ? 'day' : 'days'
   }
 
+  // Selected saved prayer view
+  if (selectedPrayer) {
+    return (
+      <div className="page">
+        <div className="page-header">
+          <BackButton onClick={() => setSelectedPrayer(null)} />
+          <p className="readings-eyebrow">Saved Prayers</p>
+          <h1 className="struggle-category-title">{selectedPrayer.name}</h1>
+        </div>
+        <div className="page-content">
+          {selectedPrayer.image && (
+            <div className="prayer-image-block">
+              <img src={selectedPrayer.image} alt={selectedPrayer.name} className="prayer-image" />
+              {selectedPrayer.caption && <p className="prayer-image-caption">{selectedPrayer.caption}</p>}
+            </div>
+          )}
+          <div className="prayer-detail-card">
+            <p className="prayer-detail-text">{selectedPrayer.text}</p>
+          </div>
+          {selectedPrayer.history && (
+            <div className="prayer-history-card">
+              <p className="prayer-history-label">About this Prayer</p>
+              <p className="prayer-history-text">{selectedPrayer.history}</p>
+            </div>
+          )}
+        </div>
+      </div>
+    )
+  }
+
+  // Saved prayers list view
+  if (showSaved) {
+    return (
+      <div className="page">
+        <div className="page-header">
+          <BackButton onClick={() => setShowSaved(false)} />
+          <p className="readings-eyebrow">Profile</p>
+          <h1 className="profile-title">Saved Prayers</h1>
+        </div>
+        <div className="page-content">
+          {savedPrayers.length === 0 ? (
+            <div className="profile-empty">
+              <p className="profile-empty-text">No saved prayers yet. Bookmark a prayer from the Prayers page by tapping the ☆ icon.</p>
+            </div>
+          ) : (
+            <div className="prayers-items">
+              {savedPrayers.map(prayer => (
+                <button
+                  key={prayer.name}
+                  className="prayer-item-btn"
+                  onClick={() => setSelectedPrayer(prayer)}
+                >
+                  {prayer.name}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    )
+  }
+
+  // Main profile view
   return (
     <div className="page">
       <div className="page-header">
@@ -84,7 +156,7 @@ function Profile() {
         </div>
 
         {/* Daily Streak */}
-        <p className="profile-section-label">Daily Streak</p>
+        <p className="profile-section-label">Prayer Streak</p>
         <div className="profile-section">
           <div className="profile-streak-card">
             <div className="profile-streak-flame">🔥</div>
@@ -131,14 +203,29 @@ function Profile() {
             <span className="profile-feature-arrow">›</span>
           </button>
           <div className="profile-divider" />
-          <button className="profile-feature-row">
-            <span className="profile-row-label">Saved Prayers</span>
+          <button
+            className="profile-feature-row"
+            onClick={() => setShowSaved(true)}
+          >
+            <div className="profile-feature-row-left">
+              <span className="profile-row-label">Saved Prayers</span>
+              {savedPrayers.length > 0 && (
+                <span className="profile-feature-badge">{savedPrayers.length}</span>
+              )}
+            </div>
             <span className="profile-feature-arrow">›</span>
           </button>
         </div>
 
       </div>
     </div>
+  )
+}
+
+// Inline BackButton since we need it inside Profile
+function BackButton({ onClick }) {
+  return (
+    <button className="back-button" onClick={onClick}>← Back</button>
   )
 }
 

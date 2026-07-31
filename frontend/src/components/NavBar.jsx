@@ -21,15 +21,14 @@ const ICONS = {
     </svg>
   ),
   Rosary: (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M8 18c0 2 1.5 4 4 4s4-2 4-4"/>
-      <path d="M8 18c-3-1-5-4-5-7a9 9 0 0 1 18 0c0 3-2 6-5 7"/>
-      <circle cx="12" cy="11" r="1.5" fill="currentColor"/>
-      <circle cx="7.5" cy="13" r="1" fill="currentColor"/>
-      <circle cx="16.5" cy="13" r="1" fill="currentColor"/>
-      <circle cx="9" cy="7.5" r="1" fill="currentColor"/>
-      <circle cx="15" cy="7.5" r="1" fill="currentColor"/>
-      <line x1="12" y1="22" x2="12" y2="24"/>
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 4c-1.7 2.5-3 5.2-3 8.2v3.9c0 1.3.8 2.2 2 2.2h1"/>
+      <path d="M12 4c1.7 2.5 3 5.2 3 8.2v3.9c0 1.3-.8 2.2-2 2.2h-1"/>
+      <path d="M12 5v13"/>
+      <path d="M9 13.2c-2.2 1-3.6 2.7-3.6 4.6"/>
+      <circle cx="7.4" cy="14.6" r=".7" fill="currentColor" stroke="none"/>
+      <circle cx="5.9" cy="16.4" r=".7" fill="currentColor" stroke="none"/>
+      <path d="M5.4 19.2v2.4M4.4 20.2h2"/>
     </svg>
   ),
   Profile: (

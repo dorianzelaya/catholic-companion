@@ -83,7 +83,7 @@ function Profile() {
   const totalChaptersRead = Object.values(readChapters).reduce((sum, chs) => sum + chs.length, 0)
   const hasStarted = totalChaptersRead > 0
 
-  // Selected saved prayer view
+  // Saved prayer detail
   if (selectedPrayer) {
     return (
       <div className="page">
@@ -145,7 +145,7 @@ function Profile() {
     )
   }
 
-  // Reading plan view
+  // Reading plan
   if (view === 'reading-plan') {
     return (
       <div className="page">
@@ -175,10 +175,7 @@ function Profile() {
                     </span>
                   </div>
                   <div className="profile-reading-bar-bg">
-                    <div
-                      className="profile-reading-bar-fill"
-                      style={{ width: `${pct}%` }}
-                    />
+                    <div className="profile-reading-bar-fill" style={{ width: `${pct}%` }} />
                   </div>
                 </div>
               )
@@ -189,7 +186,7 @@ function Profile() {
     )
   }
 
-  // Main profile view
+  // Main profile
   return (
     <div className="page">
       <div className="page-header">
@@ -213,7 +210,7 @@ function Profile() {
           </button>
         </div>
 
-        {/* Daily Streak */}
+        {/* Prayer Streak */}
         <p className="profile-section-label">Prayer Streak</p>
         <div className="profile-section">
           <div className="profile-streak-card">
@@ -257,13 +254,7 @@ function Profile() {
           </button>
           <div className="profile-divider" />
           <button className="profile-feature-row" onClick={() => setView('reading-plan')}>
-            <div className="profile-feature-row-left">
-              <span className="profile-row-label">Reading Plan</span>
-              <button className="profile-feature-row" onClick={() => setView('reading-plan')}>
-                <span className="profile-row-label">Reading Plan</span>
-                <span className="profile-feature-arrow">›</span>
-              </button>
-            </div>
+            <span className="profile-row-label">Reading Plan</span>
             <span className="profile-feature-arrow">›</span>
           </button>
           <div className="profile-divider" />

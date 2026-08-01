@@ -62,12 +62,17 @@
 
 .nav-icon svg {
   stroke: var(--brown-light);
+  fill: none;
 }
 
 .nav-item.active .nav-icon svg {
   stroke: var(--gold);
 }
 
+.nav-icon svg circle[fill],
+.nav-icon svg rect[fill] {
+  fill: currentColor;
+}
 .nav-label {
   display: block;
   font-size: 10px;

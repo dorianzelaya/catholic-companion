@@ -3,8 +3,23 @@ import { useAuth } from '../context/AuthContext'
 import { useState, useEffect } from 'react'
 import BIBLE_BOOKS from '../data/bible'
 
+// Local calendar date (YYYY-MM-DD). Must NOT use toISOString(), which
+// converts to UTC and rolls the date over in the evening for US timezones.
 function getTodayStr() {
-  return new Date().toISOString().split('T')[0]
+  const d = new Date()
+  const y = d.getFullYear()
+  const m = String(d.getMonth() + 1).padStart(2, '0')
+  const day = String(d.getDate()).padStart(2, '0')
+  return `${y}-${m}-${day}`
+}
+
+// Whole days between two YYYY-MM-DD strings, compared at local midnight
+function daysBetween(fromStr, toStr) {
+  const [y1, m1, d1] = fromStr.split('-').map(Number)
+  const [y2, m2, d2] = toStr.split('-').map(Number)
+  const a = new Date(y1, m1 - 1, d1)
+  const b = new Date(y2, m2 - 1, d2)
+  return Math.round((b - a) / (1000 * 60 * 60 * 24))
 }
 
 function updateStreak() {
@@ -17,11 +32,20 @@ function updateStreak() {
       return newStreak
     }
     const { count, lastDate } = JSON.parse(raw)
+
+    // Same calendar day — no change
     if (lastDate === today) return { count, lastDate }
-    const last = new Date(lastDate)
-    const now = new Date(today)
-    const diffDays = Math.round((now - last) / (1000 * 60 * 60 * 24))
-    const newCount = diffDays === 1 ? count + 1 : 1
+
+    const diff = daysBetween(lastDate, today)
+
+    // Clock changed backwards or bad data — keep the streak, just resync
+    if (diff <= 0) {
+      const resynced = { count, lastDate: today }
+      localStorage.setItem('prayer_streak', JSON.stringify(resynced))
+      return resynced
+    }
+
+    const newCount = diff === 1 ? count + 1 : 1
     const newStreak = { count: newCount, lastDate: today }
     localStorage.setItem('prayer_streak', JSON.stringify(newStreak))
     return newStreak
@@ -66,6 +90,12 @@ function Profile() {
     setReadChapters(getReadChapters())
   }, [])
 
+  // Reset scroll whenever the view changes, otherwise you land mid-page
+  useEffect(() => {
+    const el = document.querySelector('.page-content')
+    if (el) el.scrollTop = 0
+  }, [view, selectedPrayer])
+
   const initial = user?.username
     ? user.username[0].toUpperCase()
     : user?.email
@@ -77,6 +107,12 @@ function Profile() {
   function handleLogout() {
     logout()
     navigate('/login')
+  }
+
+  function handleUnsave(name) {
+    const updated = savedPrayers.filter(p => p.name !== name)
+    localStorage.setItem('saved_prayers', JSON.stringify(updated))
+    setSavedPrayers(updated)
   }
 
   const allBooks = [...BIBLE_BOOKS.OT, ...BIBLE_BOOKS.NT]
@@ -130,13 +166,21 @@ function Profile() {
           ) : (
             <div className="prayers-items">
               {savedPrayers.map(prayer => (
-                <button
-                  key={prayer.name}
-                  className="prayer-item-btn"
-                  onClick={() => setSelectedPrayer(prayer)}
-                >
-                  {prayer.name}
-                </button>
+                <div key={prayer.name} className="saved-prayer-row">
+                  <button
+                    className="saved-prayer-btn"
+                    onClick={() => setSelectedPrayer(prayer)}
+                  >
+                    {prayer.name}
+                  </button>
+                  <button
+                    className="saved-prayer-remove"
+                    onClick={() => handleUnsave(prayer.name)}
+                    aria-label="Remove from saved"
+                  >
+                    ★
+                  </button>
+                </div>
               ))}
             </div>
           )}
@@ -211,7 +255,7 @@ function Profile() {
         </div>
 
         {/* Prayer Streak */}
-        <p className="profile-section-label">Prayer Streak</p>
+        <p className="profile-section-label">Daily Streak</p>
         <div className="profile-section">
           <div className="profile-streak-card">
             <div className="profile-streak-flame">🔥</div>

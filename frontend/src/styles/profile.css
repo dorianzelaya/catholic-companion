@@ -254,15 +254,51 @@
   transition: width 0.3s ease;
 }
 
-.profile-reading-prompt {
-  font-size: 14px;
-  color: var(--brown-light);
-  text-align: center;
-  padding: 0 0 24px;
-  line-height: 1.7;
-}
 
 .profile-reading-book-count.done {
   color: var(--gold);
   font-weight: 500;
+}
+
+.profile-reading-prompt {
+  font-size: 14px;
+  color: var(--brown-light);
+  text-align: center;
+  line-height: 1.7;
+  background-color: var(--cream-dark);
+  border: 0.5px solid var(--cream-border);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+/* Saved prayer row with remove button */
+.saved-prayer-row {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+}
+
+.saved-prayer-btn {
+  flex: 1;
+  background-color: #ffffff;
+  border: 0.5px solid var(--cream-border);
+  border-radius: 12px;
+  padding: 14px 16px;
+  text-align: left;
+  font-family: var(--font-ui);
+  font-size: 15px;
+  color: var(--brown-dark);
+  cursor: pointer;
+}
+
+.saved-prayer-remove {
+  background-color: #ffffff;
+  border: 0.5px solid var(--cream-border);
+  border-radius: 12px;
+  width: 48px;
+  font-size: 20px;
+  color: var(--gold);
+  cursor: pointer;
+  flex-shrink: 0;
 }

@@ -21,17 +21,17 @@ const ICONS = {
     </svg>
   ),
   Rosary: (
-    <svg width="22" height="22" viewBox="0 0 90 90" fill="currentColor" stroke="none">
-      <circle cx="45" cy="14" r="4"/>
-      <circle cx="60" cy="20" r="4"/>
-      <circle cx="66" cy="35" r="4"/>
-      <circle cx="60" cy="50" r="4"/>
-      <circle cx="45" cy="56" r="4"/>
-      <circle cx="30" cy="50" r="4"/>
-      <circle cx="24" cy="35" r="4"/>
-      <circle cx="30" cy="20" r="4"/>
-      <rect x="43" y="62" width="4" height="20" rx="2"/>
-      <rect x="37" y="68" width="16" height="4" rx="2"/>
+    <svg width="22" height="22" viewBox="18 6 54 80" fill="currentColor" stroke="none">
+      <circle cx="45" cy="14" r="4.5"/>
+      <circle cx="60" cy="20" r="4.5"/>
+      <circle cx="66" cy="35" r="4.5"/>
+      <circle cx="60" cy="50" r="4.5"/>
+      <circle cx="45" cy="56" r="4.5"/>
+      <circle cx="30" cy="50" r="4.5"/>
+      <circle cx="24" cy="35" r="4.5"/>
+      <circle cx="30" cy="20" r="4.5"/>
+      <rect x="42.8" y="62" width="4.4" height="21" rx="2.2"/>
+      <rect x="36" y="68.3" width="18" height="4.4" rx="2.2"/>
     </svg>
   ),
   Profile: (

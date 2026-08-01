@@ -108,10 +108,10 @@
 .prayer-bookmark-btn {
   background: none;
   border: none;
-  font-size: 22px;
-  color: var(--cream-border);
+  font-size: 26px;
+  color: var(--brown-light);
   cursor: pointer;
-  padding: 0;
+  padding: 0 0 0 8px;
   flex-shrink: 0;
   line-height: 1;
 }

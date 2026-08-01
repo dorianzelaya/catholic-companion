@@ -21,10 +21,13 @@ const ICONS = {
     </svg>
   ),
   Rosary: (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 4.5 7.5 11a5 5 0 0 0-1 3v3a2 2 0 0 0 2 2H12"/>
-      <path d="M12 4.5 16.5 11a5 5 0 0 1 1 3v3a2 2 0 0 1-2 2H12"/>
-      <path d="M12 4.5V19.5"/>
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M11.4 20V7.2a1.4 1.4 0 0 0-2.8 0V13"/>
+      <path d="M8.6 13V9.4a1.4 1.4 0 0 0-2.8 0v6.1c0 1.6.9 3.1 2.4 4l.8.5"/>
+      <path d="M12.6 20V7.2a1.4 1.4 0 0 1 2.8 0V13"/>
+      <path d="M15.4 13V9.4a1.4 1.4 0 0 1 2.8 0v6.1c0 1.6-.9 3.1-2.4 4l-.8.5"/>
+      <path d="M12 5.5V20"/>
+      <path d="M9 20h6"/>
     </svg>
   ),
   Profile: (

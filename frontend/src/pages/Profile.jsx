@@ -62,6 +62,12 @@ function getSavedPrayers() {
   }
 }
 
+function removeSavedPrayer(name) {
+  const saved = getSavedPrayers().filter(p => p.name !== name)
+  localStorage.setItem('saved_prayers', JSON.stringify(saved))
+  return saved
+}
+
 function getReadChapters() {
   try {
     return JSON.parse(localStorage.getItem('bible_read_chapters') || '{}')
@@ -110,9 +116,9 @@ function Profile() {
   }
 
   function handleUnsave(name) {
-    const updated = savedPrayers.filter(p => p.name !== name)
-    localStorage.setItem('saved_prayers', JSON.stringify(updated))
+    const updated = removeSavedPrayer(name)
     setSavedPrayers(updated)
+    if (selectedPrayer?.name === name) setSelectedPrayer(null)
   }
 
   const allBooks = [...BIBLE_BOOKS.OT, ...BIBLE_BOOKS.NT]
@@ -126,7 +132,16 @@ function Profile() {
         <div className="page-header">
           <BackButton onClick={() => setSelectedPrayer(null)} />
           <p className="readings-eyebrow">Saved Prayers</p>
-          <h1 className="struggle-category-title">{selectedPrayer.name}</h1>
+          <div className="prayer-header-row">
+            <h1 className="struggle-category-title">{selectedPrayer.name}</h1>
+            <button
+              className="prayer-bookmark-btn saved"
+              onClick={() => handleUnsave(selectedPrayer.name)}
+              aria-label="Remove from saved prayers"
+            >
+              ★
+            </button>
+          </div>
         </div>
         <div className="page-content">
           {selectedPrayer.image && (
@@ -168,15 +183,15 @@ function Profile() {
               {savedPrayers.map(prayer => (
                 <div key={prayer.name} className="saved-prayer-row">
                   <button
-                    className="saved-prayer-btn"
+                    className="saved-prayer-name-btn"
                     onClick={() => setSelectedPrayer(prayer)}
                   >
                     {prayer.name}
                   </button>
                   <button
-                    className="saved-prayer-remove"
+                    className="saved-prayer-unsave-btn"
                     onClick={() => handleUnsave(prayer.name)}
-                    aria-label="Remove from saved"
+                    aria-label={`Remove ${prayer.name} from saved prayers`}
                   >
                     ★
                   </button>

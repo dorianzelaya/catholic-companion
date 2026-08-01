@@ -272,18 +272,20 @@
   margin-bottom: 20px;
 }
 
-/* Saved prayer row with remove button */
+/* Saved prayer row with unsave control */
 .saved-prayer-row {
   display: flex;
   align-items: stretch;
-  gap: 8px;
-}
-
-.saved-prayer-btn {
-  flex: 1;
   background-color: #ffffff;
   border: 0.5px solid var(--cream-border);
   border-radius: 12px;
+  overflow: hidden;
+}
+
+.saved-prayer-name-btn {
+  flex: 1;
+  background: none;
+  border: none;
   padding: 14px 16px;
   text-align: left;
   font-family: var(--font-ui);
@@ -292,13 +294,13 @@
   cursor: pointer;
 }
 
-.saved-prayer-remove {
-  background-color: #ffffff;
-  border: 0.5px solid var(--cream-border);
-  border-radius: 12px;
-  width: 48px;
-  font-size: 20px;
+.saved-prayer-unsave-btn {
+  background: none;
+  border: none;
+  border-left: 0.5px solid var(--cream-border);
+  padding: 0 16px;
+  font-size: 18px;
   color: var(--gold);
   cursor: pointer;
-  flex-shrink: 0;
+  line-height: 1;
 }

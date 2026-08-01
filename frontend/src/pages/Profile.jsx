@@ -22,36 +22,53 @@ function daysBetween(fromStr, toStr) {
   return Math.round((b - a) / (1000 * 60 * 60 * 24))
 }
 
+const STREAK_VERSION = 2
+
 function updateStreak() {
   const today = getTodayStr()
+  const fresh = { v: STREAK_VERSION, count: 1, lastDate: today }
   try {
     const raw = localStorage.getItem('prayer_streak')
     if (!raw) {
-      const newStreak = { count: 1, lastDate: today }
-      localStorage.setItem('prayer_streak', JSON.stringify(newStreak))
-      return newStreak
+      localStorage.setItem('prayer_streak', JSON.stringify(fresh))
+      return fresh
     }
-    const { count, lastDate } = JSON.parse(raw)
 
-    // Same calendar day — no change
-    if (lastDate === today) return { count, lastDate }
+    const stored = JSON.parse(raw)
+
+    // Records written before the timezone fix have an inflated count.
+    // Discard them once rather than carrying a wrong number forward.
+    if (stored.v !== STREAK_VERSION) {
+      localStorage.setItem('prayer_streak', JSON.stringify(fresh))
+      return fresh
+    }
+
+    const { count, lastDate } = stored
+
+    if (lastDate === today) return stored
 
     const diff = daysBetween(lastDate, today)
 
-    // Clock changed backwards or bad data — keep the streak, just resync
     if (diff <= 0) {
-      const resynced = { count, lastDate: today }
+      const resynced = { v: STREAK_VERSION, count, lastDate: today }
       localStorage.setItem('prayer_streak', JSON.stringify(resynced))
       return resynced
     }
 
     const newCount = diff === 1 ? count + 1 : 1
-    const newStreak = { count: newCount, lastDate: today }
-    localStorage.setItem('prayer_streak', JSON.stringify(newStreak))
-    return newStreak
+    const updated = { v: STREAK_VERSION, count: newCount, lastDate: today }
+    localStorage.setItem('prayer_streak', JSON.stringify(updated))
+    return updated
   } catch {
-    return { count: 1, lastDate: today }
+    localStorage.setItem('prayer_streak', JSON.stringify(fresh))
+    return fresh
   }
+}
+
+function resetStreak() {
+  const fresh = { v: STREAK_VERSION, count: 1, lastDate: getTodayStr() }
+  localStorage.setItem('prayer_streak', JSON.stringify(fresh))
+  return fresh
 }
 
 function getSavedPrayers() {
@@ -113,6 +130,10 @@ function Profile() {
   function handleLogout() {
     logout()
     navigate('/login')
+  }
+
+  function handleResetStreak() {
+    setStreak(resetStreak())
   }
 
   function handleUnsave(name) {
@@ -283,6 +304,9 @@ function Profile() {
               </p>
             </div>
           </div>
+          <button className="profile-streak-reset" onClick={handleResetStreak}>
+            Reset streak
+          </button>
         </div>
 
         {/* Settings */}

@@ -3,25 +3,25 @@ import { useEffect, useRef, useState } from 'react'
 
 const ICONS = {
   Home: (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
       <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z"/>
       <path d="M9 21V12h6v9"/>
     </svg>
   ),
   Readings: (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
       <path d="M2 6s1.5-2 5-2 5 2 5 2v14s-1.5-1-5-1-5 1-5 1V6z"/>
       <path d="M12 6s1.5-2 5-2 5 2 5 2v14s-1.5-1-5-1-5 1-5 1V6z"/>
     </svg>
   ),
   Bible: (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
       <line x1="12" y1="2" x2="12" y2="22"/>
       <line x1="6" y1="8" x2="18" y2="8"/>
     </svg>
   ),
   Rosary: (
-    <svg width="22" height="22" viewBox="18 6 54 80" fill="currentColor" stroke="none">
+    <svg width="21" height="21" viewBox="18 6 54 80" fill="currentColor" stroke="none">
       <circle cx="45" cy="14" r="4.5"/>
       <circle cx="60" cy="20" r="4.5"/>
       <circle cx="66" cy="35" r="4.5"/>
@@ -35,7 +35,7 @@ const ICONS = {
     </svg>
   ),
   Profile: (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
       <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
       <circle cx="12" cy="7" r="4"/>
     </svg>
@@ -45,7 +45,7 @@ const ICONS = {
 function NavBar() {
   const navigate = useNavigate()
   const location = useLocation()
-  const [indicatorStyle, setIndicatorStyle] = useState({})
+  const [indicatorStyle, setIndicatorStyle] = useState({ opacity: 0 })
   const [ready, setReady] = useState(false)
   const tabRefs = useRef([])
 
@@ -64,23 +64,24 @@ function NavBar() {
     if (activeTab) {
       const { offsetLeft, offsetWidth } = activeTab
       setIndicatorStyle({
-        transform: `translateX(${offsetLeft + offsetWidth / 2 - 12}px)`,
+        transform: `translateX(${offsetLeft}px)`,
+        width: `${offsetWidth}px`,
+        opacity: 1,
       })
-      setReady(true)
+      // Skip the spring on first paint so it doesn't fly in from the left
+      requestAnimationFrame(() => setReady(true))
+    } else {
+      setIndicatorStyle(prev => ({ ...prev, opacity: 0 }))
     }
   }, [activeIndex])
 
   return (
     <nav className="navbar">
-      <div className="nav-indicator-track">
-        <div
-          className="nav-indicator-pill"
-          style={{
-            ...indicatorStyle,
-            transition: ready ? 'transform 0.25s ease' : 'none',
-          }}
-        />
-      </div>
+      <div
+        className={`nav-indicator ${ready ? 'animate' : ''}`}
+        style={indicatorStyle}
+      />
+      <div className="nav-sheen" />
       {tabs.map((tab, i) => {
         const isActive = location.pathname === tab.path
         return (

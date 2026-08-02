@@ -13,6 +13,14 @@
   --brown-light: #9a856a;
   --font-ui: 'Inter', sans-serif;
   --font-serif: 'Lora', serif;
+
+  /* Dark red theme */
+  --red-bg: radial-gradient(120% 90% at 50% 0%, #7a2233 0%, #4a1420 45%, #2a0a12 100%);
+  --red-deep: #2a0a12;
+  --red-mid: #4a1420;
+  --red-light: #7a2233;
+  --red-text: #ffe0e0;
+  --red-text-dim: #d9a8ae;
 }
 
 /* Reset */
@@ -25,11 +33,11 @@
 html {
   height: 100%;
   overflow: hidden;
-  background-color: var(--cream);
+  background-color: var(--red-deep);
 }
 
 body {
-  background-color: var(--cream);
+  background-color: var(--red-deep);
   color: var(--brown-dark);
   font-family: var(--font-ui);
   font-size: 16px;
@@ -42,7 +50,8 @@ body {
   height: 100%;
   display: flex;
   justify-content: center;
-  background-color: var(--cream);
+  background: var(--red-bg);
+  background-attachment: fixed;
 }
 
 /* App shell */
@@ -54,7 +63,8 @@ body {
   max-width: 430px;
   overflow: hidden;
   position: relative;
-  background-color: var(--cream);
+  background: var(--red-bg);
+  background-attachment: fixed;
 }
 
 /* Content fills the full height so it scrolls UNDER the floating navbar */

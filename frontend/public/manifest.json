@@ -4,8 +4,8 @@
   "description": "A daily Catholic companion for Mass readings, prayer, and scripture.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#fdf8f0",
-  "theme_color": "#8b6914",
+  "background_color": "#2a0a12",
+  "theme_color": "#4a1420",
   "orientation": "portrait",
   "icons": [
     {

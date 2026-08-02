@@ -317,3 +317,96 @@
   cursor: pointer;
   text-align: left;
 }
+
+/* ---------- Prayer journal ---------- */
+.journal-compose {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.journal-input {
+  width: 100%;
+  font-family: var(--font-serif);
+  font-size: 15px;
+  line-height: 1.7;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 0.5px solid var(--cream-border);
+  background-color: var(--glass-card, #ffffff);
+  color: var(--brown-dark);
+  resize: vertical;
+  min-height: 96px;
+}
+
+.journal-input::placeholder {
+  color: var(--brown-light);
+  font-style: italic;
+}
+
+.journal-input:focus {
+  outline: none;
+  border-color: var(--gold);
+}
+
+.journal-save-btn {
+  align-self: flex-end;
+  background-color: var(--gold);
+  border: none;
+  border-radius: 12px;
+  padding: 11px 22px;
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.journal-save-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.journal-day {
+  margin-bottom: 24px;
+}
+
+.journal-date {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+
+.journal-entry {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background-color: var(--glass-card, #ffffff);
+  border: 0.5px solid var(--cream-border);
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 8px;
+}
+
+.journal-entry-text {
+  flex: 1;
+  font-family: var(--font-serif);
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--brown-dark);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.journal-delete-btn {
+  background: none;
+  border: none;
+  font-size: 22px;
+  line-height: 1;
+  color: var(--brown-light);
+  cursor: pointer;
+  padding: 0 2px;
+  flex-shrink: 0;
+}

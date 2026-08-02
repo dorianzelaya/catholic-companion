@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useState, useEffect } from 'react'
 import BIBLE_BOOKS from '../data/bible'
+import API_URL from '../config'
 
 // Local calendar date (YYYY-MM-DD). Must NOT use toISOString(), which
 // converts to UTC and rolls the date over in the evening for US timezones.
@@ -93,25 +94,106 @@ function getReadChapters() {
   }
 }
 
+function formatJournalDate(dateStr) {
+  const [y, m, d] = dateStr.split('-').map(Number)
+  const date = new Date(y, m - 1, d)
+  const today = new Date()
+  const isToday =
+    date.getFullYear() === today.getFullYear() &&
+    date.getMonth() === today.getMonth() &&
+    date.getDate() === today.getDate()
+  if (isToday) return 'Today'
+  return date.toLocaleDateString(undefined, {
+    weekday: 'long', month: 'long', day: 'numeric', year: 'numeric',
+  })
+}
+
 function BackButton({ onClick }) {
   return <button className="back-button" onClick={onClick}>← Back</button>
 }
 
 function Profile() {
-  const { user, logout } = useAuth()
+  const { user, token, logout } = useAuth()
   const navigate = useNavigate()
-  const [darkMode, setDarkMode] = useState(false)
   const [streak, setStreak] = useState({ count: 0, lastDate: null })
   const [savedPrayers, setSavedPrayers] = useState([])
   const [readChapters, setReadChapters] = useState({})
   const [view, setView] = useState('main')
   const [selectedPrayer, setSelectedPrayer] = useState(null)
 
+  const [journal, setJournal] = useState([])
+  const [journalText, setJournalText] = useState('')
+  const [journalLoading, setJournalLoading] = useState(false)
+  const [journalError, setJournalError] = useState('')
+  const [saving, setSaving] = useState(false)
+
   useEffect(() => {
     setStreak(updateStreak())
     setSavedPrayers(getSavedPrayers())
     setReadChapters(getReadChapters())
   }, [])
+
+  function authHeaders() {
+    const t = token || localStorage.getItem('token')
+    return t ? { Authorization: `Bearer ${t}` } : {}
+  }
+
+  async function loadJournal() {
+    setJournalLoading(true)
+    setJournalError('')
+    try {
+      const res = await fetch(`${API_URL}/journal`, { headers: authHeaders() })
+      if (res.status === 401) throw new Error('Your session expired. Please log in again.')
+      if (!res.ok) throw new Error('Could not load your journal')
+      setJournal(await res.json())
+    } catch (err) {
+      setJournalError(err.message)
+    } finally {
+      setJournalLoading(false)
+    }
+  }
+
+  async function handleSaveEntry() {
+    const text = journalText.trim()
+    if (!text || saving) return
+    setSaving(true)
+    setJournalError('')
+    try {
+      const res = await fetch(`${API_URL}/journal`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', ...authHeaders() },
+        body: JSON.stringify({ text, date: getTodayStr() }),
+      })
+      if (res.status === 401) throw new Error('Your session expired. Please log in again.')
+      if (!res.ok) throw new Error('Could not save your entry')
+      const created = await res.json()
+      setJournal(prev => [created, ...prev])
+      setJournalText('')
+    } catch (err) {
+      setJournalError(err.message)
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  async function handleDeleteEntry(id) {
+    const previous = journal
+    setJournal(prev => prev.filter(e => e.id !== id))
+    try {
+      const res = await fetch(`${API_URL}/journal/${id}`, {
+        method: 'DELETE',
+        headers: authHeaders(),
+      })
+      if (!res.ok && res.status !== 204) throw new Error()
+    } catch {
+      setJournal(previous)
+      setJournalError('Could not delete that entry')
+    }
+  }
+
+  useEffect(() => {
+    if (view === 'journal') loadJournal()
+  }, [view])
 
   // Reset scroll whenever the view changes, otherwise you land mid-page
   useEffect(() => {
@@ -225,6 +307,73 @@ function Profile() {
     )
   }
 
+  // Prayer journal
+  if (view === 'journal') {
+    const grouped = journal.reduce((acc, entry) => {
+      (acc[entry.date] = acc[entry.date] || []).push(entry)
+      return acc
+    }, {})
+    const dates = Object.keys(grouped).sort().reverse()
+
+    return (
+      <div className="page">
+        <div className="page-header">
+          <BackButton onClick={() => setView('main')} />
+          <p className="readings-eyebrow">Profile</p>
+          <h1 className="profile-title">Prayer Journal</h1>
+        </div>
+        <div className="page-content">
+
+          <div className="journal-compose">
+            <textarea
+              className="journal-input"
+              placeholder="Write a prayer intention, a thanksgiving, or whatever is on your heart..."
+              value={journalText}
+              onChange={e => setJournalText(e.target.value)}
+              rows={4}
+              maxLength={5000}
+            />
+            <button
+              className="journal-save-btn"
+              onClick={handleSaveEntry}
+              disabled={!journalText.trim() || saving}
+            >
+              {saving ? 'Saving...' : 'Save Entry'}
+            </button>
+          </div>
+
+          {journalError && <p className="auth-error">{journalError}</p>}
+          {journalLoading && <p className="readings-loading">Loading...</p>}
+
+          {!journalLoading && journal.length === 0 && !journalError && (
+            <p className="profile-reading-prompt">
+              Your journal is empty. Write your first entry above.
+            </p>
+          )}
+
+          {dates.map(date => (
+            <div key={date} className="journal-day">
+              <p className="journal-date">{formatJournalDate(date)}</p>
+              {grouped[date].map(entry => (
+                <div key={entry.id} className="journal-entry">
+                  <p className="journal-entry-text">{entry.text}</p>
+                  <button
+                    className="journal-delete-btn"
+                    onClick={() => handleDeleteEntry(entry.id)}
+                    aria-label="Delete entry"
+                  >
+                    ×
+                  </button>
+                </div>
+              ))}
+            </div>
+          ))}
+
+        </div>
+      </div>
+    )
+  }
+
   // Reading plan
   if (view === 'reading-plan') {
     return (
@@ -316,22 +465,12 @@ function Profile() {
             <span className="profile-row-label">Language</span>
             <span className="profile-row-value">English</span>
           </div>
-          <div className="profile-divider" />
-          <div className="profile-row">
-            <span className="profile-row-label">Dark Mode</span>
-            <button
-              className={`profile-toggle ${darkMode ? 'active' : ''}`}
-              onClick={() => setDarkMode(!darkMode)}
-            >
-              <div className="profile-toggle-thumb" />
-            </button>
-          </div>
         </div>
 
         {/* Features */}
         <p className="profile-section-label">Features</p>
         <div className="profile-section">
-          <button className="profile-feature-row">
+          <button className="profile-feature-row" onClick={() => setView('journal')}>
             <span className="profile-row-label">Prayer Journal</span>
             <span className="profile-feature-arrow">›</span>
           </button>

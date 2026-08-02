@@ -6,6 +6,7 @@ from routers import readings_routes
 from routers import struggle_routes
 from routers.bible_routes import router as bible_router
 import models
+from routers.journal_routes import router as journal_router
 
 Base.metadata.create_all(bind=engine)
 
@@ -26,6 +27,7 @@ app.include_router(auth_routes.router)
 app.include_router(readings_routes.router)
 app.include_router(struggle_routes.router)
 app.include_router(bible_router)
+app.include_router(journal_router)
 
 
 @app.get("/")

@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, DateTime
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Index
 from sqlalchemy.sql import func
 from database import Base
 
@@ -67,3 +67,21 @@ class StruggleSaint(Base):
     saint_name = Column(String, nullable=False)
     description = Column(String, nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+
+class JournalEntry(Base):
+    __tablename__ = "journal_entries"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"),
+                     index=True, nullable=False)
+    # Local calendar date supplied by the client (YYYY-MM-DD).
+    # Deliberately NOT derived server-side, which would put entries
+    # on the wrong day for users west of UTC.
+    date = Column(String, index=True, nullable=False)
+    text = Column(String, nullable=False)
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+
+# Fast lookup of one user's entries, newest first
+Index("ix_journal_user_date", JournalEntry.user_id, JournalEntry.date)

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import BackButton from '../components/BackButton'
-import API_URL from '../config'
+import { authFetch } from '../api'
 
 const CATEGORIES = {
   "Emotional": [
@@ -34,10 +34,9 @@ function Struggle() {
     setResult(null)
 
     try {
-      const response = await fetch(`${API_URL}/struggle/search`, {
+      const response = await authFetch('/struggle/search', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ category })
+        json: { category }
       })
 
       if (!response.ok) throw new Error('Could not load scripture')
@@ -82,6 +81,12 @@ function Struggle() {
 
         <div className="page-content">
           <div className="struggle-result-body">
+            {result.crisis_note && (
+              <div className="struggle-crisis">
+                <p className="struggle-crisis-text">{result.crisis_note}</p>
+              </div>
+            )}
+
             <div className="struggle-section">
               <p className="struggle-section-label">Scripture</p>
               {result.passages.map((p, i) => (
@@ -110,12 +115,6 @@ function Struggle() {
                   <p className="struggle-prayer-attr">— {result.prayer.attribution}</p>
                   <p className="struggle-prayer-text">{result.prayer.text}</p>
                 </div>
-              </div>
-            )}
-
-            {result.crisis_note && (
-              <div className="struggle-crisis">
-                <p className="struggle-crisis-text">{result.crisis_note}</p>
               </div>
             )}
           </div>

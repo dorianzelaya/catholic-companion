@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import BackButton from '../components/BackButton'
-import API_URL from '../config'
+import { authFetch } from '../api'
 
 const WIKI_HEADERS = {
   'User-Agent': 'Commune Catholic App/1.0 (https://catholic-companion-production.up.railway.app)'
@@ -12,7 +12,7 @@ async function fetchWikipediaData(saintName, saintDescription) {
       name: saintName,
       description: saintDescription || ''
     })
-    const response = await fetch(`${API_URL}/readings/saint-wiki?${params}`)
+    const response = await authFetch(`/readings/saint-wiki?${params}`)
     if (!response.ok) return null
     const data = await response.json()
     if (!data.text && !data.image) return null
@@ -59,7 +59,7 @@ function Saint() {
 
     async function loadSaint() {
       try {
-        const response = await fetch(`${API_URL}/readings/today`)
+        const response = await authFetch(`/readings/today`)
         if (!response.ok) throw new Error('Could not load saint data')
         const json = await response.json()
         setData(json)

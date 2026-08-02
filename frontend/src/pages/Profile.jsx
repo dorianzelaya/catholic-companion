@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useState, useEffect } from 'react'
 import BIBLE_BOOKS from '../data/bible'
-import API_URL from '../config'
+import { authFetch } from '../api'
 
 // Local calendar date (YYYY-MM-DD). Must NOT use toISOString(), which
 // converts to UTC and rolls the date over in the evening for US timezones.
@@ -133,16 +133,11 @@ function Profile() {
     setReadChapters(getReadChapters())
   }, [])
 
-  function authHeaders() {
-    const t = token || localStorage.getItem('token')
-    return t ? { Authorization: `Bearer ${t}` } : {}
-  }
-
   async function loadJournal() {
     setJournalLoading(true)
     setJournalError('')
     try {
-      const res = await fetch(`${API_URL}/journal`, { headers: authHeaders() })
+      const res = await authFetch('/journal')
       if (res.status === 401) throw new Error('Your session expired. Please log in again.')
       if (!res.ok) throw new Error('Could not load your journal')
       setJournal(await res.json())
@@ -159,10 +154,9 @@ function Profile() {
     setSaving(true)
     setJournalError('')
     try {
-      const res = await fetch(`${API_URL}/journal`, {
+      const res = await authFetch('/journal', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', ...authHeaders() },
-        body: JSON.stringify({ text, date: getTodayStr() }),
+        json: { text, date: getTodayStr() },
       })
       if (res.status === 401) throw new Error('Your session expired. Please log in again.')
       if (!res.ok) throw new Error('Could not save your entry')
@@ -180,10 +174,7 @@ function Profile() {
     const previous = journal
     setJournal(prev => prev.filter(e => e.id !== id))
     try {
-      const res = await fetch(`${API_URL}/journal/${id}`, {
-        method: 'DELETE',
-        headers: authHeaders(),
-      })
+      const res = await authFetch(`/journal/${id}`, { method: 'DELETE' })
       if (!res.ok && res.status !== 204) throw new Error()
     } catch {
       setJournal(previous)
@@ -201,13 +192,13 @@ function Profile() {
     if (el) el.scrollTop = 0
   }, [view, selectedPrayer])
 
-  const initial = user?.username
-    ? user.username[0].toUpperCase()
+  const initial = user?.first_name
+    ? user.first_name[0].toUpperCase()
     : user?.email
     ? user.email[0].toUpperCase()
     : '?'
 
-  const displayName = user?.username || user?.email || 'User'
+  const displayName = user?.first_name || user?.email || 'Loading...'
 
   function handleLogout() {
     logout()

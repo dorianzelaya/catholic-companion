@@ -1,11 +1,17 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 import httpx
 from reference_parser import strip_markup
+from auth import get_current_user
+import models
 
 router = APIRouter(prefix="/bible", tags=["bible"])
 
 @router.get("/chapter/{book}/{chapter}")
-async def get_chapter(book: str, chapter: int):
+async def get_chapter(
+    book: str,
+    chapter: int,
+    user: models.User = Depends(get_current_user),
+):
     url = f"https://thedouayrheims.com/api/chapter/{book}/{chapter}"
     async with httpx.AsyncClient() as client:
         response = await client.get(url, timeout=15)

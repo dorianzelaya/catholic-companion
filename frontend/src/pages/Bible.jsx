@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import BackButton from '../components/BackButton'
-import API_URL from '../config'
+import { authFetch } from '../api'
 import BIBLE_BOOKS, { getBookBySlug } from '../data/bible'
 import PERICOPES from '../data/pericopes'
 
@@ -83,7 +83,7 @@ function Bible() {
     if (chapter < book.chapters) {
       const nextKey = `${book.slug}-${chapter + 1}`
       if (!chapterCache[nextKey]) {
-        fetch(`${API_URL}/bible/chapter/${book.slug}/${chapter + 1}`)
+        authFetch(`/bible/chapter/${book.slug}/${chapter + 1}`)
           .then(r => r.json())
           .then(data => setChapterCache(prev => ({ ...prev, [nextKey]: data.verses })))
           .catch(() => {})
@@ -93,7 +93,7 @@ function Bible() {
     if (chapter > 1) {
       const prevKey = `${book.slug}-${chapter - 1}`
       if (!chapterCache[prevKey]) {
-        fetch(`${API_URL}/bible/chapter/${book.slug}/${chapter - 1}`)
+        authFetch(`/bible/chapter/${book.slug}/${chapter - 1}`)
           .then(r => r.json())
           .then(data => setChapterCache(prev => ({ ...prev, [prevKey]: data.verses })))
           .catch(() => {})
@@ -110,7 +110,7 @@ function Bible() {
     setLoading(true)
     setError('')
     try {
-      const response = await fetch(`${API_URL}/bible/chapter/${bookSlug}/${chapterNum}`)
+      const response = await authFetch(`/bible/chapter/${bookSlug}/${chapterNum}`)
       if (!response.ok) throw new Error('Could not load chapter')
       const data = await response.json()
       setVerses(data.verses)

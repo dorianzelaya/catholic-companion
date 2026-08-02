@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from dotenv import load_dotenv
 import os
 
-from fastapi import Depends, HTTPException, status
+from fastapi import Depends, HTTPException, status, Response
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
 
@@ -15,7 +15,14 @@ load_dotenv()
 
 JWT_SECRET = os.getenv("JWT_SECRET")
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7  # 7 days
+
+# Inactivity window. A user who opens the app at least once inside this
+# period is silently re-issued a fresh token and never has to log in again.
+ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 30  # 30 days
+
+# Re-issue once a token has been in use longer than this, rather than on
+# every single request.
+REFRESH_AFTER_MINUTES = 60 * 24  # 1 day
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -43,6 +50,7 @@ def decode_access_token(token: str) -> dict:
 
 
 def get_current_user(
+    response: Response,
     credentials: HTTPAuthorizationCredentials = Depends(bearer_scheme),
     db: Session = Depends(get_db),
 ) -> models.User:
@@ -91,5 +99,25 @@ def get_current_user(
 
     if user is None:
         raise unauthorized
+
+    # --- Sliding expiration ---
+    # If the token is more than REFRESH_AFTER_MINUTES from being fresh,
+    # hand back a new one. The frontend swaps it in transparently, so an
+    # active user is never logged out, while an abandoned session still
+    # expires after ACCESS_TOKEN_EXPIRE_MINUTES of no use.
+    try:
+        exp = payload.get("exp")
+        if exp is not None:
+            remaining = datetime.utcfromtimestamp(exp) - datetime.utcnow()
+            full_life = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+            used = full_life - remaining
+            if used > timedelta(minutes=REFRESH_AFTER_MINUTES):
+                # Reuse the original claims so we don't have to guess the
+                # payload shape that login produced.
+                claims = {k: v for k, v in payload.items() if k != "exp"}
+                response.headers["X-Refresh-Token"] = create_access_token(claims)
+    except Exception:
+        # Never let refresh problems block an otherwise valid request
+        pass
 
     return user

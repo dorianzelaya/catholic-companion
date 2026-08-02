@@ -6,6 +6,7 @@ import httpx
 import re
 from database import get_db
 from services import fetch_daily_content
+from auth import get_current_user
 import models
 
 router = APIRouter(prefix="/readings", tags=["readings"])
@@ -24,7 +25,10 @@ def get_us_eastern_date():
 
 
 @router.get("/today")
-async def get_today_readings(db: Session = Depends(get_db)):
+async def get_today_readings(
+    db: Session = Depends(get_db),
+    user: models.User = Depends(get_current_user),
+):
     today = get_us_eastern_date()
     today_str = today.strftime("%Y-%m-%d")
 
@@ -155,7 +159,12 @@ async def fetch_page(client, title):
 
 
 @router.get("/saint-wiki")
-async def get_saint_wiki(name: str, description: str = "", debug: bool = False):
+async def get_saint_wiki(
+    name: str,
+    description: str = "",
+    debug: bool = False,
+    user: models.User = Depends(get_current_user),
+):
     """Look up a saint on Wikipedia by direct article title first,
     falling back to search only if that fails."""
 

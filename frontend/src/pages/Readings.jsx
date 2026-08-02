@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import BackButton from '../components/BackButton'
-import API_URL from '../config'
+import { authFetch } from '../api'
 
 function Readings() {
   const [readings, setReadings] = useState(() => {
@@ -16,7 +16,7 @@ function Readings() {
   useEffect(() => {
     async function loadReadings() {
       try {
-        const response = await fetch(`${API_URL}/readings/today`)
+        const response = await authFetch('/readings/today')
         if (!response.ok) throw new Error('Could not load readings')
         const data = await response.json()
         setReadings(data)

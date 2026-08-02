@@ -2,6 +2,8 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from database import get_db
 from models import ScripturePassage, StrugglePrayer, StruggleSaint
+from auth import get_current_user
+import models
 import random
 
 router = APIRouter(prefix="/struggle", tags=["struggle"])
@@ -16,8 +18,13 @@ CRISIS_NOTE = (
 
 
 @router.post("/search")
-def search_struggle(payload: dict, db: Session = Depends(get_db)):
+def search_struggle(
+    payload: dict,
+    db: Session = Depends(get_db),
+    user: models.User = Depends(get_current_user),
+):
     category = payload.get("category", "").strip()
+
     if not category:
         raise HTTPException(status_code=400, detail="Category is required")
 

@@ -10,3 +10,6 @@
 @import './prayers.css';
 @import './bible.css';
 @import './profile.css';
+
+/* Theme override — must stay last */
+@import './theme-red.css';

@@ -1,0 +1,164 @@
+/* ============================================================
+   Dark red theme override.
+   Imported LAST in index.css so it wins over the module files.
+   Delete the import to revert to the cream theme.
+   ============================================================ */
+
+:root {
+  /* --cream stays light: it is used as TEXT on gold buttons */
+  --cream: #fff2f2;
+
+  /* Surfaces become translucent glass over the crimson gradient */
+  --cream-dark: rgba(255, 255, 255, 0.07);
+  --cream-border: rgba(255, 255, 255, 0.16);
+
+  /* Text ramp, warm off-whites instead of browns */
+  --brown-dark: #ffeaea;
+  --brown-mid: #f0cccc;
+  --brown-light: #c79ba1;
+
+  /* Gold brightened so it reads against deep red */
+  --gold: #e8b45c;
+  --gold-light: #f3d79b;
+
+  /* Shared card fill */
+  --glass-card: rgba(255, 255, 255, 0.08);
+  --glass-card-strong: rgba(255, 255, 255, 0.12);
+}
+
+/* ---------- Cards that hardcoded #ffffff ---------- */
+.feature-card,
+.saint-wiki-block,
+.struggle-pill,
+.struggle-passage,
+.struggle-prayer,
+.examination-item,
+.rosary-mystery-btn,
+.prayer-item-btn,
+.prayer-detail-card,
+.prayers-category-btn,
+.bible-testament-btn,
+.bible-book-btn,
+.bible-chapter-btn,
+.profile-section,
+.saved-prayer-row {
+  background-color: var(--glass-card);
+  border-color: var(--cream-border);
+  color: var(--brown-dark);
+}
+
+.feature-card:active,
+.struggle-pill:active {
+  background-color: var(--glass-card-strong);
+}
+
+/* Inputs */
+.auth-form input {
+  background-color: var(--glass-card);
+  border-color: var(--cream-border);
+  color: var(--brown-dark);
+}
+
+.auth-form input::placeholder {
+  color: var(--brown-light);
+}
+
+.auth-form input:focus {
+  border-color: var(--gold);
+}
+
+/* ---------- Bars that used the page background ---------- */
+.rosary-next-container {
+  background-color: rgba(42, 10, 18, 0.85);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border-top-color: var(--cream-border);
+}
+
+/* ---------- Headers ---------- */
+.page-header,
+.home-header {
+  background-color: rgba(255, 255, 255, 0.06);
+  border-bottom-color: var(--cream-border);
+}
+
+/* ---------- Text on gold stays dark ---------- */
+.bible-chapter-btn.read,
+.rosary-today-btn,
+.rosary-next-btn,
+.bible-mark-read-btn,
+.auth-form button,
+.profile-avatar,
+.rosary-guide-step-num,
+.profile-feature-badge {
+  color: #4a1420;
+}
+
+.bible-mark-read-btn.read {
+  background-color: transparent;
+  color: var(--gold);
+}
+
+/* ---------- Reds that were tuned for a light background ---------- */
+.auth-error {
+  color: #ff9b9b;
+}
+
+.profile-logout-btn {
+  color: #ff8f8f;
+}
+
+.struggle-crisis {
+  background-color: rgba(120, 20, 30, 0.45);
+  border-color: rgba(255, 140, 140, 0.3);
+}
+
+.struggle-crisis-text {
+  color: #ffc9c9;
+}
+
+/* ---------- Progress + dividers ---------- */
+.rosary-progress-bar,
+.profile-reading-bar-bg {
+  background-color: rgba(255, 255, 255, 0.14);
+}
+
+.profile-divider,
+.saint-card-divider {
+  background-color: var(--cream-border);
+}
+
+/* ---------- Images ---------- */
+.prayer-image {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+/* ---------- Arrows / chevrons ---------- */
+.feature-card-arrow,
+.profile-feature-arrow {
+  color: var(--brown-light);
+}
+
+/* ---------- Toggle ---------- */
+.profile-toggle {
+  background-color: rgba(255, 255, 255, 0.18);
+}
+
+.profile-toggle.active {
+  background-color: var(--gold);
+}
+
+/* ---------- Bible reading surface ---------- */
+.bible-nav-btn,
+.rosary-prev-btn,
+.rosary-restart-btn,
+.rosary-guide-btn {
+  background-color: var(--glass-card);
+  border-color: var(--cream-border);
+  color: var(--brown-dark);
+}
+
+/* ---------- Kill tap highlight app-wide ---------- */
+button {
+  -webkit-tap-highlight-color: transparent;
+}

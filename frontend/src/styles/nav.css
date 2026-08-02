@@ -90,6 +90,11 @@
   font-family: var(--font-ui);
   color: #ffe0e0;
   transition: color 0.35s ease;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  user-select: none;
+  -webkit-user-select: none;
+  outline: none;
 }
 
 .nav-item.active {
@@ -112,3 +117,4 @@
   line-height: 1;
   letter-spacing: 0.01em;
 }
+

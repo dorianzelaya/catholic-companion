@@ -120,3 +120,7 @@ body {
   color: var(--brown-light);
   margin-bottom: 4px;
 }
+
+button {
+  -webkit-tap-highlight-color: transparent;
+}

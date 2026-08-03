@@ -321,3 +321,9 @@ button {
 .saved-prayer-name-btn:active {
   transform: none;
 }
+
+/* Section headings inside Bible chapters */
+.bible-section-heading {
+  color: var(--gold);
+  font-weight: 600;
+}

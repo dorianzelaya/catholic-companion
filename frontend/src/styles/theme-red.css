@@ -350,3 +350,17 @@ button {
   color: var(--gold);
   opacity: 1;
 }
+
+/* The header overlays the content, so it must not intercept taps
+   meant for whatever is beneath it. Re-enable only its own controls. */
+.page-header,
+.home-header {
+  pointer-events: none;
+}
+
+.page-header button,
+.page-header a,
+.home-header button,
+.home-header a {
+  pointer-events: auto;
+}

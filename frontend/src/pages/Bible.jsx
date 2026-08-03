@@ -5,6 +5,38 @@ import { authFetch } from '../api'
 import BIBLE_BOOKS, { getBookBySlug } from '../data/bible'
 import PERICOPES from '../data/pericopes'
 
+// Items enter in sequence rather than all at once.
+const listVariants = {
+  hidden: {},
+  show: {
+    transition: { staggerChildren: 0.035, delayChildren: 0.02 },
+  },
+}
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 14 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.28, ease: [0.22, 1, 0.36, 1] },
+  },
+}
+
+// Chapter grids can run to 150 items (Psalms). Staggering every one
+// would take 5+ seconds, so cap the delay and let the rest come in together.
+const chapterItemVariants = {
+  hidden: { opacity: 0, y: 10 },
+  show: (i) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.24,
+      delay: Math.min(i * 0.012, 0.5),
+      ease: [0.22, 1, 0.36, 1],
+    },
+  }),
+}
+
 function getReadChapters() {
   try {
     return JSON.parse(localStorage.getItem('bible_read_chapters') || '{}')
@@ -241,9 +273,13 @@ function Bible() {
         </div>
         <div className="page-content">
           <div className="bible-chapter-grid">
-            {chapterNums.map(num => (
-              <button
+            {chapterNums.map((num, i) => (
+              <motion.button
                 key={num}
+                custom={i}
+                variants={chapterItemVariants}
+                initial="hidden"
+                animate="show"
                 className={`bible-chapter-btn ${bookRead.includes(num) ? 'read' : ''}`}
                 onClick={() => {
                   setDirection(1)
@@ -252,7 +288,7 @@ function Bible() {
                 }}
               >
                 {num}
-              </button>
+              </motion.button>
             ))}
           </div>
         </div>
@@ -271,19 +307,25 @@ function Bible() {
           <h1 className="bible-testament-title">{testament === 'OT' ? 'Old Testament' : 'New Testament'}</h1>
         </div>
         <div className="page-content">
-          <div className="bible-book-list">
+          <motion.div
+            className="bible-book-list"
+            key={testament}
+            variants={listVariants}
+            initial="hidden"
+            animate="show"
+          >
             {books.map(b => {
               const bookRead = readChapters[b.slug] || []
               return (
-                <button key={b.slug} className="bible-book-btn" onClick={() => setBook(b)}>
+                <motion.button key={b.slug} variants={itemVariants} className="bible-book-btn" onClick={() => setBook(b)}>
                   <span className="bible-book-name">{b.name}</span>
                   <span className="bible-book-chapters">
                     {bookRead.length > 0 ? `${bookRead.length}/${b.chapters}` : `${b.chapters} ch`}
                   </span>
-                </button>
+                </motion.button>
               )
             })}
-          </div>
+          </motion.div>
         </div>
       </div>
     )
@@ -298,16 +340,21 @@ function Bible() {
         <h1 className="bible-testament-title">The Holy Bible</h1>
       </div>
       <div className="page-content">
-        <div className="bible-testament-btns">
-          <button className="bible-testament-btn" onClick={() => setTestament('OT')}>
+        <motion.div
+          className="bible-testament-btns"
+          variants={listVariants}
+          initial="hidden"
+          animate="show"
+        >
+          <motion.button variants={itemVariants} className="bible-testament-btn" onClick={() => setTestament('OT')}>
             <p className="bible-testament-btn-title">Old Testament</p>
             <p className="bible-testament-btn-sub">46 books</p>
-          </button>
-          <button className="bible-testament-btn" onClick={() => setTestament('NT')}>
+          </motion.button>
+          <motion.button variants={itemVariants} className="bible-testament-btn" onClick={() => setTestament('NT')}>
             <p className="bible-testament-btn-title">New Testament</p>
             <p className="bible-testament-btn-sub">27 books</p>
-          </button>
-        </div>
+          </motion.button>
+        </motion.div>
       </div>
     </div>
   )

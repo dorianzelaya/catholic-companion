@@ -16,6 +16,9 @@ import Prayers from './pages/Prayers'
 import Bible from './pages/Bible'
 import Profile from './pages/Profile'
 
+// Routes with no navbar — the user isn't signed in yet
+const AUTH_ROUTES = ['/login', '/register']
+
 function AnimatedRoutes() {
   const location = useLocation()
 
@@ -61,16 +64,27 @@ function AnimatedRoutes() {
   )
 }
 
+// useLocation only works inside the router, so the navbar visibility
+// check has to live in a component rendered beneath BrowserRouter.
+function AppShell() {
+  const location = useLocation()
+  const hideNav = AUTH_ROUTES.includes(location.pathname)
+
+  return (
+    <div className="app-shell">
+      <div className={`app-content ${hideNav ? 'no-nav' : ''}`}>
+        <AnimatedRoutes />
+      </div>
+      {!hideNav && <NavBar />}
+    </div>
+  )
+}
+
 function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
-        <div className="app-shell">
-          <div className="app-content">
-            <AnimatedRoutes />
-          </div>
-          <NavBar />
-        </div>
+        <AppShell />
       </BrowserRouter>
     </AuthProvider>
   )

@@ -195,7 +195,22 @@ function Bible() {
         <div className="page-header">
           <BackButton onClick={() => { setChapter(null); setVerses([]) }} />
           <p className="readings-eyebrow">{book.name}</p>
-          <h1 className="bible-chapter-title">Chapter {chapter}</h1>
+          <div className="bible-chapter-title-row">
+            <h1 className="bible-chapter-title">Chapter {chapter}</h1>
+            <button
+              className={`bible-read-toggle ${alreadyRead ? 'read' : ''}`}
+              onClick={handleToggleRead}
+              aria-label={alreadyRead ? 'Mark chapter as unread' : 'Mark chapter as read'}
+              title={alreadyRead ? 'Read' : 'Mark as read'}
+            >
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none"
+                   stroke="currentColor" strokeWidth="2"
+                   strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="9" />
+                {alreadyRead && <polyline points="8.5 12.2 11 14.7 15.7 9.7" />}
+              </svg>
+            </button>
+          </div>
         </div>
         <div className="page-content" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
           <AnimatePresence mode="wait" custom={direction}>
@@ -228,14 +243,6 @@ function Bible() {
               )}
               {!loading && !error && verses.length > 0 && (
                 <>
-                  <div className="bible-mark-read-row">
-                    <button
-                      className={`bible-mark-read-btn ${alreadyRead ? 'read' : ''}`}
-                      onClick={handleToggleRead}
-                    >
-                      {alreadyRead ? '✓ Read — tap to unmark' : 'Mark as Read'}
-                    </button>
-                  </div>
                   <div className="bible-nav-row">
                     {chapter > 1 && (
                       <button className="bible-nav-btn" onClick={() => goToChapter(chapter - 1, -1)}>

@@ -313,17 +313,40 @@ button {
   color: var(--brown-light);
 }
 
-/* Full-bleed rows inside a card must not scale — shrinking pulls the
-   background off the container edge and leaves an unhighlighted sliver. */
-.profile-feature-row:active,
-.profile-streak-reset:active,
-.profile-logout-btn:active,
-.saved-prayer-name-btn:active {
-  transform: none;
-}
-
 /* Section headings inside Bible chapters */
 .bible-section-heading {
   color: var(--gold);
   font-weight: 600;
+}
+
+/* Chapter read toggle — sits quietly in the header rather than
+   interrupting the end of the chapter with a call to action. */
+.bible-chapter-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.bible-read-toggle {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--brown-light);
+  opacity: 0.55;
+  transition: opacity 0.2s ease, color 0.2s ease, transform 0.12s ease;
+}
+
+.bible-read-toggle:active {
+  transform: scale(0.88);
+}
+
+.bible-read-toggle.read {
+  color: var(--gold);
+  opacity: 1;
 }

@@ -203,3 +203,112 @@ button {
 .page-content {
   padding-top: calc(var(--header-h, 96px) + 20px);
 }
+
+/* ============================================================
+   Press feedback.
+   iOS also colors button text blue by default, so anything not
+   given an explicit color is set here too.
+   ============================================================ */
+
+/* --- Glass surfaces: brighten and settle slightly on press --- */
+.bible-testament-btn,
+.bible-book-btn,
+.bible-nav-btn,
+.prayers-category-btn,
+.prayer-item-btn,
+.rosary-mystery-btn,
+.rosary-guide-btn,
+.rosary-prev-btn,
+.rosary-restart-btn,
+.profile-feature-row,
+.profile-streak-reset,
+.profile-logout-btn,
+.saved-prayer-name-btn,
+.saved-prayer-unsave-btn,
+.journal-delete-btn,
+.examination-commandment,
+.prayer-bookmark-btn,
+.back-button,
+.rosary-exit-btn {
+  transition: background-color 0.15s ease, transform 0.12s ease;
+}
+
+.bible-testament-btn:active,
+.bible-book-btn:active,
+.bible-nav-btn:active,
+.prayers-category-btn:active,
+.prayer-item-btn:active,
+.rosary-mystery-btn:active,
+.rosary-guide-btn:active,
+.rosary-prev-btn:active,
+.rosary-restart-btn:active,
+.profile-feature-row:active,
+.profile-streak-reset:active,
+.saved-prayer-name-btn:active,
+.examination-commandment:active {
+  background-color: var(--glass-card-strong);
+  transform: scale(0.985);
+}
+
+/* Icon-sized controls: no background, just a nudge */
+.saved-prayer-unsave-btn:active,
+.journal-delete-btn:active,
+.prayer-bookmark-btn:active,
+.back-button:active,
+.rosary-exit-btn:active {
+  transform: scale(0.9);
+  opacity: 0.7;
+}
+
+.profile-logout-btn:active {
+  background-color: rgba(255, 143, 143, 0.14);
+}
+
+/* --- Gold solid buttons: darken slightly on press --- */
+.rosary-today-btn,
+.rosary-next-btn,
+.bible-mark-read-btn,
+.journal-save-btn,
+.auth-form button {
+  transition: filter 0.15s ease, transform 0.12s ease;
+}
+
+.rosary-today-btn:active,
+.rosary-next-btn:active,
+.bible-mark-read-btn:active,
+.journal-save-btn:active,
+.auth-form button:active {
+  filter: brightness(0.88);
+  transform: scale(0.985);
+}
+
+/* Outlined "already read" state has no fill to darken */
+.bible-mark-read-btn.read:active {
+  filter: none;
+  background-color: rgba(232, 180, 92, 0.16);
+}
+
+/* --- iOS default blue text --- */
+.journal-save-btn {
+  color: #4a1420;
+}
+
+.journal-delete-btn,
+.profile-streak-reset,
+.back-button,
+.rosary-exit-btn {
+  color: var(--brown-light);
+}
+
+.saved-prayer-name-btn {
+  color: var(--brown-dark);
+}
+
+.saved-prayer-unsave-btn,
+.prayer-bookmark-btn.saved {
+  color: var(--gold);
+}
+
+.prayer-bookmark-btn {
+  color: var(--brown-light);
+}

@@ -60,7 +60,7 @@ function Struggle() {
       <div className="page">
         <div className="page-header">
           <BackButton onClick={handleBack} />
-          <p className="readings-eyebrow">Consolation</p>
+          <p className="readings-eyebrow">Seek</p>
           <h1 className="struggle-category-title">{selected}</h1>
         </div>
         <div className="page-content">
@@ -127,7 +127,7 @@ function Struggle() {
     <div className="page">
       <div className="page-header">
         <BackButton />
-        <p className="readings-eyebrow">Consolation</p>
+        <p className="readings-eyebrow">Seek</p>
         <h1 className="struggle-category-title">Find Scripture For...</h1>
       </div>
 

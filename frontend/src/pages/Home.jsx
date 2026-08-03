@@ -70,8 +70,8 @@ function Home() {
           />
 
           <FeatureCard
-            title="Consolation"
-            subtitle="Strength for today"
+            title="Seek"
+            subtitle="Scripture for every season"
             path="/struggle"
             accent="#4a3728"
           />

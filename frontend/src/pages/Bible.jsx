@@ -5,13 +5,10 @@ import { authFetch } from '../api'
 import BIBLE_BOOKS, { getBookBySlug } from '../data/bible'
 import PERICOPES from '../data/pericopes'
 
-// Framer Motion leaves a transform on every element it animates, and iOS
-// Safari starts dropping taps once a page carries too many of those retained
-// compositing layers. So only the first screenful of any list is animated —
-// everything past that renders plain. Visually identical on a phone, since
-// you can't see past the first dozen items anyway.
-const ANIMATE_LIMIT_BOOKS = 12
-const ANIMATE_LIMIT_CHAPTERS = 15   // 3 clean rows in the 5-column grid
+// Only used for the two testament buttons on the Bible home screen.
+// Long lists are deliberately NOT animated: Framer Motion leaves a
+// transform on every element it touches, and 46-150 retained compositing
+// layers causes iOS Safari to drop taps across the whole page.
 const listVariants = {
   hidden: {},
   show: {
@@ -268,31 +265,21 @@ function Bible() {
           )}
         </div>
         <div className="page-content">
-          <motion.div
-            className="bible-chapter-grid"
-            key={book.slug}
-            variants={listVariants}
-            initial="hidden"
-            animate="show"
-          >
-            {chapterNums.map((num, i) => {
-              const cls = `bible-chapter-btn ${bookRead.includes(num) ? 'read' : ''}`
-              const open = () => {
-                setDirection(1)
-                setChapter(num)
-                loadChapter(book.slug, num)
-              }
-              return i < ANIMATE_LIMIT_CHAPTERS ? (
-                <motion.button key={num} variants={itemVariants} className={cls} onClick={open}>
-                  {num}
-                </motion.button>
-              ) : (
-                <button key={num} className={cls} onClick={open}>
-                  {num}
-                </button>
-              )
-            })}
-          </motion.div>
+          <div className="bible-chapter-grid">
+            {chapterNums.map(num => (
+              <button
+                key={num}
+                className={`bible-chapter-btn ${bookRead.includes(num) ? 'read' : ''}`}
+                onClick={() => {
+                  setDirection(1)
+                  setChapter(num)
+                  loadChapter(book.slug, num)
+                }}
+              >
+                {num}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
     )
@@ -309,40 +296,19 @@ function Bible() {
           <h1 className="bible-testament-title">{testament === 'OT' ? 'Old Testament' : 'New Testament'}</h1>
         </div>
         <div className="page-content">
-          <motion.div
-            className="bible-book-list"
-            key={testament}
-            variants={listVariants}
-            initial="hidden"
-            animate="show"
-          >
-            {books.map((b, i) => {
+          <div className="bible-book-list">
+            {books.map(b => {
               const bookRead = readChapters[b.slug] || []
-              const label = bookRead.length > 0
-                ? `${bookRead.length}/${b.chapters}`
-                : `${b.chapters} ch`
-              const inner = (
-                <>
-                  <span className="bible-book-name">{b.name}</span>
-                  <span className="bible-book-chapters">{label}</span>
-                </>
-              )
-              return i < ANIMATE_LIMIT_BOOKS ? (
-                <motion.button
-                  key={b.slug}
-                  variants={itemVariants}
-                  className="bible-book-btn"
-                  onClick={() => setBook(b)}
-                >
-                  {inner}
-                </motion.button>
-              ) : (
+              return (
                 <button key={b.slug} className="bible-book-btn" onClick={() => setBook(b)}>
-                  {inner}
+                  <span className="bible-book-name">{b.name}</span>
+                  <span className="bible-book-chapters">
+                    {bookRead.length > 0 ? `${bookRead.length}/${b.chapters}` : `${b.chapters} ch`}
+                  </span>
                 </button>
               )
             })}
-          </motion.div>
+          </div>
         </div>
       </div>
     )

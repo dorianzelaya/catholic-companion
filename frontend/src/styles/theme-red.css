@@ -312,3 +312,12 @@ button {
 .prayer-bookmark-btn {
   color: var(--brown-light);
 }
+
+/* Full-bleed rows inside a card must not scale — shrinking pulls the
+   background off the container edge and leaves an unhighlighted sliver. */
+.profile-feature-row:active,
+.profile-streak-reset:active,
+.profile-logout-btn:active,
+.saved-prayer-name-btn:active {
+  transform: none;
+}

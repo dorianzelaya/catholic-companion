@@ -373,3 +373,16 @@ button {
 .saved-prayer-name-btn:active {
   transform: none;
 }
+
+/* Back button: bigger text and a proper tap target.
+   Negative margins keep it visually aligned with the header edge
+   despite the added padding. */
+.back-button {
+  font-size: 15px;
+  padding: 10px 12px 10px 0;
+  margin-left: 0;
+  margin-bottom: 4px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}

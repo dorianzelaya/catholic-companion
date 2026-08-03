@@ -5,7 +5,10 @@ import { authFetch } from '../api'
 import BIBLE_BOOKS, { getBookBySlug } from '../data/bible'
 import PERICOPES from '../data/pericopes'
 
-// Items enter in sequence rather than all at once.
+// Only used for the two testament buttons on the Bible home screen.
+// Long lists are deliberately NOT animated: Framer Motion leaves a
+// transform on every element it touches, and 46-150 retained compositing
+// layers causes iOS Safari to drop taps across the whole page.
 const listVariants = {
   hidden: {},
   show: {
@@ -20,21 +23,6 @@ const itemVariants = {
     y: 0,
     transition: { duration: 0.28, ease: [0.22, 1, 0.36, 1] },
   },
-}
-
-// Chapter grids can run to 150 items (Psalms). Staggering every one
-// would take 5+ seconds, so cap the delay and let the rest come in together.
-const chapterItemVariants = {
-  hidden: { opacity: 0, y: 10 },
-  show: (i) => ({
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.24,
-      delay: Math.min(i * 0.012, 0.5),
-      ease: [0.22, 1, 0.36, 1],
-    },
-  }),
 }
 
 function getReadChapters() {
@@ -242,20 +230,18 @@ function Bible() {
                 </div>
               )}
               {!loading && !error && verses.length > 0 && (
-                <>
-                  <div className="bible-nav-row">
-                    {chapter > 1 && (
-                      <button className="bible-nav-btn" onClick={() => goToChapter(chapter - 1, -1)}>
-                        ← Chapter {chapter - 1}
-                      </button>
-                    )}
-                    {chapter < book.chapters && (
-                      <button className="bible-nav-btn" onClick={() => goToChapter(chapter + 1, 1)}>
-                        Chapter {chapter + 1} →
-                      </button>
-                    )}
-                  </div>
-                </>
+                <div className="bible-nav-row">
+                  {chapter > 1 && (
+                    <button className="bible-nav-btn" onClick={() => goToChapter(chapter - 1, -1)}>
+                      ← Chapter {chapter - 1}
+                    </button>
+                  )}
+                  {chapter < book.chapters && (
+                    <button className="bible-nav-btn" onClick={() => goToChapter(chapter + 1, 1)}>
+                      Chapter {chapter + 1} →
+                    </button>
+                  )}
+                </div>
               )}
             </motion.div>
           </AnimatePresence>
@@ -264,7 +250,7 @@ function Bible() {
     )
   }
 
-  // Chapter selection view
+  // Chapter selection view — no entrance animation, see note at top of file
   if (book !== null) {
     const chapterNums = Array.from({ length: book.chapters }, (_, i) => i + 1)
     const bookRead = readChapters[book.slug] || []
@@ -280,13 +266,9 @@ function Bible() {
         </div>
         <div className="page-content">
           <div className="bible-chapter-grid">
-            {chapterNums.map((num, i) => (
-              <motion.button
+            {chapterNums.map(num => (
+              <button
                 key={num}
-                custom={i}
-                variants={chapterItemVariants}
-                initial="hidden"
-                animate="show"
                 className={`bible-chapter-btn ${bookRead.includes(num) ? 'read' : ''}`}
                 onClick={() => {
                   setDirection(1)
@@ -295,7 +277,7 @@ function Bible() {
                 }}
               >
                 {num}
-              </motion.button>
+              </button>
             ))}
           </div>
         </div>
@@ -303,7 +285,7 @@ function Bible() {
     )
   }
 
-  // Book list view
+  // Book list view — no entrance animation, see note at top of file
   if (testament !== null) {
     const books = BIBLE_BOOKS[testament]
     return (
@@ -314,31 +296,25 @@ function Bible() {
           <h1 className="bible-testament-title">{testament === 'OT' ? 'Old Testament' : 'New Testament'}</h1>
         </div>
         <div className="page-content">
-          <motion.div
-            className="bible-book-list"
-            key={testament}
-            variants={listVariants}
-            initial="hidden"
-            animate="show"
-          >
+          <div className="bible-book-list">
             {books.map(b => {
               const bookRead = readChapters[b.slug] || []
               return (
-                <motion.button key={b.slug} variants={itemVariants} className="bible-book-btn" onClick={() => setBook(b)}>
+                <button key={b.slug} className="bible-book-btn" onClick={() => setBook(b)}>
                   <span className="bible-book-name">{b.name}</span>
                   <span className="bible-book-chapters">
                     {bookRead.length > 0 ? `${bookRead.length}/${b.chapters}` : `${b.chapters} ch`}
                   </span>
-                </motion.button>
+                </button>
               )
             })}
-          </motion.div>
+          </div>
         </div>
       </div>
     )
   }
 
-  // Home view
+  // Home view — only two items, safe to animate
   return (
     <div className="page">
       <div className="page-header">

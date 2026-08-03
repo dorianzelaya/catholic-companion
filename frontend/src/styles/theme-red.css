@@ -364,3 +364,15 @@ button {
 .home-header a {
   pointer-events: auto;
 }
+
+/* TEMPORARY DIAGNOSTIC — remove after testing */
+.page-header,
+.home-header {
+  position: static;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  background: rgba(74, 20, 32, 0.9);
+}
+.page-content {
+  padding-top: 24px;
+}

@@ -212,7 +212,7 @@ function Bible() {
             </button>
           </div>
         </div>
-        <div className="page-content" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
+        <div className="page-content">
           <AnimatePresence mode="wait" custom={direction}>
             <motion.div
               key={chapter}

@@ -1,6 +1,25 @@
 import { useState, useEffect } from 'react'
+import { motion } from 'framer-motion'
 import BackButton from '../components/BackButton'
 import PRAYERS from '../data/prayers'
+
+// Items enter in sequence rather than all at once.
+// staggerChildren is the delay between each item starting.
+const listVariants = {
+  hidden: {},
+  show: {
+    transition: { staggerChildren: 0.04, delayChildren: 0.02 },
+  },
+}
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 14 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.28, ease: [0.22, 1, 0.36, 1] },
+  },
+}
 
 function getSavedPrayers() {
   try {
@@ -120,10 +139,17 @@ function Prayers() {
           <h1 className="struggle-category-title">{category}</h1>
         </div>
         <div className="page-content">
-          <div className="prayers-items">
+          <motion.div
+            className="prayers-items"
+            key={category}
+            variants={listVariants}
+            initial="hidden"
+            animate="show"
+          >
             {PRAYERS[category].map(prayer => (
-              <button
+              <motion.button
                 key={prayer.name}
+                variants={itemVariants}
                 className="prayer-item-btn"
                 onClick={() => selectPrayer(prayer)}
               >
@@ -131,9 +157,9 @@ function Prayers() {
                 {savedNames.includes(prayer.name) && (
                   <span className="prayer-item-saved">★</span>
                 )}
-              </button>
+              </motion.button>
             ))}
-          </div>
+          </motion.div>
         </div>
       </div>
     )
@@ -147,17 +173,23 @@ function Prayers() {
         <h1 className="struggle-category-title">Prayers</h1>
       </div>
       <div className="page-content">
-        <div className="prayers-category-grid">
+        <motion.div
+          className="prayers-category-grid"
+          variants={listVariants}
+          initial="hidden"
+          animate="show"
+        >
           {Object.keys(PRAYERS).map(cat => (
-            <button
+            <motion.button
               key={cat}
+              variants={itemVariants}
               className="prayers-category-btn"
               onClick={() => selectCategory(cat)}
             >
               {cat}
-            </button>
+            </motion.button>
           ))}
-        </div>
+        </motion.div>
       </div>
     </div>
   )

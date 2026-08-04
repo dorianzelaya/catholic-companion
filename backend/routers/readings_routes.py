@@ -7,6 +7,7 @@ import re
 from database import get_db
 from services import fetch_daily_content
 from auth import get_current_user
+from saint_titles import lookup_title
 import models
 
 router = APIRouter(prefix="/readings", tags=["readings"])
@@ -174,6 +175,12 @@ async def get_saint_wiki(
     name_parts = [w.lower() for w in clean.split() if len(w) > 3]
     trace["name_parts"] = name_parts
 
+    # Explicit mapping wins over any guessing. These are the days where the
+    # liturgical name simply is not the Wikipedia title, so they are stated
+    # outright rather than inferred.
+    explicit = lookup_title(name)
+    trace["explicit_title"] = explicit
+
     def out(text, image, reason=None):
         res = {"text": text, "image": image}
         if debug:
@@ -183,6 +190,15 @@ async def get_saint_wiki(
         return res
 
     async with httpx.AsyncClient(follow_redirects=True) as client:
+        # 0. Explicit mapping, if this day has one
+        if explicit:
+            try:
+                text, image = await fetch_page(client, explicit)
+                if text:
+                    return out(text, image, f"explicit: {explicit}")
+            except Exception as e:
+                trace["explicit_error"] = f"{type(e).__name__}: {e}"
+
         # 1. Direct title lookup — this is how Wikipedia URLs actually work
         trace["tried_titles"] = []
         for candidate in title_candidates(clean):

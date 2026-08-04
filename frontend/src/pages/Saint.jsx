@@ -22,34 +22,50 @@ async function fetchWikipediaData(saintName, saintDescription) {
   }
 }
 
+// Bump when the saint lookup logic changes, so already-cached days
+// don't keep serving results produced by the old code.
+const SAINT_CACHE_VERSION = 2
+
+// Local calendar date. Deliberately not toISOString(), which converts to
+// UTC and rolls the date over in the evening for US timezones.
 function getTodayKey() {
-  return new Date().toISOString().split('T')[0]
+  const d = new Date()
+  return [
+    d.getFullYear(),
+    String(d.getMonth() + 1).padStart(2, '0'),
+    String(d.getDate()).padStart(2, '0'),
+  ].join('-')
+}
+
+function readCache(key) {
+  try {
+    const raw = localStorage.getItem(key)
+    if (!raw) return null
+    const { v, date, payload } = JSON.parse(raw)
+    if (v !== SAINT_CACHE_VERSION) return null
+    if (date !== getTodayKey()) return null
+    return payload
+  } catch {
+    return null
+  }
+}
+
+function writeCache(key, payload) {
+  try {
+    localStorage.setItem(key, JSON.stringify({
+      v: SAINT_CACHE_VERSION,
+      date: getTodayKey(),
+      payload,
+    }))
+  } catch {
+    // storage full or unavailable — not worth failing the page over
+  }
 }
 
 function Saint() {
-  const [data, setData] = useState(() => {
-    try {
-      const cached = localStorage.getItem('cached_saint_data')
-      if (!cached) return null
-      const { date, payload } = JSON.parse(cached)
-      if (date === getTodayKey()) return payload
-      return null
-    } catch {
-      return null
-    }
-  })
+  const [data, setData] = useState(() => readCache('cached_saint_data'))
 
-  const [wikiData, setWikiData] = useState(() => {
-    try {
-      const cached = localStorage.getItem('cached_saint_wiki')
-      if (!cached) return null
-      const { date, payload } = JSON.parse(cached)
-      if (date === getTodayKey()) return payload
-      return null
-    } catch {
-      return null
-    }
-  })
+  const [wikiData, setWikiData] = useState(() => readCache('cached_saint_wiki'))
 
   const [loading, setLoading] = useState(!data)
   const [error, setError] = useState('')
@@ -63,10 +79,7 @@ function Saint() {
         if (!response.ok) throw new Error('Could not load saint data')
         const json = await response.json()
         setData(json)
-        localStorage.setItem('cached_saint_data', JSON.stringify({
-          date: getTodayKey(),
-          payload: json
-        }))
+        writeCache('cached_saint_data', json)
 
         const isFeria = (
           json.saint_type === 'FERIA' ||
@@ -81,16 +94,10 @@ function Saint() {
         if (!isFeria) {
           const wiki = await fetchWikipediaData(json.saint_name, json.saint_description)
           setWikiData(wiki)
-          localStorage.setItem('cached_saint_wiki', JSON.stringify({
-            date: getTodayKey(),
-            payload: wiki
-          }))
+          writeCache('cached_saint_wiki', wiki)
         } else {
           setWikiData(null)
-          localStorage.setItem('cached_saint_wiki', JSON.stringify({
-            date: getTodayKey(),
-            payload: null
-          }))
+          writeCache('cached_saint_wiki', null)
         }
       } catch (err) {
         setError(err.message)

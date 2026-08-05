@@ -366,11 +366,15 @@ button {
 /* Logout button must not transition color — it briefly flashes gold on
    page load because the page fade-in triggers the inherited transition. */
 .profile-logout-btn {
-  transition: background-color 0.15s ease;
-  color: #ff8f8f;
+  transition: none;
+  color: #ff8f8f !important;
 }
 
 .readings-eyebrow,
 .rosary-step-eyebrow {
+  color: var(--gold);
+}
+
+.home-header-season {
   color: var(--gold);
 }

@@ -68,12 +68,26 @@ function NavBar() {
         width: `${offsetWidth}px`,
         opacity: 1,
       })
-      // Skip the spring on first paint so it doesn't fly in from the left
       requestAnimationFrame(() => setReady(true))
     } else {
       setIndicatorStyle(prev => ({ ...prev, opacity: 0 }))
     }
   }, [activeIndex])
+
+  function handleTabClick(tab) {
+    if (tab.path === '/bible' && location.pathname === '/bible') {
+      // Already on Bible — clear saved position so the component remounts
+      // at the testament selection screen rather than the last-read level.
+      localStorage.removeItem('bible_testament')
+      localStorage.removeItem('bible_book')
+      localStorage.removeItem('bible_chapter')
+      // Pass a new key so App.jsx forces a full remount of Bible.jsx,
+      // re-running its useState initialisers against the cleared storage.
+      navigate('/bible', { state: { bibleKey: Date.now() } })
+    } else {
+      navigate(tab.path)
+    }
+  }
 
   return (
     <nav className="navbar">
@@ -89,7 +103,7 @@ function NavBar() {
             key={tab.path}
             ref={el => tabRefs.current[i] = el}
             className={`nav-item ${isActive ? 'active' : ''}`}
-            onClick={() => navigate(tab.path)}
+            onClick={() => handleTabClick(tab)}
           >
             <span className="nav-icon">{ICONS[tab.label]}</span>
             <span className="nav-label">{tab.label}</span>

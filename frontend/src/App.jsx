@@ -16,11 +16,15 @@ import Prayers from './pages/Prayers'
 import Bible from './pages/Bible'
 import Profile from './pages/Profile'
 
-// Routes with no navbar — the user isn't signed in yet
 const AUTH_ROUTES = ['/login', '/register']
 
 function AnimatedRoutes() {
   const location = useLocation()
+  // When the user taps the Bible navbar button while already on /bible,
+  // NavBar passes state.bibleKey (a timestamp). Using it as the key on
+  // the Bible route forces a full remount, re-running useState initialisers
+  // against the cleared localStorage so the user lands at testament selection.
+  const bibleKey = location.state?.bibleKey ?? 'bible'
 
   return (
     <AnimatePresence mode="wait">
@@ -54,7 +58,11 @@ function AnimatedRoutes() {
           <ProtectedRoute><PageTransition><Prayers /></PageTransition></ProtectedRoute>
         } />
         <Route path="/bible" element={
-          <ProtectedRoute><PageTransition><Bible /></PageTransition></ProtectedRoute>
+          <ProtectedRoute>
+            <PageTransition key={bibleKey}>
+              <Bible />
+            </PageTransition>
+          </ProtectedRoute>
         } />
         <Route path="/profile" element={
           <ProtectedRoute><PageTransition><Profile /></PageTransition></ProtectedRoute>
@@ -64,8 +72,6 @@ function AnimatedRoutes() {
   )
 }
 
-// useLocation only works inside the router, so the navbar visibility
-// check has to live in a component rendered beneath BrowserRouter.
 function AppShell() {
   const location = useLocation()
   const hideNav = AUTH_ROUTES.includes(location.pathname)

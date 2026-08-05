@@ -369,3 +369,8 @@ button {
   transition: background-color 0.15s ease;
   color: #ff8f8f;
 }
+
+.readings-eyebrow,
+.rosary-step-eyebrow {
+  color: var(--gold);
+}

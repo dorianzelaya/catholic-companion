@@ -80,6 +80,7 @@ function NavBar() {
       // If already on the testament selection screen (nothing saved),
       // do nothing — tapping the tab again should have no effect.
       const insideBible =
+        localStorage.getItem('bible_testament') ||
         localStorage.getItem('bible_book') ||
         localStorage.getItem('bible_chapter')
       if (!insideBible) return

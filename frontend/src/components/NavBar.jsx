@@ -76,7 +76,13 @@ function NavBar() {
 
   function handleTabClick(tab) {
     if (tab.path === '/bible' && location.pathname === '/bible') {
-      // Already inside Bible — reset to testament selection
+      // Only reset if the user is inside a book or chapter.
+      // If already on the testament selection screen (nothing saved),
+      // do nothing — tapping the tab again should have no effect.
+      const insideBible =
+        localStorage.getItem('bible_book') ||
+        localStorage.getItem('bible_chapter')
+      if (!insideBible) return
       localStorage.removeItem('bible_testament')
       localStorage.removeItem('bible_book')
       localStorage.removeItem('bible_chapter')

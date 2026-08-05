@@ -386,3 +386,9 @@ button {
   display: inline-flex;
   align-items: center;
 }
+
+/* Eyebrow labels gold across all pages */
+.readings-eyebrow,
+.rosary-step-eyebrow {
+  color: var(--gold);
+}

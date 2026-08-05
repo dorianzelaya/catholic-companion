@@ -224,7 +224,3 @@
   white-space: nowrap;
 }
 
-.bible-sort-btn.active {
-  border-color: var(--gold);
-  color: var(--gold);
-}

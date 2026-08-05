@@ -1,25 +1,6 @@
 import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
 import BackButton from '../components/BackButton'
 import PRAYERS from '../data/prayers'
-
-// Items enter in sequence rather than all at once.
-// staggerChildren is the delay between each item starting.
-const listVariants = {
-  hidden: {},
-  show: {
-    transition: { staggerChildren: 0.04, delayChildren: 0.02 },
-  },
-}
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 14 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.28, ease: [0.22, 1, 0.36, 1] },
-  },
-}
 
 function getSavedPrayers() {
   try {
@@ -69,28 +50,12 @@ function Prayers() {
     setSavedNames(updated.map(p => p.name))
   }
 
-  function selectCategory(cat) {
-    setCategory(cat)
-  }
-
-  function selectPrayer(prayer) {
-    setSelected(prayer)
-  }
-
-  function backFromPrayer() {
-    setSelected(null)
-  }
-
-  function backFromCategory() {
-    setCategory(null)
-  }
-
   if (selected) {
     const isSaved = savedNames.includes(selected.name)
     return (
       <div className="page">
         <div className="page-header">
-          <BackButton onClick={backFromPrayer} />
+          <BackButton onClick={() => setSelected(null)} />
           <p className="readings-eyebrow">{category}</p>
           <div className="prayer-header-row">
             <h1 className="struggle-category-title">{selected.name}</h1>
@@ -106,11 +71,7 @@ function Prayers() {
         <div className="page-content">
           {selected.image && (
             <div className="prayer-image-block">
-              <img
-                src={selected.image}
-                alt={selected.name}
-                className="prayer-image"
-              />
+              <img src={selected.image} alt={selected.name} className="prayer-image" />
               {selected.caption && (
                 <p className="prayer-image-caption">{selected.caption}</p>
               )}
@@ -134,32 +95,25 @@ function Prayers() {
     return (
       <div className="page">
         <div className="page-header">
-          <BackButton onClick={backFromCategory} />
+          <BackButton onClick={() => setCategory(null)} />
           <p className="readings-eyebrow">Prayers</p>
           <h1 className="struggle-category-title">{category}</h1>
         </div>
         <div className="page-content">
-          <motion.div
-            className="prayers-items"
-            key={category}
-            variants={listVariants}
-            initial="hidden"
-            animate="show"
-          >
+          <div className="prayers-items">
             {PRAYERS[category].map(prayer => (
-              <motion.button
+              <button
                 key={prayer.name}
-                variants={itemVariants}
                 className="prayer-item-btn"
-                onClick={() => selectPrayer(prayer)}
+                onClick={() => setSelected(prayer)}
               >
                 {prayer.name}
                 {savedNames.includes(prayer.name) && (
                   <span className="prayer-item-saved">★</span>
                 )}
-              </motion.button>
+              </button>
             ))}
-          </motion.div>
+          </div>
         </div>
       </div>
     )
@@ -173,23 +127,17 @@ function Prayers() {
         <h1 className="struggle-category-title">Prayers</h1>
       </div>
       <div className="page-content">
-        <motion.div
-          className="prayers-category-grid"
-          variants={listVariants}
-          initial="hidden"
-          animate="show"
-        >
+        <div className="prayers-category-grid">
           {Object.keys(PRAYERS).map(cat => (
-            <motion.button
+            <button
               key={cat}
-              variants={itemVariants}
               className="prayers-category-btn"
-              onClick={() => selectCategory(cat)}
+              onClick={() => setCategory(cat)}
             >
               {cat}
-            </motion.button>
+            </button>
           ))}
-        </motion.div>
+        </div>
       </div>
     </div>
   )

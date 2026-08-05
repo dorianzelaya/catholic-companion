@@ -5,26 +5,6 @@ import { authFetch } from '../api'
 import BIBLE_BOOKS, { getBookBySlug } from '../data/bible'
 import PERICOPES from '../data/pericopes'
 
-// Only used for the two testament buttons on the Bible home screen.
-// Long lists are deliberately NOT animated: Framer Motion leaves a
-// transform on every element it touches, and 46-150 retained compositing
-// layers causes iOS Safari to drop taps across the whole page.
-const listVariants = {
-  hidden: {},
-  show: {
-    transition: { staggerChildren: 0.035, delayChildren: 0.02 },
-  },
-}
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 14 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.28, ease: [0.22, 1, 0.36, 1] },
-  },
-}
-
 function getReadChapters() {
   try {
     return JSON.parse(localStorage.getItem('bible_read_chapters') || '{}')
@@ -250,7 +230,7 @@ function Bible() {
     )
   }
 
-  // Chapter selection view — no entrance animation, see note at top of file
+  // Chapter selection view — no entrance animation
   if (book !== null) {
     const chapterNums = Array.from({ length: book.chapters }, (_, i) => i + 1)
     const bookRead = readChapters[book.slug] || []
@@ -285,7 +265,7 @@ function Bible() {
     )
   }
 
-  // Book list view — no entrance animation, see note at top of file
+  // Book list view — no entrance animation
   if (testament !== null) {
     const books = BIBLE_BOOKS[testament]
     return (
@@ -314,7 +294,7 @@ function Bible() {
     )
   }
 
-  // Home view — only two items, safe to animate
+  // Home view — no entrance animation
   return (
     <div className="page">
       <div className="page-header">
@@ -323,21 +303,16 @@ function Bible() {
         <h1 className="bible-testament-title">The Holy Bible</h1>
       </div>
       <div className="page-content">
-        <motion.div
-          className="bible-testament-btns"
-          variants={listVariants}
-          initial="hidden"
-          animate="show"
-        >
-          <motion.button variants={itemVariants} className="bible-testament-btn" onClick={() => setTestament('OT')}>
+        <div className="bible-testament-btns">
+          <button className="bible-testament-btn" onClick={() => setTestament('OT')}>
             <p className="bible-testament-btn-title">Old Testament</p>
             <p className="bible-testament-btn-sub">46 books</p>
-          </motion.button>
-          <motion.button variants={itemVariants} className="bible-testament-btn" onClick={() => setTestament('NT')}>
+          </button>
+          <button className="bible-testament-btn" onClick={() => setTestament('NT')}>
             <p className="bible-testament-btn-title">New Testament</p>
             <p className="bible-testament-btn-sub">27 books</p>
-          </motion.button>
-        </motion.div>
+          </button>
+        </div>
       </div>
     </div>
   )

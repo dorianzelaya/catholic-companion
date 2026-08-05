@@ -43,6 +43,7 @@ function Bible() {
   const [chapterCache, setChapterCache] = useState({})
   const [direction, setDirection] = useState(0)
   const [readChapters, setReadChapters] = useState(getReadChapters)
+  const [sortAlpha, setSortAlpha] = useState(false)
   const dragStartX = useRef(null)
   const dragStartY = useRef(null)
 
@@ -230,7 +231,7 @@ function Bible() {
     )
   }
 
-  // Chapter selection view — no entrance animation
+  // Chapter selection view
   if (book !== null) {
     const chapterNums = Array.from({ length: book.chapters }, (_, i) => i + 1)
     const bookRead = readChapters[book.slug] || []
@@ -265,19 +266,33 @@ function Bible() {
     )
   }
 
-  // Book list view — no entrance animation
+  // Book list view
   if (testament !== null) {
     const books = BIBLE_BOOKS[testament]
+    const displayBooks = sortAlpha
+      ? [...books].sort((a, b) => a.name.localeCompare(b.name))
+      : books
+
     return (
       <div className="page">
         <div className="page-header">
           <BackButton onClick={() => setTestament(null)} />
           <p className="readings-eyebrow">Douay-Rheims Bible</p>
-          <h1 className="bible-testament-title">{testament === 'OT' ? 'Old Testament' : 'New Testament'}</h1>
+          <div className="bible-list-header-row">
+            <h1 className="bible-testament-title">
+              {testament === 'OT' ? 'Old Testament' : 'New Testament'}
+            </h1>
+            <button
+              className={`bible-sort-btn ${sortAlpha ? 'active' : ''}`}
+              onClick={() => setSortAlpha(v => !v)}
+            >
+              {sortAlpha ? 'Traditional' : 'A–Z'}
+            </button>
+          </div>
         </div>
         <div className="page-content">
           <div className="bible-book-list">
-            {books.map(b => {
+            {displayBooks.map(b => {
               const bookRead = readChapters[b.slug] || []
               return (
                 <button key={b.slug} className="bible-book-btn" onClick={() => setBook(b)}>
@@ -294,7 +309,7 @@ function Bible() {
     )
   }
 
-  // Home view — no entrance animation
+  // Home view
   return (
     <div className="page">
       <div className="page-header">

@@ -75,14 +75,13 @@ function NavBar() {
   }, [activeIndex])
 
   function handleTabClick(tab) {
+    // Already on this tab and it's not a Bible reset — do nothing
+    if (tab.path === location.pathname && tab.path !== '/bible') return
+
     if (tab.path === '/bible' && location.pathname === '/bible') {
-      // Already on Bible — clear saved position so the component remounts
-      // at the testament selection screen rather than the last-read level.
       localStorage.removeItem('bible_testament')
       localStorage.removeItem('bible_book')
       localStorage.removeItem('bible_chapter')
-      // Pass a new key so App.jsx forces a full remount of Bible.jsx,
-      // re-running its useState initialisers against the cleared storage.
       navigate('/bible', { state: { bibleKey: Date.now() } })
     } else {
       navigate(tab.path)

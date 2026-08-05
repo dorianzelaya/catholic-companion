@@ -286,7 +286,7 @@ function Bible() {
               className={`bible-sort-btn ${sortAlpha ? 'active' : ''}`}
               onClick={() => setSortAlpha(v => !v)}
             >
-              {sortAlpha ? 'Traditional' : 'A–Z'}
+              {sortAlpha ? 'A–Z' : 'Traditional'}
             </button>
           </div>
         </div>

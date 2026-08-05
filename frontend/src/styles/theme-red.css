@@ -50,6 +50,7 @@
 .feature-card:active,
 .struggle-pill:active {
   background-color: var(--glass-card-strong);
+  transform: scale(0.985);
 }
 
 /* Inputs */
@@ -167,7 +168,7 @@ button {
    Frosted overlay headers.
    The header floats above the scroll area so content passes
    underneath it and refracts through the blur, matching the navbar.
-   --header-h is measured at runtime in PageTransition.jsx.
+   Header clearance is a fixed value — see .page-content below.
    ============================================================ */
 
 .page {
@@ -199,7 +200,8 @@ button {
 }
 
 /* Push content clear of the overlaid header.
-   Falls back to a sane value if measurement hasn't run yet. */
+   --header-h is measured in PageTransition.jsx, which only writes it when
+   the value actually changes. Falls back if measurement hasn't run yet. */
 .page-content {
   padding-top: calc(var(--header-h, 96px) + 20px);
 }
@@ -351,19 +353,6 @@ button {
   opacity: 1;
 }
 
-/* The header overlays the content, so it must not intercept taps
-   meant for whatever is beneath it. Re-enable only its own controls. */
-.page-header,
-.home-header {
-  pointer-events: none;
-}
-
-.page-header button,
-.page-header a,
-.home-header button,
-.home-header a {
-  pointer-events: auto;
-}
 
 /* Full-bleed rows inside a card must not scale — shrinking pulls the
    background off the container edge and leaves an unhighlighted sliver. */
@@ -374,21 +363,9 @@ button {
   transform: none;
 }
 
-/* Back button: bigger text and a proper tap target.
-   Negative margins keep it visually aligned with the header edge
-   despite the added padding. */
-.back-button {
-  font-size: 15px;
-  padding: 10px 12px 10px 0;
-  margin-left: 0;
-  margin-bottom: 4px;
-  min-height: 44px;
-  display: inline-flex;
-  align-items: center;
-}
-
-/* Eyebrow labels gold across all pages */
-.readings-eyebrow,
-.rosary-step-eyebrow {
-  color: var(--gold);
+/* Logout button must not transition color — it briefly flashes gold on
+   page load because the page fade-in triggers the inherited transition. */
+.profile-logout-btn {
+  transition: background-color 0.15s ease;
+  color: #ff8f8f;
 }

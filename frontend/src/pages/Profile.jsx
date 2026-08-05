@@ -133,6 +133,18 @@ function Profile() {
     setReadChapters(getReadChapters())
   }, [])
 
+  // NavBar dispatches this when the user taps Profile while already on /profile.
+  // It resets any open sub-view (journal, reading plan, saved prayers) back to
+  // the main screen. If already on main, it's a no-op since view is 'main'.
+  useEffect(() => {
+    function onReset() {
+      setView('main')
+      setSelectedPrayer(null)
+    }
+    window.addEventListener('profile:reset', onReset)
+    return () => window.removeEventListener('profile:reset', onReset)
+  }, [])
+
   async function loadJournal() {
     setJournalLoading(true)
     setJournalError('')

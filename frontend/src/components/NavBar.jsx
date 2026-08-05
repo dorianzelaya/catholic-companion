@@ -75,17 +75,26 @@ function NavBar() {
   }, [activeIndex])
 
   function handleTabClick(tab) {
-    // Already on this tab and it's not a Bible reset — do nothing
-    if (tab.path === location.pathname && tab.path !== '/bible') return
-
     if (tab.path === '/bible' && location.pathname === '/bible') {
+      // Already inside Bible — reset to testament selection
       localStorage.removeItem('bible_testament')
       localStorage.removeItem('bible_book')
       localStorage.removeItem('bible_chapter')
       navigate('/bible', { state: { bibleKey: Date.now() } })
-    } else {
-      navigate(tab.path)
+      return
     }
+
+    if (tab.path === '/profile' && location.pathname === '/profile') {
+      // Already inside Profile — fire a custom event so Profile.jsx
+      // can reset its view state without prop drilling or a remount
+      window.dispatchEvent(new CustomEvent('profile:reset'))
+      return
+    }
+
+    // Any other same-tab tap — do nothing
+    if (tab.path === location.pathname) return
+
+    navigate(tab.path)
   }
 
   return (

@@ -26,10 +26,6 @@ function toggleChapterRead(bookSlug, chapterNum) {
   return read
 }
 
-// Separate from bible_book/bible_chapter (which restore in-progress position
-// and get cleared when the user backs out). This one is write-only-forward
-// and never cleared, so the home screen can always show where you last
-// left off even after returning to the top level.
 function getLastRead() {
   try {
     return JSON.parse(localStorage.getItem('bible_last_read') || 'null')
@@ -44,13 +40,40 @@ function setLastRead(bookSlug, bookName, chapterNum) {
   }))
 }
 
-// A random verse from the shared collection, distinct from the Home
-// page's verse of the day (which is fixed to today's date).
 function getRandomVerse() {
   const months = Object.keys(DAILY_VERSES)
   const month = months[Math.floor(Math.random() * months.length)]
   const verses = DAILY_VERSES[month]
   return verses[Math.floor(Math.random() * verses.length)]
+}
+
+// Saved verses: same shape/pattern as saved_prayers so Profile.jsx can
+// treat them consistently — a flat array in localStorage, unique by a
+// composite id (book+chapter+verse), no backend.
+function getSavedVerses() {
+  try {
+    return JSON.parse(localStorage.getItem('saved_verses') || '[]')
+  } catch {
+    return []
+  }
+}
+
+function verseId(bookSlug, chapter, verseNum) {
+  return `${bookSlug}-${chapter}-${verseNum}`
+}
+
+function isVerseSaved(savedVerses, bookSlug, chapter, verseNum) {
+  return savedVerses.some(v => v.id === verseId(bookSlug, chapter, verseNum))
+}
+
+function toggleSavedVerse(savedVerses, entry) {
+  const id = verseId(entry.bookSlug, entry.chapter, entry.verse)
+  const exists = savedVerses.some(v => v.id === id)
+  const updated = exists
+    ? savedVerses.filter(v => v.id !== id)
+    : [...savedVerses, { id, ...entry }]
+  localStorage.setItem('saved_verses', JSON.stringify(updated))
+  return updated
 }
 
 function Bible() {
@@ -74,6 +97,8 @@ function Bible() {
   const [sortAlpha, setSortAlpha] = useState(false)
   const [dailyVerse] = useState(getRandomVerse)
   const [lastRead, setLastReadState] = useState(getLastRead)
+  const [savedVerses, setSavedVerses] = useState(getSavedVerses)
+  const [selectedVerse, setSelectedVerse] = useState(null)
   const dragStartX = useRef(null)
   const dragStartY = useRef(null)
 
@@ -107,6 +132,11 @@ function Bible() {
     const el = document.querySelector('.page-content')
     if (el) el.scrollTop = 0
   }, [testament, book, chapter])
+
+  // Deselect any highlighted verse whenever the chapter changes
+  useEffect(() => {
+    setSelectedVerse(null)
+  }, [book, chapter])
 
   useEffect(() => {
     if (!book || !chapter) return
@@ -164,6 +194,25 @@ function Bible() {
     setReadChapters({ ...updated })
   }
 
+  function handleVerseTap(verseNum) {
+    setSelectedVerse(prev => (prev === verseNum ? null : verseNum))
+  }
+
+  function handleSaveVerse() {
+    if (selectedVerse == null || !book) return
+    const v = verses.find(v => v.verse === selectedVerse)
+    if (!v) return
+    const updated = toggleSavedVerse(savedVerses, {
+      bookSlug: book.slug,
+      bookName: book.name,
+      chapter,
+      verse: v.verse,
+      text: v.text,
+    })
+    setSavedVerses(updated)
+    setSelectedVerse(null)
+  }
+
   function handleTouchStart(e) {
     dragStartX.current = e.touches[0].clientX
     dragStartY.current = e.touches[0].clientY
@@ -180,9 +229,6 @@ function Bible() {
     else if (dx > 0 && chapter > 1) goToChapter(chapter - 1, -1)
   }
 
-  // Record last-read position whenever a chapter is opened, for the
-  // home screen's Continue Reading card. Fires on every navigation
-  // into a chapter, independent of the restore-on-remount state above.
   useEffect(() => {
     if (book && chapter) {
       setLastRead(book.slug, book.name, chapter)
@@ -199,6 +245,9 @@ function Bible() {
   // Chapter reading view
   if (chapter !== null && book !== null) {
     const alreadyRead = readChapters[book.slug]?.includes(chapter)
+    const selectedIsSaved = selectedVerse != null &&
+      isVerseSaved(savedVerses, book.slug, chapter, selectedVerse)
+
     return (
       <div className="page">
         <div className="page-header">
@@ -238,12 +287,18 @@ function Bible() {
                 <div className="bible-verses">
                   {verses.map(v => {
                     const heading = PERICOPES[book.slug]?.[chapter]?.[v.verse]
+                    const saved = isVerseSaved(savedVerses, book.slug, chapter, v.verse)
+                    const isSelected = selectedVerse === v.verse
                     return (
                       <div key={v.verse}>
                         {heading && <p className="bible-section-heading">{heading}</p>}
-                        <div className="bible-verse">
+                        <div
+                          className={`bible-verse ${isSelected ? 'selected' : ''} ${saved ? 'saved' : ''}`}
+                          onClick={() => handleVerseTap(v.verse)}
+                        >
                           <span className="bible-verse-num">{v.verse}</span>
                           <span className="bible-verse-text">{v.text}</span>
+                          {saved && <span className="bible-verse-saved-mark">★</span>}
                         </div>
                       </div>
                     )
@@ -267,6 +322,15 @@ function Bible() {
             </motion.div>
           </AnimatePresence>
         </div>
+
+        {selectedVerse != null && (
+          <div className="bible-save-verse-bar">
+            <span className="bible-save-verse-ref">{book.name} {chapter}:{selectedVerse}</span>
+            <button className="bible-save-verse-btn" onClick={handleSaveVerse}>
+              {selectedIsSaved ? 'Remove Verse' : 'Save Verse'}
+            </button>
+          </div>
+        )}
       </div>
     )
   }

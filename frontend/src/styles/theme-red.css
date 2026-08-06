@@ -366,34 +366,29 @@ button {
 /* Logout button must not transition color — it briefly flashes gold on
    page load because the page fade-in triggers the inherited transition. */
 .profile-logout-btn {
-  transition: none;
-  color: #ff8f8f !important;
+  transition: background-color 0.15s ease;
+  color: #ff8f8f;
 }
 
-.readings-eyebrow,
-.rosary-step-eyebrow {
-  color: var(--gold);
+/* Verse save bar and saved verse rows */
+.bible-save-verse-bar {
+  background-color: rgba(42, 10, 18, 0.92);
+  border-top-color: var(--cream-border);
 }
 
-.home-header-season {
-  color: var(--gold);
+.bible-save-verse-ref {
+  color: var(--brown-light);
 }
 
-.bible-verse-card,
-.bible-continue-card,
-.bible-stat-card {
+.bible-verse.selected {
+  background-color: rgba(232, 180, 92, 0.14);
+}
+
+.saved-verse-row {
   background-color: var(--glass-card);
   border-color: var(--cream-border);
 }
 
-.bible-verse-card-text {
-  color: var(--brown-dark);
-}
-
-.bible-continue-value {
-  color: var(--brown-dark);
-}
-
-.bible-stat-value {
+.saved-verse-text {
   color: var(--brown-dark);
 }

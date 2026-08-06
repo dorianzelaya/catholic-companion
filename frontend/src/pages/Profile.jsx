@@ -4,8 +4,6 @@ import { useState, useEffect } from 'react'
 import BIBLE_BOOKS from '../data/bible'
 import { authFetch } from '../api'
 
-// Local calendar date (YYYY-MM-DD). Must NOT use toISOString(), which
-// converts to UTC and rolls the date over in the evening for US timezones.
 function getTodayStr() {
   const d = new Date()
   const y = d.getFullYear()
@@ -14,7 +12,6 @@ function getTodayStr() {
   return `${y}-${m}-${day}`
 }
 
-// Whole days between two YYYY-MM-DD strings, compared at local midnight
 function daysBetween(fromStr, toStr) {
   const [y1, m1, d1] = fromStr.split('-').map(Number)
   const [y2, m2, d2] = toStr.split('-').map(Number)
@@ -34,28 +31,19 @@ function updateStreak() {
       localStorage.setItem('prayer_streak', JSON.stringify(fresh))
       return fresh
     }
-
     const stored = JSON.parse(raw)
-
-    // Records written before the timezone fix have an inflated count.
-    // Discard them once rather than carrying a wrong number forward.
     if (stored.v !== STREAK_VERSION) {
       localStorage.setItem('prayer_streak', JSON.stringify(fresh))
       return fresh
     }
-
     const { count, lastDate } = stored
-
     if (lastDate === today) return stored
-
     const diff = daysBetween(lastDate, today)
-
     if (diff <= 0) {
       const resynced = { v: STREAK_VERSION, count, lastDate: today }
       localStorage.setItem('prayer_streak', JSON.stringify(resynced))
       return resynced
     }
-
     const newCount = diff === 1 ? count + 1 : 1
     const updated = { v: STREAK_VERSION, count: newCount, lastDate: today }
     localStorage.setItem('prayer_streak', JSON.stringify(updated))
@@ -83,6 +71,20 @@ function getSavedPrayers() {
 function removeSavedPrayer(name) {
   const saved = getSavedPrayers().filter(p => p.name !== name)
   localStorage.setItem('saved_prayers', JSON.stringify(saved))
+  return saved
+}
+
+function getSavedVerses() {
+  try {
+    return JSON.parse(localStorage.getItem('saved_verses') || '[]')
+  } catch {
+    return []
+  }
+}
+
+function removeSavedVerse(id) {
+  const saved = getSavedVerses().filter(v => v.id !== id)
+  localStorage.setItem('saved_verses', JSON.stringify(saved))
   return saved
 }
 
@@ -117,6 +119,7 @@ function Profile() {
   const navigate = useNavigate()
   const [streak, setStreak] = useState({ count: 0, lastDate: null })
   const [savedPrayers, setSavedPrayers] = useState([])
+  const [savedVerses, setSavedVerses] = useState([])
   const [readChapters, setReadChapters] = useState({})
   const [view, setView] = useState('main')
   const [selectedPrayer, setSelectedPrayer] = useState(null)
@@ -130,12 +133,10 @@ function Profile() {
   useEffect(() => {
     setStreak(updateStreak())
     setSavedPrayers(getSavedPrayers())
+    setSavedVerses(getSavedVerses())
     setReadChapters(getReadChapters())
   }, [])
 
-  // NavBar dispatches this when the user taps Profile while already on /profile.
-  // It resets any open sub-view (journal, reading plan, saved prayers) back to
-  // the main screen. If already on main, it's a no-op since view is 'main'.
   useEffect(() => {
     function onReset() {
       setView('main')
@@ -198,7 +199,6 @@ function Profile() {
     if (view === 'journal') loadJournal()
   }, [view])
 
-  // Reset scroll whenever the view changes, otherwise you land mid-page
   useEffect(() => {
     const el = document.querySelector('.page-content')
     if (el) el.scrollTop = 0
@@ -227,6 +227,10 @@ function Profile() {
     if (selectedPrayer?.name === name) setSelectedPrayer(null)
   }
 
+  function handleUnsaveVerse(id) {
+    setSavedVerses(removeSavedVerse(id))
+  }
+
   const allBooks = [...BIBLE_BOOKS.OT, ...BIBLE_BOOKS.NT]
   const totalChaptersRead = Object.values(readChapters).reduce((sum, chs) => sum + chs.length, 0)
   const hasStarted = totalChaptersRead > 0
@@ -237,7 +241,7 @@ function Profile() {
       <div className="page">
         <div className="page-header">
           <BackButton onClick={() => setSelectedPrayer(null)} />
-          <p className="readings-eyebrow">Saved Prayers</p>
+          <p className="readings-eyebrow">My Prayers</p>
           <div className="prayer-header-row">
             <h1 className="struggle-category-title">{selectedPrayer.name}</h1>
             <button
@@ -270,14 +274,14 @@ function Profile() {
     )
   }
 
-  // Saved prayers list
+  // My Prayers list
   if (view === 'saved') {
     return (
       <div className="page">
         <div className="page-header">
           <BackButton onClick={() => setView('main')} />
           <p className="readings-eyebrow">Profile</p>
-          <h1 className="profile-title">Saved Prayers</h1>
+          <h1 className="profile-title">My Prayers</h1>
         </div>
         <div className="page-content">
           {savedPrayers.length === 0 ? (
@@ -298,6 +302,44 @@ function Profile() {
                     className="saved-prayer-unsave-btn"
                     onClick={() => handleUnsave(prayer.name)}
                     aria-label={`Remove ${prayer.name} from saved prayers`}
+                  >
+                    ★
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    )
+  }
+
+  // My Verses list
+  if (view === 'verses') {
+    return (
+      <div className="page">
+        <div className="page-header">
+          <BackButton onClick={() => setView('main')} />
+          <p className="readings-eyebrow">Profile</p>
+          <h1 className="profile-title">My Verses</h1>
+        </div>
+        <div className="page-content">
+          {savedVerses.length === 0 ? (
+            <div className="profile-empty">
+              <p className="profile-empty-text">No saved verses yet. Tap a verse in the Bible reader, then tap "Save Verse."</p>
+            </div>
+          ) : (
+            <div className="prayers-items">
+              {savedVerses.map(v => (
+                <div key={v.id} className="saved-verse-row">
+                  <div className="saved-verse-content">
+                    <p className="saved-verse-text">"{v.text}"</p>
+                    <p className="saved-verse-ref">{v.bookName} {v.chapter}:{v.verse}</p>
+                  </div>
+                  <button
+                    className="saved-prayer-unsave-btn"
+                    onClick={() => handleUnsaveVerse(v.id)}
+                    aria-label={`Remove ${v.bookName} ${v.chapter}:${v.verse} from saved verses`}
                   >
                     ★
                   </button>
@@ -476,9 +518,19 @@ function Profile() {
           <div className="profile-divider" />
           <button className="profile-feature-row" onClick={() => setView('saved')}>
             <div className="profile-feature-row-left">
-              <span className="profile-row-label">Saved Prayers</span>
+              <span className="profile-row-label">My Prayers</span>
               {savedPrayers.length > 0 && (
                 <span className="profile-feature-badge">{savedPrayers.length}</span>
+              )}
+            </div>
+            <span className="profile-feature-arrow">›</span>
+          </button>
+          <div className="profile-divider" />
+          <button className="profile-feature-row" onClick={() => setView('verses')}>
+            <div className="profile-feature-row-left">
+              <span className="profile-row-label">My Verses</span>
+              {savedVerses.length > 0 && (
+                <span className="profile-feature-badge">{savedVerses.length}</span>
               )}
             </div>
             <span className="profile-feature-arrow">›</span>

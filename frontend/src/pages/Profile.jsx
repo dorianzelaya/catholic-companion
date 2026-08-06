@@ -461,15 +461,6 @@ function Profile() {
           </button>
         </div>
 
-        {/* Settings */}
-        <p className="profile-section-label">Settings</p>
-        <div className="profile-section">
-          <div className="profile-row">
-            <span className="profile-row-label">Language</span>
-            <span className="profile-row-value">English</span>
-          </div>
-        </div>
-
         {/* Features */}
         <p className="profile-section-label">Features</p>
         <div className="profile-section">

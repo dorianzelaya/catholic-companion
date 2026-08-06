@@ -392,3 +392,16 @@ button {
 .saved-verse-text {
   color: var(--brown-dark);
 }
+
+.bible-verse-card,
+.bible-continue-card,
+.bible-stat-card {
+  background-color: var(--glass-card);
+  border-color: var(--cream-border);
+}
+
+.bible-verse-card-text,
+.bible-continue-value,
+.bible-stat-value {
+  color: var(--brown-dark);
+}

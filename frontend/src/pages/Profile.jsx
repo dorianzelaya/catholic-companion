@@ -114,6 +114,18 @@ function BackButton({ onClick }) {
   return <button className="back-button" onClick={onClick}>← Back</button>
 }
 
+// Title/eyebrow shown per view. 'main' has no back button; everything
+// else does. Centralized so the header is ONE piece of JSX instead of
+// being duplicated (and re-mounted) inside every branch.
+const VIEW_META = {
+  main:          { eyebrow: 'Your Account',  title: 'Profile' },
+  journal:       { eyebrow: 'Profile',       title: 'Prayer Journal' },
+  'reading-plan':{ eyebrow: 'Profile',       title: 'Reading Plan' },
+  saved:         { eyebrow: 'Profile',       title: 'My Prayers' },
+  verses:        { eyebrow: 'Profile',       title: 'My Verses' },
+  'prayer-detail': { eyebrow: 'My Prayers',  title: null }, // title = prayer name
+}
+
 function Profile() {
   const { user, token, logout } = useAuth()
   const navigate = useNavigate()
@@ -235,15 +247,27 @@ function Profile() {
   const totalChaptersRead = Object.values(readChapters).reduce((sum, chs) => sum + chs.length, 0)
   const hasStarted = totalChaptersRead > 0
 
-  // Saved prayer detail
-  if (selectedPrayer) {
-    return (
-      <div className="page">
-        <div className="page-header">
-          <BackButton onClick={() => setSelectedPrayer(null)} />
-          <p className="readings-eyebrow">My Prayers</p>
+  // Which view are we effectively on, for header purposes
+  const activeView = selectedPrayer ? 'prayer-detail' : view
+  const meta = VIEW_META[activeView] || VIEW_META.main
+  const headerTitle = activeView === 'prayer-detail' ? selectedPrayer?.name : meta.title
+
+  function handleBack() {
+    if (selectedPrayer) {
+      setSelectedPrayer(null)
+    } else {
+      setView('main')
+    }
+  }
+
+  return (
+    <div className="page">
+      <div className="page-header">
+        {activeView !== 'main' && <BackButton onClick={handleBack} />}
+        <p className="readings-eyebrow">{meta.eyebrow}</p>
+        {activeView === 'prayer-detail' ? (
           <div className="prayer-header-row">
-            <h1 className="struggle-category-title">{selectedPrayer.name}</h1>
+            <h1 className="struggle-category-title">{headerTitle}</h1>
             <button
               className="prayer-bookmark-btn saved"
               onClick={() => handleUnsave(selectedPrayer.name)}
@@ -252,39 +276,40 @@ function Profile() {
               ★
             </button>
           </div>
-        </div>
-        <div className="page-content">
-          {selectedPrayer.image && (
-            <div className="prayer-image-block">
-              <img src={selectedPrayer.image} alt={selectedPrayer.name} className="prayer-image" />
-              {selectedPrayer.caption && <p className="prayer-image-caption">{selectedPrayer.caption}</p>}
-            </div>
-          )}
-          <div className="prayer-detail-card">
-            <p className="prayer-detail-text">{selectedPrayer.text}</p>
-          </div>
-          {selectedPrayer.history && (
-            <div className="prayer-history-card">
-              <p className="prayer-history-label">About this Prayer</p>
-              <p className="prayer-history-text">{selectedPrayer.history}</p>
-            </div>
-          )}
-        </div>
+        ) : (
+          <h1 className="profile-title">{headerTitle}</h1>
+        )}
+        {activeView === 'reading-plan' && hasStarted && (
+          <p className="profile-reading-total">{totalChaptersRead} of 1,189 chapters read</p>
+        )}
       </div>
-    )
-  }
 
-  // My Prayers list
-  if (view === 'saved') {
-    return (
-      <div className="page">
-        <div className="page-header">
-          <BackButton onClick={() => setView('main')} />
-          <p className="readings-eyebrow">Profile</p>
-          <h1 className="profile-title">My Prayers</h1>
-        </div>
-        <div className="page-content">
-          {savedPrayers.length === 0 ? (
+      <div className="page-content">
+
+        {/* ---------- Prayer detail ---------- */}
+        {activeView === 'prayer-detail' && (
+          <>
+            {selectedPrayer.image && (
+              <div className="prayer-image-block">
+                <img src={selectedPrayer.image} alt={selectedPrayer.name} className="prayer-image" />
+                {selectedPrayer.caption && <p className="prayer-image-caption">{selectedPrayer.caption}</p>}
+              </div>
+            )}
+            <div className="prayer-detail-card">
+              <p className="prayer-detail-text">{selectedPrayer.text}</p>
+            </div>
+            {selectedPrayer.history && (
+              <div className="prayer-history-card">
+                <p className="prayer-history-label">About this Prayer</p>
+                <p className="prayer-history-text">{selectedPrayer.history}</p>
+              </div>
+            )}
+          </>
+        )}
+
+        {/* ---------- My Prayers ---------- */}
+        {activeView === 'saved' && (
+          savedPrayers.length === 0 ? (
             <div className="profile-empty">
               <p className="profile-empty-text">No saved prayers yet. Bookmark a prayer from the Prayers page by tapping the ☆ icon.</p>
             </div>
@@ -292,10 +317,7 @@ function Profile() {
             <div className="prayers-items">
               {savedPrayers.map(prayer => (
                 <div key={prayer.name} className="saved-prayer-row">
-                  <button
-                    className="saved-prayer-name-btn"
-                    onClick={() => setSelectedPrayer(prayer)}
-                  >
+                  <button className="saved-prayer-name-btn" onClick={() => setSelectedPrayer(prayer)}>
                     {prayer.name}
                   </button>
                   <button
@@ -308,23 +330,12 @@ function Profile() {
                 </div>
               ))}
             </div>
-          )}
-        </div>
-      </div>
-    )
-  }
+          )
+        )}
 
-  // My Verses list
-  if (view === 'verses') {
-    return (
-      <div className="page">
-        <div className="page-header">
-          <BackButton onClick={() => setView('main')} />
-          <p className="readings-eyebrow">Profile</p>
-          <h1 className="profile-title">My Verses</h1>
-        </div>
-        <div className="page-content">
-          {savedVerses.length === 0 ? (
+        {/* ---------- My Verses ---------- */}
+        {activeView === 'verses' && (
+          savedVerses.length === 0 ? (
             <div className="profile-empty">
               <p className="profile-empty-text">No saved verses yet. Tap a verse in the Bible reader, then tap "Save Verse."</p>
             </div>
@@ -346,195 +357,167 @@ function Profile() {
                 </div>
               ))}
             </div>
-          )}
-        </div>
-      </div>
-    )
-  }
+          )
+        )}
 
-  // Prayer journal
-  if (view === 'journal') {
-    const grouped = journal.reduce((acc, entry) => {
-      (acc[entry.date] = acc[entry.date] || []).push(entry)
-      return acc
-    }, {})
-    const dates = Object.keys(grouped).sort().reverse()
+        {/* ---------- Prayer journal ---------- */}
+        {activeView === 'journal' && (
+          <>
+            <div className="journal-compose">
+              <textarea
+                className="journal-input"
+                placeholder="Write a prayer intention, a thanksgiving, or whatever is on your heart..."
+                value={journalText}
+                onChange={e => setJournalText(e.target.value)}
+                rows={4}
+                maxLength={5000}
+              />
+              <button
+                className="journal-save-btn"
+                onClick={handleSaveEntry}
+                disabled={!journalText.trim() || saving}
+              >
+                {saving ? 'Saving...' : 'Save Entry'}
+              </button>
+            </div>
 
-    return (
-      <div className="page">
-        <div className="page-header">
-          <BackButton onClick={() => setView('main')} />
-          <p className="readings-eyebrow">Profile</p>
-          <h1 className="profile-title">Prayer Journal</h1>
-        </div>
-        <div className="page-content">
+            {journalError && <p className="auth-error">{journalError}</p>}
+            {journalLoading && <p className="readings-loading">Loading...</p>}
 
-          <div className="journal-compose">
-            <textarea
-              className="journal-input"
-              placeholder="Write a prayer intention, a thanksgiving, or whatever is on your heart..."
-              value={journalText}
-              onChange={e => setJournalText(e.target.value)}
-              rows={4}
-              maxLength={5000}
-            />
-            <button
-              className="journal-save-btn"
-              onClick={handleSaveEntry}
-              disabled={!journalText.trim() || saving}
-            >
-              {saving ? 'Saving...' : 'Save Entry'}
+            {!journalLoading && journal.length === 0 && !journalError && (
+              <p className="profile-reading-prompt">
+                Your journal is empty. Write your first entry above.
+              </p>
+            )}
+
+            {(() => {
+              const grouped = journal.reduce((acc, entry) => {
+                (acc[entry.date] = acc[entry.date] || []).push(entry)
+                return acc
+              }, {})
+              const dates = Object.keys(grouped).sort().reverse()
+              return dates.map(date => (
+                <div key={date} className="journal-day">
+                  <p className="journal-date">{formatJournalDate(date)}</p>
+                  {grouped[date].map(entry => (
+                    <div key={entry.id} className="journal-entry">
+                      <p className="journal-entry-text">{entry.text}</p>
+                      <button
+                        className="journal-delete-btn"
+                        onClick={() => handleDeleteEntry(entry.id)}
+                        aria-label="Delete entry"
+                      >
+                        ×
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              ))
+            })()}
+          </>
+        )}
+
+        {/* ---------- Reading plan ---------- */}
+        {activeView === 'reading-plan' && (
+          <>
+            {!hasStarted && (
+              <p className="profile-reading-prompt">Start reading the Bible to track your progress here.</p>
+            )}
+            <div className="profile-reading-list">
+              {allBooks.map(b => {
+                const readCount = readChapters[b.slug]?.length || 0
+                const pct = Math.round((readCount / b.chapters) * 100)
+                const done = readCount === b.chapters
+                return (
+                  <div key={b.slug} className="profile-reading-item">
+                    <div className="profile-reading-item-header">
+                      <span className="profile-reading-book-name">{b.name}</span>
+                      <span className={`profile-reading-book-count ${done ? 'done' : ''}`}>
+                        {done ? '✓ Complete' : `${readCount}/${b.chapters}`}
+                      </span>
+                    </div>
+                    <div className="profile-reading-bar-bg">
+                      <div className="profile-reading-bar-fill" style={{ width: `${pct}%` }} />
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          </>
+        )}
+
+        {/* ---------- Main profile ----------
+             This block is now ALWAYS in the DOM. On every other view it is
+             simply hidden with CSS (display: none), never unmounted. The
+             logout button flash was caused by this card being destroyed
+             and freshly re-created every time the user left and returned
+             to the main view; a hidden-but-mounted node cannot do that. */}
+        <div className={activeView === 'main' ? '' : 'profile-main-hidden'}>
+
+          <div className="profile-section">
+            <div className="profile-account-card">
+              <div className="profile-avatar">{initial}</div>
+              <div className="profile-account-info">
+                <p className="profile-name">{displayName}</p>
+                {user?.email && <p className="profile-email">{user.email}</p>}
+              </div>
+            </div>
+            <button className="profile-logout-btn" onClick={handleLogout}>
+              Log Out
             </button>
           </div>
 
-          {journalError && <p className="auth-error">{journalError}</p>}
-          {journalLoading && <p className="readings-loading">Loading...</p>}
-
-          {!journalLoading && journal.length === 0 && !journalError && (
-            <p className="profile-reading-prompt">
-              Your journal is empty. Write your first entry above.
-            </p>
-          )}
-
-          {dates.map(date => (
-            <div key={date} className="journal-day">
-              <p className="journal-date">{formatJournalDate(date)}</p>
-              {grouped[date].map(entry => (
-                <div key={entry.id} className="journal-entry">
-                  <p className="journal-entry-text">{entry.text}</p>
-                  <button
-                    className="journal-delete-btn"
-                    onClick={() => handleDeleteEntry(entry.id)}
-                    aria-label="Delete entry"
-                  >
-                    ×
-                  </button>
-                </div>
-              ))}
+          <p className="profile-section-label">Daily Streak</p>
+          <div className="profile-section">
+            <div className="profile-streak-card">
+              <div className="profile-streak-flame">🔥</div>
+              <div className="profile-streak-info">
+                <p className="profile-streak-count">{streak.count} {streak.count === 1 ? 'day' : 'days'}</p>
+                <p className="profile-streak-sub">
+                  {streak.count === 1
+                    ? 'You opened the app today. Keep it going!'
+                    : `${streak.count} consecutive days of prayer. Well done.`}
+                </p>
+              </div>
             </div>
-          ))}
-
-        </div>
-      </div>
-    )
-  }
-
-  // Reading plan
-  if (view === 'reading-plan') {
-    return (
-      <div className="page">
-        <div className="page-header">
-          <BackButton onClick={() => setView('main')} />
-          <p className="readings-eyebrow">Profile</p>
-          <h1 className="profile-title">Reading Plan</h1>
-          {hasStarted && (
-            <p className="profile-reading-total">{totalChaptersRead} of 1,189 chapters read</p>
-          )}
-        </div>
-        <div className="page-content">
-          {!hasStarted && (
-            <p className="profile-reading-prompt">Start reading the Bible to track your progress here.</p>
-          )}
-          <div className="profile-reading-list">
-            {allBooks.map(b => {
-              const readCount = readChapters[b.slug]?.length || 0
-              const pct = Math.round((readCount / b.chapters) * 100)
-              const done = readCount === b.chapters
-              return (
-                <div key={b.slug} className="profile-reading-item">
-                  <div className="profile-reading-item-header">
-                    <span className="profile-reading-book-name">{b.name}</span>
-                    <span className={`profile-reading-book-count ${done ? 'done' : ''}`}>
-                      {done ? '✓ Complete' : `${readCount}/${b.chapters}`}
-                    </span>
-                  </div>
-                  <div className="profile-reading-bar-bg">
-                    <div className="profile-reading-bar-fill" style={{ width: `${pct}%` }} />
-                  </div>
-                </div>
-              )
-            })}
+            <button className="profile-streak-reset" onClick={handleResetStreak}>
+              Reset streak
+            </button>
           </div>
-        </div>
-      </div>
-    )
-  }
 
-  // Main profile
-  return (
-    <div className="page">
-      <div className="page-header">
-        <p className="readings-eyebrow">Your Account</p>
-        <h1 className="profile-title">Profile</h1>
-      </div>
-
-      <div className="page-content">
-
-        {/* Account */}
-        <div className="profile-section">
-          <div className="profile-account-card">
-            <div className="profile-avatar">{initial}</div>
-            <div className="profile-account-info">
-              <p className="profile-name">{displayName}</p>
-              {user?.email && <p className="profile-email">{user.email}</p>}
-            </div>
+          <p className="profile-section-label">Features</p>
+          <div className="profile-section">
+            <button className="profile-feature-row" onClick={() => setView('journal')}>
+              <span className="profile-row-label">Prayer Journal</span>
+              <span className="profile-feature-arrow">›</span>
+            </button>
+            <div className="profile-divider" />
+            <button className="profile-feature-row" onClick={() => setView('reading-plan')}>
+              <span className="profile-row-label">Reading Plan</span>
+              <span className="profile-feature-arrow">›</span>
+            </button>
+            <div className="profile-divider" />
+            <button className="profile-feature-row" onClick={() => setView('saved')}>
+              <div className="profile-feature-row-left">
+                <span className="profile-row-label">My Prayers</span>
+                {savedPrayers.length > 0 && (
+                  <span className="profile-feature-badge">{savedPrayers.length}</span>
+                )}
+              </div>
+              <span className="profile-feature-arrow">›</span>
+            </button>
+            <div className="profile-divider" />
+            <button className="profile-feature-row" onClick={() => setView('verses')}>
+              <div className="profile-feature-row-left">
+                <span className="profile-row-label">My Verses</span>
+                {savedVerses.length > 0 && (
+                  <span className="profile-feature-badge">{savedVerses.length}</span>
+                )}
+              </div>
+              <span className="profile-feature-arrow">›</span>
+            </button>
           </div>
-          <button className="profile-logout-btn" onClick={handleLogout}>
-            Log Out
-          </button>
-        </div>
 
-        {/* Prayer Streak */}
-        <p className="profile-section-label">Daily Streak</p>
-        <div className="profile-section">
-          <div className="profile-streak-card">
-            <div className="profile-streak-flame">🔥</div>
-            <div className="profile-streak-info">
-              <p className="profile-streak-count">{streak.count} {streak.count === 1 ? 'day' : 'days'}</p>
-              <p className="profile-streak-sub">
-                {streak.count === 1
-                  ? 'You opened the app today. Keep it going!'
-                  : `${streak.count} consecutive days of prayer. Well done.`}
-              </p>
-            </div>
-          </div>
-          <button className="profile-streak-reset" onClick={handleResetStreak}>
-            Reset streak
-          </button>
-        </div>
-
-        {/* Features */}
-        <p className="profile-section-label">Features</p>
-        <div className="profile-section">
-          <button className="profile-feature-row" onClick={() => setView('journal')}>
-            <span className="profile-row-label">Prayer Journal</span>
-            <span className="profile-feature-arrow">›</span>
-          </button>
-          <div className="profile-divider" />
-          <button className="profile-feature-row" onClick={() => setView('reading-plan')}>
-            <span className="profile-row-label">Reading Plan</span>
-            <span className="profile-feature-arrow">›</span>
-          </button>
-          <div className="profile-divider" />
-          <button className="profile-feature-row" onClick={() => setView('saved')}>
-            <div className="profile-feature-row-left">
-              <span className="profile-row-label">My Prayers</span>
-              {savedPrayers.length > 0 && (
-                <span className="profile-feature-badge">{savedPrayers.length}</span>
-              )}
-            </div>
-            <span className="profile-feature-arrow">›</span>
-          </button>
-          <div className="profile-divider" />
-          <button className="profile-feature-row" onClick={() => setView('verses')}>
-            <div className="profile-feature-row-left">
-              <span className="profile-row-label">My Verses</span>
-              {savedVerses.length > 0 && (
-                <span className="profile-feature-badge">{savedVerses.length}</span>
-              )}
-            </div>
-            <span className="profile-feature-arrow">›</span>
-          </button>
         </div>
 
       </div>

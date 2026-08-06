@@ -19,7 +19,6 @@
      - .stagger-item / list-*-in keyframes         (animation OFF on
        long lists — see comment near bottom; do not re-enable without
        testing on a physical iOS device, this has regressed 3x)
-    - .home-header-season                        (gold "Ordinary Time" text)
 
    When editing this file, ADD to it or change ONE rule at a time.
    Do not regenerate the whole file from memory.
@@ -418,6 +417,10 @@ button {
   color: var(--brown-dark) !important;
 }
 
-.home-header-season {
-  color: var(--gold) !important;
+/* Main profile block stays mounted at all times (see Profile.jsx) and is
+   only hidden via this class when a sub-view is active. This is what
+   stops the logout button from being destroyed/recreated on every
+   navigation, which is what caused the recurring gold flash. */
+.profile-main-hidden {
+  display: none;
 }

@@ -4,6 +4,7 @@ import BackButton from '../components/BackButton'
 import { authFetch } from '../api'
 import BIBLE_BOOKS, { getBookBySlug } from '../data/bible'
 import PERICOPES from '../data/pericopes'
+import DAILY_VERSES from '../data/daily_verses'
 
 function getReadChapters() {
   try {
@@ -25,6 +26,33 @@ function toggleChapterRead(bookSlug, chapterNum) {
   return read
 }
 
+// Separate from bible_book/bible_chapter (which restore in-progress position
+// and get cleared when the user backs out). This one is write-only-forward
+// and never cleared, so the home screen can always show where you last
+// left off even after returning to the top level.
+function getLastRead() {
+  try {
+    return JSON.parse(localStorage.getItem('bible_last_read') || 'null')
+  } catch {
+    return null
+  }
+}
+
+function setLastRead(bookSlug, bookName, chapterNum) {
+  localStorage.setItem('bible_last_read', JSON.stringify({
+    bookSlug, bookName, chapter: chapterNum,
+  }))
+}
+
+// A random verse from the shared collection, distinct from the Home
+// page's verse of the day (which is fixed to today's date).
+function getRandomVerse() {
+  const months = Object.keys(DAILY_VERSES)
+  const month = months[Math.floor(Math.random() * months.length)]
+  const verses = DAILY_VERSES[month]
+  return verses[Math.floor(Math.random() * verses.length)]
+}
+
 function Bible() {
   const [testament, setTestament] = useState(() => {
     return localStorage.getItem('bible_testament') || null
@@ -44,6 +72,8 @@ function Bible() {
   const [direction, setDirection] = useState(0)
   const [readChapters, setReadChapters] = useState(getReadChapters)
   const [sortAlpha, setSortAlpha] = useState(false)
+  const [dailyVerse] = useState(getRandomVerse)
+  const [lastRead, setLastReadState] = useState(getLastRead)
   const dragStartX = useRef(null)
   const dragStartY = useRef(null)
 
@@ -149,6 +179,16 @@ function Bible() {
     if (dx < 0 && chapter < book.chapters) goToChapter(chapter + 1, 1)
     else if (dx > 0 && chapter > 1) goToChapter(chapter - 1, -1)
   }
+
+  // Record last-read position whenever a chapter is opened, for the
+  // home screen's Continue Reading card. Fires on every navigation
+  // into a chapter, independent of the restore-on-remount state above.
+  useEffect(() => {
+    if (book && chapter) {
+      setLastRead(book.slug, book.name, chapter)
+      setLastReadState({ bookSlug: book.slug, bookName: book.name, chapter })
+    }
+  }, [book, chapter])
 
   const slideVariants = {
     enter: (dir) => ({ x: dir > 0 ? 200 : -200, opacity: 0 }),
@@ -310,6 +350,9 @@ function Bible() {
   }
 
   // Home view
+  const totalChaptersRead = Object.values(readChapters).reduce((sum, chs) => sum + chs.length, 0)
+  const booksStarted = Object.values(readChapters).filter(chs => chs.length > 0).length
+
   return (
     <div className="page">
       <div className="page-header">
@@ -318,16 +361,66 @@ function Bible() {
         <h1 className="bible-testament-title">The Holy Bible</h1>
       </div>
       <div className="page-content">
+
+        {dailyVerse && (
+          <div className="bible-verse-card">
+            <p className="bible-verse-card-text">"{dailyVerse.text}"</p>
+            <p className="bible-verse-card-ref">{dailyVerse.ref}</p>
+          </div>
+        )}
+
         <div className="bible-testament-btns">
           <button className="bible-testament-btn" onClick={() => setTestament('OT')}>
+            <svg className="bible-testament-icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+            </svg>
             <p className="bible-testament-btn-title">Old Testament</p>
             <p className="bible-testament-btn-sub">46 books</p>
           </button>
           <button className="bible-testament-btn" onClick={() => setTestament('NT')}>
+            <svg className="bible-testament-icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="12" y1="2" x2="12" y2="22"/>
+              <line x1="6" y1="8" x2="18" y2="8"/>
+            </svg>
             <p className="bible-testament-btn-title">New Testament</p>
             <p className="bible-testament-btn-sub">27 books</p>
           </button>
         </div>
+
+        {lastRead && (
+          <button
+            className="bible-continue-card"
+            onClick={() => {
+              const b = getBookBySlug(lastRead.bookSlug)
+              if (!b) return
+              setTestament(BIBLE_BOOKS.OT.some(x => x.slug === b.slug) ? 'OT' : 'NT')
+              setBook(b)
+              setChapter(lastRead.chapter)
+              loadChapter(b.slug, lastRead.chapter)
+            }}
+          >
+            <div className="bible-continue-text">
+              <p className="bible-continue-label">Continue Reading</p>
+              <p className="bible-continue-value">{lastRead.bookName}, chapter {lastRead.chapter}</p>
+            </div>
+            <span className="bible-continue-arrow">→</span>
+          </button>
+        )}
+
+        {totalChaptersRead > 0 && (
+          <div className="bible-stats-row">
+            <div className="bible-stat-card">
+              <p className="bible-stat-value">{totalChaptersRead}</p>
+              <p className="bible-stat-label">Chapters Read</p>
+            </div>
+            <div className="bible-stat-card">
+              <p className="bible-stat-value">{booksStarted}</p>
+              <p className="bible-stat-label">Books Started</p>
+            </div>
+          </div>
+        )}
+
       </div>
     </div>
   )

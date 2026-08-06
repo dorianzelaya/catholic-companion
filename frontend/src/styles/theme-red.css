@@ -19,6 +19,7 @@
      - .stagger-item / list-*-in keyframes         (animation OFF on
        long lists — see comment near bottom; do not re-enable without
        testing on a physical iOS device, this has regressed 3x)
+    - .home-header-season                        (gold "Ordinary Time" text)
 
    When editing this file, ADD to it or change ONE rule at a time.
    Do not regenerate the whole file from memory.
@@ -415,4 +416,8 @@ button {
 .bible-continue-value,
 .bible-stat-value {
   color: var(--brown-dark) !important;
+}
+
+.home-header-season {
+  color: var(--gold) !important;
 }

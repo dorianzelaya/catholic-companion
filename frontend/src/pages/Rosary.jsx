@@ -185,7 +185,6 @@ function Rosary() {
     return (
       <div className="page">
         <div className="page-header">
-          <BackButton />
           <p className="readings-eyebrow">The Holy Rosary</p>
           <h1 className="rosary-title">Choose your mysteries</h1>
         </div>

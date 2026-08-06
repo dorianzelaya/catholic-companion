@@ -420,7 +420,6 @@ function Bible() {
   return (
     <div className="page">
       <div className="page-header">
-        <BackButton />
         <p className="readings-eyebrow">Douay-Rheims Bible</p>
         <h1 className="bible-testament-title">The Holy Bible</h1>
       </div>

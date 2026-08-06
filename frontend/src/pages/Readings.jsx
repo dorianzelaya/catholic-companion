@@ -32,7 +32,6 @@ function Readings() {
   return (
     <div className="page">
       <div className="page-header">
-        <BackButton />
         <p className="readings-eyebrow">Daily Mass Readings</p>
         {readings && (
           <p className="readings-season">{readings.liturgical_season}</p>

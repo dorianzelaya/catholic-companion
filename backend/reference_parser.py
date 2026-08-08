@@ -11,7 +11,12 @@ def parse_reference(reference: str) -> dict:
         "2 Kings 17:5-8, 13-15a"       -> range with letter suffix
         "2 Chronicles 24:17-25"        -> book with number prefix
         "Psalm 85:9 and 10, 11-12"     -> "and" as verse separator
-        "Matthew 10:34-11:1"           -> cross-chapter range
+        "Matthew 10:34-11:1"           -> cross-chapter range (hyphen)
+        "Habakkuk 1:12—2:4"            -> cross-chapter range (em dash)
+
+    The USCCB source is inconsistent about which dash character marks a
+    cross-chapter range — hyphen (-), en dash (–), and em dash (—) have
+    all been observed. All three are treated as equivalent throughout.
 
     Returns:
         {
@@ -23,8 +28,13 @@ def parse_reference(reference: str) -> dict:
 
     Raises ValueError if the reference cannot be parsed.
     """
-
     reference = reference.strip()
+
+    # Normalize every dash variant to a plain hyphen up front, so nothing
+    # downstream needs to know these characters exist. This is the fix:
+    # previously only "-" was recognized, so an em/en dash reference fell
+    # through to the plain-verse parser and crashed on int().
+    reference = reference.replace('—', '-').replace('–', '-')
 
     # Split book name from chapter:verse portion
     match = re.match(r'^(.+?)\s+(\d+):(.+)$', reference)
@@ -35,7 +45,7 @@ def parse_reference(reference: str) -> dict:
     chapter = int(match.group(2))
     verses_str = match.group(3).strip()
 
-    # Detect cross-chapter range like "34-11:1"
+    # Detect cross-chapter range like "34-11:1" or "12-2:4"
     cross_chapter_match = re.match(r'^(\d+)-(\d+):(\d+)$', verses_str)
     if cross_chapter_match:
         start_verse = int(cross_chapter_match.group(1))
@@ -54,7 +64,6 @@ def parse_reference(reference: str) -> dict:
     # Parse the verse portion — handles ranges, lists, letter suffixes
     verse_ranges = []
     segments = [s.strip() for s in verses_str.split(',')]
-
     for segment in segments:
         segment = segment.strip()
         if not segment:

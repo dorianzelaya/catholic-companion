@@ -3,6 +3,9 @@ import BackButton from '../components/BackButton'
 import { authFetch } from '../api'
 
 const CATEGORIES = {
+  "Growth": [
+    "Discernment", "Wisdom", "Peace", "Hope", "Knowledge"
+  ],
   "Emotional": [
     "Anxiety", "Fear", "Sadness", "Loneliness",
     "Grief", "Anger", "Shame"

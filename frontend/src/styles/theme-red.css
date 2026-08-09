@@ -19,7 +19,11 @@
      - .stagger-item / list-*-in keyframes         (animation OFF on
        long lists — see comment near bottom; do not re-enable without
        testing on a physical iOS device, this has regressed 3x)
-    - .struggle-circle-group.tint-*                (Seek circle background colors)
+     - .struggle-circle-group                      (glassmorphism orbs —
+       uniform frosted glass, NOT per-group tint colors. If tint colors
+       ever come back, that's a regression of this exact request.)
+     - .struggle-topic-dot.tint-*                  (Seek topic list dot
+       colors — separate from the circles above, these ARE per-group)
 
    When editing this file, ADD to it or change ONE rule at a time.
    Do not regenerate the whole file from memory.
@@ -419,7 +423,7 @@ button {
 }
 
 /* ---------- Seek: level 1 group circles, cross layout ----------
-   Object.keys(CATEGORIES) order: 0 Growth, 1 Emotional, 2 Spiritual,
+   Object.keys(CATEGORIES) order: 0 Growth, 1 Emotions, 2 Faith Struggles,
    3 Sins & Vices, 4 Life Situations. Positions: 0 = top-center,
    1/2/3 = middle row left/center/right, 4 = bottom-center. */
 .struggle-cross {
@@ -430,6 +434,10 @@ button {
   height: 340px;
 }
 
+/* Frosted glass orbs — uniform glassmorphism, not per-group tint colors.
+   Translucent gradient fill + blur + thin outline + inner top highlight
+   + soft outer shadow, so each circle reads as a floating glass bubble
+   over the crimson background rather than a flat colored disc. */
 .struggle-circle-group {
   position: absolute;
   width: 96px;
@@ -446,11 +454,34 @@ button {
   line-height: 1.25;
   color: var(--brown-dark);
   cursor: pointer;
-  transition: transform 0.12s ease, background-color 0.15s ease;
+
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.16),
+    rgba(255, 255, 255, 0.05)
+  );
+  border: 0.5px solid rgba(255, 255, 255, 0.30);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  backdrop-filter: blur(14px) saturate(1.4);
+  box-shadow:
+    0 8px 20px rgba(20, 4, 8, 0.35),
+    inset 0 1px 1px rgba(255, 255, 255, 0.45),
+    inset 0 -8px 16px rgba(0, 0, 0, 0.08);
+
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
 }
 
 .struggle-circle-group:active {
   transform: scale(0.94);
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.22),
+    rgba(255, 255, 255, 0.08)
+  );
+  box-shadow:
+    0 4px 10px rgba(20, 4, 8, 0.3),
+    inset 0 1px 1px rgba(255, 255, 255, 0.5),
+    inset 0 -6px 12px rgba(0, 0, 0, 0.1);
 }
 
 /* top */
@@ -539,28 +570,3 @@ button {
 .struggle-topic-dot.tint-spiritual  { background-color: #7f77dd; }
 .struggle-topic-dot.tint-vices      { background-color: #ba7517; }
 .struggle-topic-dot.tint-life       { background-color: #378ade; }
-
-.struggle-circle-group.tint-growth {
-  background-color: rgba(99, 153, 34, 0.16);
-  border: 0.5px solid rgba(99, 153, 34, 0.4);
-}
-
-.struggle-circle-group.tint-emotional {
-  background-color: rgba(212, 83, 126, 0.14);
-  border: 0.5px solid rgba(212, 83, 126, 0.38);
-}
-
-.struggle-circle-group.tint-spiritual {
-  background-color: rgba(127, 119, 221, 0.16);
-  border: 0.5px solid rgba(127, 119, 221, 0.4);
-}
-
-.struggle-circle-group.tint-vices {
-  background-color: rgba(186, 117, 23, 0.16);
-  border: 0.5px solid rgba(186, 117, 23, 0.4);
-}
-
-.struggle-circle-group.tint-life {
-  background-color: rgba(55, 138, 221, 0.14);
-  border: 0.5px solid rgba(55, 138, 221, 0.38);
-}

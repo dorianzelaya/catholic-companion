@@ -6,11 +6,11 @@ const CATEGORIES = {
   "Growth": [
     "Discernment", "Wisdom", "Peace", "Hope", "Knowledge"
   ],
-  "Emotional": [
+  "Emotions": [
     "Anxiety", "Fear", "Sadness", "Loneliness",
     "Grief", "Anger", "Shame"
   ],
-  "Spiritual": [
+  "Faith Struggles": [
     "Doubt", "Despair", "Feeling distant from God",
     "Temptation", "Lukewarmness"
   ],
@@ -26,8 +26,8 @@ const CATEGORIES = {
 
 const GROUP_TINTS = {
   "Growth": "tint-growth",
-  "Emotional": "tint-emotional",
-  "Spiritual": "tint-spiritual",
+  "Emotions": "tint-emotional",
+  "Faith Struggles": "tint-spiritual",
   "Sins & Vices": "tint-vices",
   "Life Situations": "tint-life",
 }

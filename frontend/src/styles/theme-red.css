@@ -417,18 +417,22 @@ button {
   color: var(--brown-dark) !important;
 }
 
-/* ---------- Seek: level 1 group circles ---------- */
-.struggle-wheel {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
-  justify-items: center;
-  padding: 8px 0;
+/* ---------- Seek: level 1 group circles, cross layout ----------
+   Object.keys(CATEGORIES) order: 0 Growth, 1 Emotional, 2 Spiritual,
+   3 Sins & Vices, 4 Life Situations. Positions: 0 = top-center,
+   1/2/3 = middle row left/center/right, 4 = bottom-center. */
+.struggle-cross {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  margin: 20px auto 0;
+  height: 340px;
 }
 
 .struggle-circle-group {
-  width: 100px;
-  height: 100px;
+  position: absolute;
+  width: 96px;
+  height: 96px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -448,29 +452,42 @@ button {
   transform: scale(0.94);
 }
 
-.struggle-circle-group.tint-growth {
-  background-color: rgba(99, 153, 34, 0.16);
-  border: 0.5px solid rgba(99, 153, 34, 0.4);
+/* top */
+.struggle-cross-pos-0 {
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.struggle-cross-pos-0:active {
+  transform: translateX(-50%) scale(0.94);
 }
 
-.struggle-circle-group.tint-emotional {
-  background-color: rgba(212, 83, 126, 0.14);
-  border: 0.5px solid rgba(212, 83, 126, 0.38);
+/* middle row: left, center, right */
+.struggle-cross-pos-1 {
+  top: 122px;
+  left: 0;
+}
+.struggle-cross-pos-2 {
+  top: 122px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.struggle-cross-pos-2:active {
+  transform: translateX(-50%) scale(0.94);
+}
+.struggle-cross-pos-3 {
+  top: 122px;
+  right: 0;
 }
 
-.struggle-circle-group.tint-spiritual {
-  background-color: rgba(127, 119, 221, 0.16);
-  border: 0.5px solid rgba(127, 119, 221, 0.4);
+/* bottom */
+.struggle-cross-pos-4 {
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
 }
-
-.struggle-circle-group.tint-vices {
-  background-color: rgba(186, 117, 23, 0.16);
-  border: 0.5px solid rgba(186, 117, 23, 0.4);
-}
-
-.struggle-circle-group.tint-life {
-  background-color: rgba(55, 138, 221, 0.14);
-  border: 0.5px solid rgba(55, 138, 221, 0.38);
+.struggle-cross-pos-4:active {
+  transform: translateX(-50%) scale(0.94);
 }
 
 /* ---------- Seek: level 2 topic list, tinted dot per group ---------- */

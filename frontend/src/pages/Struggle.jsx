@@ -191,11 +191,11 @@ function Struggle() {
       </div>
 
       <div className="page-content">
-        <div className="struggle-wheel">
-          {Object.keys(CATEGORIES).map(g => (
+        <div className="struggle-cross">
+          {Object.keys(CATEGORIES).map((g, i) => (
             <button
               key={g}
-              className={`struggle-circle-group ${GROUP_TINTS[g]}`}
+              className={`struggle-circle-group struggle-cross-pos-${i} ${GROUP_TINTS[g]}`}
               onClick={() => setGroup(g)}
             >
               {g}

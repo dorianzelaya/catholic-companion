@@ -417,10 +417,107 @@ button {
   color: var(--brown-dark) !important;
 }
 
-/* Main profile block stays mounted at all times (see Profile.jsx) and is
-   only hidden via this class when a sub-view is active. This is what
-   stops the logout button from being destroyed/recreated on every
-   navigation, which is what caused the recurring gold flash. */
-.profile-main-hidden {
-  display: none;
+/* ---------- Seek: level 1 group circles ---------- */
+.struggle-wheel {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  justify-items: center;
+  padding: 8px 0;
 }
+
+.struggle-circle-group {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 8px;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.25;
+  color: var(--brown-dark);
+  cursor: pointer;
+  transition: transform 0.12s ease, background-color 0.15s ease;
+}
+
+.struggle-circle-group:active {
+  transform: scale(0.94);
+}
+
+.struggle-circle-group.tint-growth {
+  background-color: rgba(99, 153, 34, 0.16);
+  border: 0.5px solid rgba(99, 153, 34, 0.4);
+}
+
+.struggle-circle-group.tint-emotional {
+  background-color: rgba(212, 83, 126, 0.14);
+  border: 0.5px solid rgba(212, 83, 126, 0.38);
+}
+
+.struggle-circle-group.tint-spiritual {
+  background-color: rgba(127, 119, 221, 0.16);
+  border: 0.5px solid rgba(127, 119, 221, 0.4);
+}
+
+.struggle-circle-group.tint-vices {
+  background-color: rgba(186, 117, 23, 0.16);
+  border: 0.5px solid rgba(186, 117, 23, 0.4);
+}
+
+.struggle-circle-group.tint-life {
+  background-color: rgba(55, 138, 221, 0.14);
+  border: 0.5px solid rgba(55, 138, 221, 0.38);
+}
+
+/* ---------- Seek: level 2 topic list, tinted dot per group ---------- */
+.struggle-topic-list {
+  background-color: var(--glass-card);
+  border: 0.5px solid var(--cream-border);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.struggle-topic-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: none;
+  border: none;
+  border-bottom: 0.5px solid var(--cream-border);
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.15s ease;
+}
+
+.struggle-topic-row:last-child {
+  border-bottom: none;
+}
+
+.struggle-topic-row:active {
+  background-color: var(--glass-card-strong);
+}
+
+.struggle-topic-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.struggle-topic-label {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  color: var(--brown-dark);
+}
+
+.struggle-topic-dot.tint-growth     { background-color: #82b34b; }
+.struggle-topic-dot.tint-emotional  { background-color: #d4537e; }
+.struggle-topic-dot.tint-spiritual  { background-color: #7f77dd; }
+.struggle-topic-dot.tint-vices      { background-color: #ba7517; }
+.struggle-topic-dot.tint-life       { background-color: #378ade; }

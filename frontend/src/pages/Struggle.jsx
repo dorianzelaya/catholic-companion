@@ -24,7 +24,19 @@ const CATEGORIES = {
   ]
 }
 
+// Tint class per group — used on both the group circle itself (level 1)
+// and every topic circle inside it (level 2), so color stays consistent
+// as you drill in.
+const GROUP_TINTS = {
+  "Growth": "tint-growth",
+  "Emotional": "tint-emotional",
+  "Spiritual": "tint-spiritual",
+  "Sins & Vices": "tint-vices",
+  "Life Situations": "tint-life",
+}
+
 function Struggle() {
+  const [group, setGroup] = useState(null)
   const [result, setResult] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -52,17 +64,22 @@ function Struggle() {
     }
   }
 
-  function handleBack() {
+  function handleBackFromResult() {
     setResult(null)
     setSelected('')
     setError('')
   }
 
+  function handleBackFromGroup() {
+    setGroup(null)
+  }
+
+  // Loading
   if (loading) {
     return (
       <div className="page">
         <div className="page-header">
-          <BackButton onClick={handleBack} />
+          <BackButton onClick={handleBackFromResult} />
           <p className="readings-eyebrow">Seek</p>
           <h1 className="struggle-category-title">{selected}</h1>
         </div>
@@ -73,11 +90,12 @@ function Struggle() {
     )
   }
 
+  // Result
   if (result) {
     return (
       <div className="page">
         <div className="page-header">
-          <BackButton onClick={handleBack} />
+          <BackButton onClick={handleBackFromResult} />
           <p className="readings-eyebrow">Scripture for...</p>
           <h1 className="struggle-category-title">{selected}</h1>
         </div>
@@ -126,33 +144,56 @@ function Struggle() {
     )
   }
 
+  // Level 2 — topics within a chosen group, as a list with a tinted
+  // dot marker matching the group's color.
+  if (group) {
+    const topics = CATEGORIES[group]
+    const tint = GROUP_TINTS[group]
+    return (
+      <div className="page">
+        <div className="page-header">
+          <BackButton onClick={handleBackFromGroup} />
+          <p className="readings-eyebrow">Seek</p>
+          <h1 className="struggle-category-title">{group}</h1>
+        </div>
+        <div className="page-content">
+          {error && <p className="auth-error">{error}</p>}
+          <div className="struggle-topic-list">
+            {topics.map(topic => (
+              <button
+                key={topic}
+                className="struggle-topic-row"
+                onClick={() => handleSelect(topic)}
+              >
+                <span className={`struggle-topic-dot ${tint}`} />
+                <span className="struggle-topic-label">{topic}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // Level 1 — the five groups, as circles
   return (
     <div className="page">
       <div className="page-header">
         <BackButton />
         <p className="readings-eyebrow">Seek</p>
-        <h1 className="struggle-category-title">Find Scripture For...</h1>
+        <h1 className="struggle-category-title">Find scripture for...</h1>
       </div>
 
       <div className="page-content">
-        {error && <p className="auth-error">{error}</p>}
-
-        <div className="struggle-grid">
-          {Object.entries(CATEGORIES).map(([group, items]) => (
-            <div key={group} className="struggle-group">
-              <p className="struggle-group-label">{group}</p>
-              <div className="struggle-pills">
-                {items.map(category => (
-                  <button
-                    key={category}
-                    className="struggle-pill"
-                    onClick={() => handleSelect(category)}
-                  >
-                    {category}
-                  </button>
-                ))}
-              </div>
-            </div>
+        <div className="struggle-wheel">
+          {Object.keys(CATEGORIES).map(g => (
+            <button
+              key={g}
+              className={`struggle-circle struggle-circle-group ${GROUP_TINTS[g]}`}
+              onClick={() => setGroup(g)}
+            >
+              {g}
+            </button>
           ))}
         </div>
       </div>

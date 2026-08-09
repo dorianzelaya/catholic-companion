@@ -434,10 +434,12 @@ button {
   height: 340px;
 }
 
-/* Frosted glass orbs — uniform glassmorphism, not per-group tint colors.
-   Translucent gradient fill + blur + thin outline + inner top highlight
-   + soft outer shadow, so each circle reads as a floating glass bubble
-   over the crimson background rather than a flat colored disc. */
+/* Frosted glass orbs, tinted per group.
+   Colored translucent gradient (not a flat fill) + blur + saturate, so
+   the crimson background refracts through with the group's color mixed
+   in — colored GLASS, not colored plastic. Shadow is a single soft top
+   highlight only; no heavy inset from below, which is what made earlier
+   attempts read as embossed 3D buttons instead of flat panes of glass. */
 .struggle-circle-group {
   position: absolute;
   width: 96px;
@@ -455,33 +457,61 @@ button {
   color: var(--brown-dark);
   cursor: pointer;
 
-  background: linear-gradient(
-    160deg,
-    rgba(255, 255, 255, 0.16),
-    rgba(255, 255, 255, 0.05)
-  );
-  border: 0.5px solid rgba(255, 255, 255, 0.30);
-  -webkit-backdrop-filter: blur(14px) saturate(1.4);
-  backdrop-filter: blur(14px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.6);
+  backdrop-filter: blur(16px) saturate(1.6);
+  border: 0.5px solid rgba(255, 255, 255, 0.28);
   box-shadow:
-    0 8px 20px rgba(20, 4, 8, 0.35),
-    inset 0 1px 1px rgba(255, 255, 255, 0.45),
-    inset 0 -8px 16px rgba(0, 0, 0, 0.08);
+    0 6px 16px rgba(20, 4, 8, 0.28),
+    inset 0 1px 1px rgba(255, 255, 255, 0.4);
 
-  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .struggle-circle-group:active {
   transform: scale(0.94);
+  box-shadow:
+    0 3px 8px rgba(20, 4, 8, 0.24),
+    inset 0 1px 1px rgba(255, 255, 255, 0.45);
+}
+
+.struggle-circle-group.tint-growth {
   background: linear-gradient(
     160deg,
-    rgba(255, 255, 255, 0.22),
-    rgba(255, 255, 255, 0.08)
+    rgba(130, 179, 75, 0.34),
+    rgba(130, 179, 75, 0.12)
   );
-  box-shadow:
-    0 4px 10px rgba(20, 4, 8, 0.3),
-    inset 0 1px 1px rgba(255, 255, 255, 0.5),
-    inset 0 -6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.struggle-circle-group.tint-emotional {
+  background: linear-gradient(
+    160deg,
+    rgba(212, 83, 126, 0.30),
+    rgba(212, 83, 126, 0.10)
+  );
+}
+
+.struggle-circle-group.tint-spiritual {
+  background: linear-gradient(
+    160deg,
+    rgba(127, 119, 221, 0.32),
+    rgba(127, 119, 221, 0.11)
+  );
+}
+
+.struggle-circle-group.tint-vices {
+  background: linear-gradient(
+    160deg,
+    rgba(186, 117, 23, 0.32),
+    rgba(186, 117, 23, 0.11)
+  );
+}
+
+.struggle-circle-group.tint-life {
+  background: linear-gradient(
+    160deg,
+    rgba(55, 138, 222, 0.30),
+    rgba(55, 138, 222, 0.10)
+  );
 }
 
 /* top */

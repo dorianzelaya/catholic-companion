@@ -457,8 +457,8 @@ button {
   color: var(--brown-dark);
   cursor: pointer;
 
-  -webkit-backdrop-filter: blur(16px) saturate(1.6);
-  backdrop-filter: blur(16px) saturate(1.6);
+  -webkit-backdrop-filter: blur(16px) saturate(1.1);
+  backdrop-filter: blur(16px) saturate(1.1);
   border: 0.5px solid rgba(255, 255, 255, 0.28);
   box-shadow:
     0 6px 16px rgba(20, 4, 8, 0.28),
@@ -477,40 +477,40 @@ button {
 .struggle-circle-group.tint-growth {
   background: linear-gradient(
     160deg,
-    rgba(130, 179, 75, 0.34),
-    rgba(130, 179, 75, 0.12)
+    rgba(130, 179, 75, 0.62),
+    rgba(130, 179, 75, 0.30)
   );
 }
 
 .struggle-circle-group.tint-emotional {
   background: linear-gradient(
     160deg,
-    rgba(212, 83, 126, 0.30),
-    rgba(212, 83, 126, 0.10)
+    rgba(212, 83, 126, 0.58),
+    rgba(212, 83, 126, 0.28)
   );
 }
 
 .struggle-circle-group.tint-spiritual {
   background: linear-gradient(
     160deg,
-    rgba(127, 119, 221, 0.32),
-    rgba(127, 119, 221, 0.11)
+    rgba(127, 119, 221, 0.60),
+    rgba(127, 119, 221, 0.29)
   );
 }
 
 .struggle-circle-group.tint-vices {
   background: linear-gradient(
     160deg,
-    rgba(186, 117, 23, 0.32),
-    rgba(186, 117, 23, 0.11)
+    rgba(186, 117, 23, 0.60),
+    rgba(186, 117, 23, 0.29)
   );
 }
 
 .struggle-circle-group.tint-life {
   background: linear-gradient(
     160deg,
-    rgba(55, 138, 222, 0.30),
-    rgba(55, 138, 222, 0.10)
+    rgba(55, 138, 222, 0.58),
+    rgba(55, 138, 222, 0.28)
   );
 }
 

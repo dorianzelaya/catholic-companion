@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import BackButton from '../components/BackButton'
 import { authFetch } from '../api'
 
@@ -24,9 +24,6 @@ const CATEGORIES = {
   ]
 }
 
-// Tint class per group — used on both the group circle itself (level 1)
-// and every topic circle inside it (level 2), so color stays consistent
-// as you drill in.
 const GROUP_TINTS = {
   "Growth": "tint-growth",
   "Emotional": "tint-emotional",
@@ -41,6 +38,15 @@ function Struggle() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [selected, setSelected] = useState('')
+
+  // Reset scroll to top on every level change — group circles, topic
+  // list, and result all live in the same .page-content element, so
+  // without this a scrolled-down result page leaves the topic list
+  // (or group list) appearing scrolled-down and empty when you go back.
+  useEffect(() => {
+    const el = document.querySelector('.page-content')
+    if (el) el.scrollTop = 0
+  }, [group, result, loading])
 
   async function handleSelect(category) {
     setSelected(category)
@@ -189,7 +195,7 @@ function Struggle() {
           {Object.keys(CATEGORIES).map(g => (
             <button
               key={g}
-              className={`struggle-circle struggle-circle-group ${GROUP_TINTS[g]}`}
+              className={`struggle-circle-group ${GROUP_TINTS[g]}`}
               onClick={() => setGroup(g)}
             >
               {g}

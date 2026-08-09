@@ -19,6 +19,7 @@
      - .stagger-item / list-*-in keyframes         (animation OFF on
        long lists — see comment near bottom; do not re-enable without
        testing on a physical iOS device, this has regressed 3x)
+    - .struggle-circle-group.tint-*                (Seek circle background colors)
 
    When editing this file, ADD to it or change ONE rule at a time.
    Do not regenerate the whole file from memory.
@@ -538,3 +539,28 @@ button {
 .struggle-topic-dot.tint-spiritual  { background-color: #7f77dd; }
 .struggle-topic-dot.tint-vices      { background-color: #ba7517; }
 .struggle-topic-dot.tint-life       { background-color: #378ade; }
+
+.struggle-circle-group.tint-growth {
+  background-color: rgba(99, 153, 34, 0.16);
+  border: 0.5px solid rgba(99, 153, 34, 0.4);
+}
+
+.struggle-circle-group.tint-emotional {
+  background-color: rgba(212, 83, 126, 0.14);
+  border: 0.5px solid rgba(212, 83, 126, 0.38);
+}
+
+.struggle-circle-group.tint-spiritual {
+  background-color: rgba(127, 119, 221, 0.16);
+  border: 0.5px solid rgba(127, 119, 221, 0.4);
+}
+
+.struggle-circle-group.tint-vices {
+  background-color: rgba(186, 117, 23, 0.16);
+  border: 0.5px solid rgba(186, 117, 23, 0.4);
+}
+
+.struggle-circle-group.tint-life {
+  background-color: rgba(55, 138, 221, 0.14);
+  border: 0.5px solid rgba(55, 138, 221, 0.38);
+}

@@ -1,11 +1,22 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
+from datetime import datetime, timedelta
+import secrets
+import os
+
 from database import get_db
 import models
 import schemas
 import auth
+from email_service import send_password_reset_email
 
 router = APIRouter(prefix="/auth", tags=["auth"])
+
+# Where the reset link points. Set FRONTEND_URL in Railway env vars to
+# your actual frontend domain — falls back to localhost for local testing.
+FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")
+
+RESET_TOKEN_EXPIRE_MINUTES = 30
 
 
 @router.post("/register", response_model=schemas.UserResponse)
@@ -33,3 +44,67 @@ def login(credentials: schemas.UserLogin, db: Session = Depends(get_db)):
 
     access_token = auth.create_access_token(data={"sub": str(user.id)})
     return {"access_token": access_token, "token_type": "bearer"}
+
+
+@router.post("/forgot-password")
+def forgot_password(payload: schemas.ForgotPasswordRequest, db: Session = Depends(get_db)):
+    """
+    Always returns success, whether or not the email exists. This is
+    deliberate — telling a stranger "that email isn't registered" lets
+    them enumerate which emails have accounts. Same response either way.
+    """
+    user = db.query(models.User).filter(models.User.email == payload.email).first()
+
+    if user:
+        # Invalidate any earlier unused tokens for this user so only the
+        # most recent reset link works.
+        db.query(models.PasswordResetToken).filter(
+            models.PasswordResetToken.user_id == user.id,
+            models.PasswordResetToken.used == False,
+        ).update({"used": True})
+
+        token = secrets.token_urlsafe(32)
+        expires_at = datetime.utcnow() + timedelta(minutes=RESET_TOKEN_EXPIRE_MINUTES)
+
+        reset_token = models.PasswordResetToken(
+            user_id=user.id,
+            token=token,
+            expires_at=expires_at,
+        )
+        db.add(reset_token)
+        db.commit()
+
+        reset_url = f"{FRONTEND_URL}/reset-password?token={token}"
+
+        try:
+            send_password_reset_email(user.email, user.first_name, reset_url)
+        except Exception:
+            # Don't leak email-provider errors to the client — and don't
+            # let a delivery failure reveal that the email was valid.
+            pass
+
+    return {"message": "If that email is registered, a reset link has been sent."}
+
+
+@router.post("/reset-password")
+def reset_password(payload: schemas.ResetPasswordRequest, db: Session = Depends(get_db)):
+    reset_token = db.query(models.PasswordResetToken).filter(
+        models.PasswordResetToken.token == payload.token,
+        models.PasswordResetToken.used == False,
+    ).first()
+
+    if not reset_token:
+        raise HTTPException(status_code=400, detail="This reset link is invalid or has already been used.")
+
+    if reset_token.expires_at < datetime.utcnow():
+        raise HTTPException(status_code=400, detail="This reset link has expired. Please request a new one.")
+
+    user = db.query(models.User).filter(models.User.id == reset_token.user_id).first()
+    if not user:
+        raise HTTPException(status_code=400, detail="This reset link is invalid.")
+
+    user.hashed_password = auth.hash_password(payload.new_password)
+    reset_token.used = True
+    db.commit()
+
+    return {"message": "Your password has been reset. You can now log in."}

@@ -10,20 +10,18 @@ import Rosary from './pages/Rosary'
 import Struggle from './pages/Struggle'
 import Register from './pages/Register'
 import Login from './pages/Login'
+import ForgotPassword from './pages/ForgotPassword'
+import ResetPassword from './pages/ResetPassword'
 import Saint from './pages/Saint'
 import ExaminationOfConscience from './pages/ExaminationOfConscience'
 import Prayers from './pages/Prayers'
 import Bible from './pages/Bible'
 import Profile from './pages/Profile'
 
-const AUTH_ROUTES = ['/login', '/register']
+const AUTH_ROUTES = ['/login', '/register', '/forgot-password', '/reset-password']
 
 function AnimatedRoutes() {
   const location = useLocation()
-  // When the user taps the Bible navbar button while already on /bible,
-  // NavBar passes state.bibleKey (a timestamp). Using it as the key on
-  // the Bible route forces a full remount, re-running useState initialisers
-  // against the cleared localStorage so the user lands at testament selection.
   const bibleKey = location.state?.bibleKey ?? 'bible'
 
   return (
@@ -35,6 +33,12 @@ function AnimatedRoutes() {
         } />
         <Route path="/login" element={
           <PageTransition><Login /></PageTransition>
+        } />
+        <Route path="/forgot-password" element={
+          <PageTransition><ForgotPassword /></PageTransition>
+        } />
+        <Route path="/reset-password" element={
+          <PageTransition><ResetPassword /></PageTransition>
         } />
         <Route path="/home" element={
           <ProtectedRoute><PageTransition><Home /></PageTransition></ProtectedRoute>

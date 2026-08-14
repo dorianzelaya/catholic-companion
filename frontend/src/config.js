@@ -1,3 +1,2 @@
-const API_URL = "https://catholic-companion.up.railway.app"
-
+const API_URL = "https://satisfied-kindness-production-9b91.up.railway.app"
 export default API_URL

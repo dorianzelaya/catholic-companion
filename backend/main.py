@@ -18,7 +18,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:5173",
-        "https://catholic-companion-production.up.railway.app",
+        "https://djzcommune.up.railway.app",
     ],
     allow_credentials=True,
     allow_methods=["*"],

@@ -3,12 +3,12 @@ Temporary diagnostic router for the password reset email problem.
 
 Goes at backend/routers/debug_routes.py
 
-Gated behind a DEBUG_TOKEN environment variable. If DEBUG_TOKEN is not set,
-or the supplied token does not match, both routes return 404 rather than 403
-so the endpoints are not discoverable by probing.
+Earlier version returned 404 on a bad token, which made "token is wrong"
+indistinguishable from "route was never registered". This version answers
+that question directly with /debug/ping, which needs no token.
 
-DELETE THIS FILE and its include_router line once the email issue is solved.
-It is a debugging tool, not a feature.
+DELETE THIS FILE, its import, and its include_router line in main.py once
+the email issue is solved. It is a debugging tool, not a feature.
 """
 
 import os
@@ -23,19 +23,45 @@ router = APIRouter(prefix="/debug", tags=["debug"])
 
 def _require_token(token):
     expected = os.getenv("DEBUG_TOKEN")
-    if not expected or token != expected:
-        raise HTTPException(status_code=404, detail="Not Found")
+
+    if not expected:
+        raise HTTPException(
+            status_code=403,
+            detail="DEBUG_TOKEN is not set in this process's environment. "
+                   "Add it in Railway under the backend service Variables "
+                   "tab and wait for the redeploy to finish.",
+        )
+
+    if token != expected:
+        raise HTTPException(
+            status_code=403,
+            detail="Token does not match the DEBUG_TOKEN value this process "
+                   "has loaded. Check for typos or a stale deploy.",
+        )
+
+
+@router.get("/ping")
+def ping():
+    """
+    No token required. Reveals nothing sensitive. If this returns 404, the
+    router is not registered or the deploy did not happen. If it returns
+    JSON, the router is live and any 403 elsewhere is purely about the token.
+    """
+    return {
+        "router": "registered",
+        "debug_token_set": bool(os.getenv("DEBUG_TOKEN")),
+        "resend_api_key_set": bool(os.getenv("RESEND_API_KEY")),
+        "frontend_url_set": bool(os.getenv("FRONTEND_URL")),
+    }
 
 
 @router.get("/email-config")
 def email_config(token: str = Query(...)):
     """
-    Reports what the RUNNING process actually sees, which is the thing that
-    matters. A variable saved in the Railway dashboard but never picked up
-    by a redeploy will show as absent here.
+    Reports what the RUNNING process actually sees. A variable saved in the
+    Railway dashboard but never picked up by a redeploy shows as absent here.
 
-    Never returns the full API key, only its length and first few characters,
-    so this is safe to read on a screen or paste back into a chat.
+    Never returns the full API key, only its length and first few characters.
     """
     _require_token(token)
 
@@ -65,8 +91,8 @@ def email_config(token: str = Query(...)):
 def email_test(to: str = Query(...), token: str = Query(...)):
     """
     Attempts a real send and returns the actual result or the actual
-    exception, including a traceback. This is the whole point: the error
-    comes back in the browser instead of vanishing into buffered logs.
+    exception, traceback included, so the error arrives in the browser
+    instead of vanishing into buffered logs.
     """
     _require_token(token)
 

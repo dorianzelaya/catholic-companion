@@ -24,6 +24,8 @@
        ever come back, that's a regression of this exact request.)
      - .struggle-topic-dot.tint-*                  (Seek topic list dot
        colors — separate from the circles above, these ARE per-group)
+    - .profile-main-hidden                        (hides main profile block —
+    Profile.jsx depends on this existing or the account card duplicates under every sub-view)
 
    When editing this file, ADD to it or change ONE rule at a time.
    Do not regenerate the whole file from memory.
@@ -600,3 +602,11 @@ button {
 .struggle-topic-dot.tint-spiritual  { background-color: #7f77dd; }
 .struggle-topic-dot.tint-vices      { background-color: #ba7517; }
 .struggle-topic-dot.tint-life       { background-color: #378ade; }
+
+/* Main profile block stays mounted at all times (see Profile.jsx) and is
+   only hidden via this class when a sub-view is active. Without this rule
+   the "hidden" block still renders in normal document flow, so it just
+   stacks underneath whatever sub-view is showing instead of disappearing. */
+.profile-main-hidden {
+  display: none;
+}

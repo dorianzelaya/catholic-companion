@@ -78,10 +78,8 @@ def forgot_password(payload: schemas.ForgotPasswordRequest, db: Session = Depend
 
         try:
             send_password_reset_email(user.email, user.first_name, reset_url)
-        except Exception:
-            # Don't leak email-provider errors to the client — and don't
-            # let a delivery failure reveal that the email was valid.
-            pass
+        except Exception as e:
+            print(f"EMAIL SEND FAILED: {type(e).__name__}: {e}")
 
     return {"message": "If that email is registered, a reset link has been sent."}
 

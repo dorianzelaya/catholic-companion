@@ -4,6 +4,7 @@ from database import engine, Base
 from routers import auth_routes
 from routers import readings_routes
 from routers import struggle_routes
+from routers import debug_routes
 from routers.bible_routes import router as bible_router
 import models
 from routers.journal_routes import router as journal_router
@@ -32,6 +33,10 @@ app.include_router(struggle_routes.router)
 app.include_router(bible_router)
 app.include_router(journal_router)
 app.include_router(user_router)
+
+# Temporary diagnostic routes for the password reset email problem.
+# Delete this line and the debug_routes import above once it is fixed.
+app.include_router(debug_routes.router)
 
 
 @app.get("/")

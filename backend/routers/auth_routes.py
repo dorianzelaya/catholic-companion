@@ -13,7 +13,7 @@ from email_service import send_password_reset_email
 router = APIRouter(prefix="/auth", tags=["auth"])
 
 # Where the reset link points. Set FRONTEND_URL in Railway env vars to
-# your actual frontend domain — falls back to localhost for local testing.
+# your actual frontend domain. Falls back to localhost for local testing.
 FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")
 
 RESET_TOKEN_EXPIRE_MINUTES = 30
@@ -50,36 +50,51 @@ def login(credentials: schemas.UserLogin, db: Session = Depends(get_db)):
 def forgot_password(payload: schemas.ForgotPasswordRequest, db: Session = Depends(get_db)):
     """
     Always returns success, whether or not the email exists. This is
-    deliberate — telling a stranger "that email isn't registered" lets
-    them enumerate which emails have accounts. Same response either way.
+    deliberate: telling a stranger "that email isn't registered" lets them
+    enumerate which emails have accounts. Same response either way.
     """
-    user = db.query(models.User).filter(models.User.email == payload.email).first()
+    # Emails are matched case-insensitively. A user who registered as
+    # Name@Gmail.com and typed name@gmail.com would otherwise silently
+    # match nothing and get the same success message as everyone else.
+    email_input = payload.email.strip().lower()
 
-    if user:
-        # Invalidate any earlier unused tokens for this user so only the
-        # most recent reset link works.
-        db.query(models.PasswordResetToken).filter(
-            models.PasswordResetToken.user_id == user.id,
-            models.PasswordResetToken.used == False,
-        ).update({"used": True})
+    user = (
+        db.query(models.User)
+        .filter(models.User.email.ilike(email_input))
+        .first()
+    )
 
-        token = secrets.token_urlsafe(32)
-        expires_at = datetime.utcnow() + timedelta(minutes=RESET_TOKEN_EXPIRE_MINUTES)
+    if not user:
+        # Logged, not returned. The client response stays identical.
+        print(f"[auth] forgot-password: no account matches {email_input}", flush=True)
+        return {"message": "If that email is registered, a reset link has been sent."}
 
-        reset_token = models.PasswordResetToken(
-            user_id=user.id,
-            token=token,
-            expires_at=expires_at,
-        )
-        db.add(reset_token)
-        db.commit()
+    # Invalidate any earlier unused tokens for this user so only the most
+    # recent reset link works.
+    db.query(models.PasswordResetToken).filter(
+        models.PasswordResetToken.user_id == user.id,
+        models.PasswordResetToken.used == False,
+    ).update({"used": True})
 
-        reset_url = f"{FRONTEND_URL}/reset-password?token={token}"
+    token = secrets.token_urlsafe(32)
+    expires_at = datetime.utcnow() + timedelta(minutes=RESET_TOKEN_EXPIRE_MINUTES)
 
-        try:
-            send_password_reset_email(user.email, user.first_name, reset_url)
-        except Exception as e:
-            print(f"EMAIL SEND FAILED: {type(e).__name__}: {e}")
+    reset_token = models.PasswordResetToken(
+        user_id=user.id,
+        token=token,
+        expires_at=expires_at,
+    )
+    db.add(reset_token)
+    db.commit()
+
+    reset_url = f"{FRONTEND_URL}/reset-password?token={token}"
+
+    try:
+        send_password_reset_email(user.email, user.first_name, reset_url)
+    except Exception as e:
+        # flush=True matters here. Railway buffers stdout, so an unflushed
+        # print from inside a request handler may never appear in the logs.
+        print(f"EMAIL SEND FAILED: {type(e).__name__}: {e}", flush=True)
 
     return {"message": "If that email is registered, a reset link has been sent."}
 

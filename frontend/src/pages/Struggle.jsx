@@ -33,20 +33,15 @@ const GROUP_TINTS = {
 }
 
 function Struggle() {
-  const [group, setGroup] = useState(null)
   const [result, setResult] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [selected, setSelected] = useState('')
 
-  // Reset scroll to top on every level change — group circles, topic
-  // list, and result all live in the same .page-content element, so
-  // without this a scrolled-down result page leaves the topic list
-  // (or group list) appearing scrolled-down and empty when you go back.
   useEffect(() => {
     const el = document.querySelector('.page-content')
     if (el) el.scrollTop = 0
-  }, [group, result, loading])
+  }, [result, loading])
 
   async function handleSelect(category) {
     setSelected(category)
@@ -70,14 +65,10 @@ function Struggle() {
     }
   }
 
-  function handleBackFromResult() {
+  function handleBack() {
     setResult(null)
     setSelected('')
     setError('')
-  }
-
-  function handleBackFromGroup() {
-    setGroup(null)
   }
 
   // Loading
@@ -85,7 +76,7 @@ function Struggle() {
     return (
       <div className="page">
         <div className="page-header">
-          <BackButton onClick={handleBackFromResult} />
+          <BackButton onClick={handleBack} />
           <p className="readings-eyebrow">Seek</p>
           <h1 className="struggle-category-title">{selected}</h1>
         </div>
@@ -101,7 +92,7 @@ function Struggle() {
     return (
       <div className="page">
         <div className="page-header">
-          <BackButton onClick={handleBackFromResult} />
+          <BackButton onClick={handleBack} />
           <p className="readings-eyebrow">Scripture for...</p>
           <h1 className="struggle-category-title">{selected}</h1>
         </div>
@@ -150,56 +141,34 @@ function Struggle() {
     )
   }
 
-  // Level 2 — topics within a chosen group, as a list with a tinted
-  // dot marker matching the group's color.
-  if (group) {
-    const topics = CATEGORIES[group]
-    const tint = GROUP_TINTS[group]
-    return (
-      <div className="page">
-        <div className="page-header">
-          <BackButton onClick={handleBackFromGroup} />
-          <p className="readings-eyebrow">Seek</p>
-          <h1 className="struggle-category-title">{group}</h1>
-        </div>
-        <div className="page-content">
-          {error && <p className="auth-error">{error}</p>}
-          <div className="struggle-topic-list">
-            {topics.map(topic => (
-              <button
-                key={topic}
-                className="struggle-topic-row"
-                onClick={() => handleSelect(topic)}
-              >
-                <span className={`struggle-topic-dot ${tint}`} />
-                <span className="struggle-topic-label">{topic}</span>
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-    )
-  }
-
-  // Level 1 — the five groups, as circles
+  // Single screen: all five groups, each with its topics as tinted pills
   return (
     <div className="page">
       <div className="page-header">
         <BackButton />
         <p className="readings-eyebrow">Seek</p>
-        <h1 className="struggle-category-title">Find scripture for...</h1>
+        <h1 className="struggle-category-title">Find Scripture For...</h1>
       </div>
 
       <div className="page-content">
-        <div className="struggle-cross">
-          {Object.keys(CATEGORIES).map((g, i) => (
-            <button
-              key={g}
-              className={`struggle-circle-group struggle-cross-pos-${i} ${GROUP_TINTS[g]}`}
-              onClick={() => setGroup(g)}
-            >
-              {g}
-            </button>
+        {error && <p className="auth-error">{error}</p>}
+
+        <div className="struggle-grid">
+          {Object.entries(CATEGORIES).map(([groupName, items]) => (
+            <div key={groupName} className="struggle-group">
+              <p className="struggle-group-label">{groupName}</p>
+              <div className="struggle-pills">
+                {items.map(category => (
+                  <button
+                    key={category}
+                    className={`struggle-pill ${GROUP_TINTS[groupName]}`}
+                    onClick={() => handleSelect(category)}
+                  >
+                    {category}
+                  </button>
+                ))}
+              </div>
+            </div>
           ))}
         </div>
       </div>

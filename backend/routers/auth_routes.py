@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import secrets
 import os
 
@@ -17,6 +17,26 @@ router = APIRouter(prefix="/auth", tags=["auth"])
 FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")
 
 RESET_TOKEN_EXPIRE_MINUTES = 30
+
+
+def _is_expired(expires_at) -> bool:
+    """
+    Compares an expiry timestamp against now, whether the value coming back
+    from the database is timezone-aware or naive.
+
+    This matters more than it looks. datetime.utcnow() returns a NAIVE
+    datetime, but a timezone-aware column returns an AWARE one, and Python
+    raises TypeError when the two are compared. Inside a request that
+    surfaces as a 500, and a 500 escapes before CORS headers are attached,
+    so the browser reports a misleading "No Access-Control-Allow-Origin
+    header" error instead of the real crash.
+    """
+    now = datetime.now(timezone.utc)
+
+    if expires_at.tzinfo is None:
+        expires_at = expires_at.replace(tzinfo=timezone.utc)
+
+    return expires_at < now
 
 
 @router.post("/register", response_model=schemas.UserResponse)
@@ -109,7 +129,7 @@ def reset_password(payload: schemas.ResetPasswordRequest, db: Session = Depends(
     if not reset_token:
         raise HTTPException(status_code=400, detail="This reset link is invalid or has already been used.")
 
-    if reset_token.expires_at < datetime.utcnow():
+    if _is_expired(reset_token.expires_at):
         raise HTTPException(status_code=400, detail="This reset link has expired. Please request a new one.")
 
     user = db.query(models.User).filter(models.User.id == reset_token.user_id).first()

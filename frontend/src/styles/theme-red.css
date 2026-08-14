@@ -26,6 +26,7 @@
        colors — separate from the circles above, these ARE per-group)
     - .profile-main-hidden                        (hides main profile block —
     Profile.jsx depends on this existing or the account card duplicates under every sub-view)
+    -- .home-header-season                         (gold "Ordinary Time" text)
 
    When editing this file, ADD to it or change ONE rule at a time.
    Do not regenerate the whole file from memory.
@@ -609,4 +610,8 @@ button {
    stacks underneath whatever sub-view is showing instead of disappearing. */
 .profile-main-hidden {
   display: none;
+}
+
+.home-header-season {
+  color: var(--gold) !important;
 }

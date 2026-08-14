@@ -38,49 +38,49 @@ function Home() {
             title="Today's Readings"
             subtitle={readings ? readings.first_reading_ref : ""}
             path="/readings"
-            accent="#8b6914"
+            accent="#e8b45c"
           />
 
           <FeatureCard
             title="Bible"
             subtitle="Douay-Rheims Catholic Bible"
             path="/bible"
-            accent="#8b6914"
+            accent="#e8b45c"
           />
 
           <FeatureCard
             title="Rosary"
             subtitle="Pray a mystery"
             path="/rosary"
-            accent="#8b6914"
+            accent="#e8b45c"
           />
           
           <FeatureCard
             title="Prayers"
             subtitle="Traditional Catholic prayers"
             path="/prayers"
-            accent="#8b6914"
+            accent="#e8b45c"
           />
 
           <FeatureCard
             title="Saint of the Day"
             subtitle="Meet today's saint"
             path="/saint"
-            accent="#6b5a4a"
+            accent="#e8b45c"
           />
 
           <FeatureCard
             title="Seek"
             subtitle="Scripture for every season"
             path="/struggle"
-            accent="#4a3728"
+            accent="#e8b45c"
           />
           
           <FeatureCard
             title="Examination of Conscience"
             subtitle="Prepare for confession"
             path="/examination"
-            accent="#6b5a4a"
+            accent="#e8b45c"
           />
         </div>
       </div>

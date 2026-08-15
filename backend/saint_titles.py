@@ -21,6 +21,12 @@ SAINT_TITLES = {
     "Queenship of Blessed Virgin Mary": "Queenship of Mary",
     "Presentation of The Blessed Virgin Mary": "Presentation of Mary",
     "Dedication of the basilicas of Saints Peter and Paul, Apostles": "St. Peter's Basilica",
+    # Wikipedia's article is "Assumption of Mary" — no "The", no "Blessed
+    # Virgin". The leading article and extra words break both the direct
+    # title lookup and the search-scoring logic, which requires every
+    # significant word in the calendar name to appear in the candidate
+    # title, and the real article doesn't contain "blessed" or "virgin".
+    "The Assumption of the Blessed Virgin Mary": "Assumption of Mary",
 
     # --- Wikipedia uses a different name for the same person ---
     "Saint Apollinaris": "Apollinaris of Ravenna",

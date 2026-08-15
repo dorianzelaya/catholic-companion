@@ -24,7 +24,10 @@ async function fetchWikipediaData(saintName, saintDescription) {
 
 // Bump when the saint lookup logic changes, so already-cached days
 // don't keep serving results produced by the old code.
-const SAINT_CACHE_VERSION = 2
+// Bumped to 3: Solemnities used to be routed into the "no saint today"
+// fallback and never got a Wikipedia lookup at all. Anyone who loaded a
+// Solemnity under the old logic has that wrong result cached.
+const SAINT_CACHE_VERSION = 3
 
 // Local calendar date. Deliberately not toISOString(), which converts to
 // UTC and rolls the date over in the evening for US timezones.
@@ -62,6 +65,31 @@ function writeCache(key, payload) {
   }
 }
 
+// A Solemnity (Christmas, Easter, the Assumption, etc.) is the HIGHEST
+// rank of celebration in the calendar, not a lesser or empty day. It
+// deserves its own branch rather than being folded into "no saint today,"
+// because the calendar data source frequently leaves saint_description
+// blank for Solemnities even though the day is very much observed.
+function isSolemnity(data) {
+  return data?.saint_type === 'SOLEMNITY'
+}
+
+// True feria: nothing is assigned today at all. This deliberately
+// excludes Solemnities now — a blank description on a Solemnity means
+// the data source didn't supply text, not that today has no observance.
+function isFeria(data) {
+  if (!data) return false
+  if (isSolemnity(data)) return false
+  return (
+    data.saint_type === 'FERIA' ||
+    data.saint_type === 'SUNDAY' ||
+    !data.saint_name ||
+    (!data.saint_description && !data.saint_quote &&
+      !data.saint_type?.includes('MEMORIAL') &&
+      !data.saint_type?.includes('FEAST'))
+  )
+}
+
 function Saint() {
   const [data, setData] = useState(() => readCache('cached_saint_data'))
 
@@ -81,17 +109,9 @@ function Saint() {
         setData(json)
         writeCache('cached_saint_data', json)
 
-        const isFeria = (
-          json.saint_type === 'FERIA' ||
-          json.saint_type === 'SUNDAY' ||
-          json.saint_type === 'SOLEMNITY' ||
-          !json.saint_name ||
-          (!json.saint_description && !json.saint_quote &&
-            !json.saint_type?.includes('MEMORIAL') &&
-            !json.saint_type?.includes('FEAST'))
-        )
-
-        if (!isFeria) {
+        // Solemnities get a Wikipedia lookup too — "The Assumption of the
+        // Blessed Virgin Mary" is a real article, same as any saint's name.
+        if (!isFeria(json)) {
           const wiki = await fetchWikipediaData(json.saint_name, json.saint_description)
           setWikiData(wiki)
           writeCache('cached_saint_wiki', wiki)
@@ -117,15 +137,14 @@ function Saint() {
       .replace(/\b\w/g, c => c.toUpperCase())
   }
 
-  const isFeria = data && (
-    data.saint_type === 'FERIA' ||
-    data.saint_type === 'SUNDAY' ||
-    data.saint_type === 'SOLEMNITY' ||
-    !data.saint_name ||
-    (!data.saint_description && !data.saint_quote &&
-      !data.saint_type?.includes('MEMORIAL') &&
-      !data.saint_type?.includes('FEAST'))
-  )
+  const feria = isFeria(data)
+  const solemnity = isSolemnity(data)
+
+  // Nothing at all to show: no card description/quote from the calendar
+  // source, and Wikipedia turned up nothing either. Only reachable for
+  // Solemnities, since a true feria never attempts the wiki fetch.
+  const solemnityHasNoContent =
+    solemnity && !data.saint_description && !data.saint_quote && !wikiData?.text
 
   return (
     <div className="page">
@@ -140,7 +159,7 @@ function Saint() {
         {loading && <p className="readings-loading">Loading...</p>}
         {error && <p className="auth-error">{error}</p>}
 
-        {data && !isFeria && (
+        {data && !feria && !solemnityHasNoContent && (
           <div className="saint-body">
             {wikiData?.image && (
               <div className="saint-image-block">
@@ -176,7 +195,16 @@ function Saint() {
           </div>
         )}
 
-        {data && isFeria && (
+        {data && solemnityHasNoContent && (
+          <div className="saint-body">
+            <p className="saint-description">
+              Today the Church celebrates {data.saint_name}, a Solemnity —
+              the highest rank of liturgical celebration.
+            </p>
+          </div>
+        )}
+
+        {data && feria && (
           <div className="saint-feria">
             <div className="saint-image-block">
               <img

@@ -35,6 +35,13 @@ async def fetch_reading_text(reference: str) -> str:
     """
     Takes a raw USCCB reference string like "Matthew 6:24-34" and returns
     the full clean verse text from the Douay-Rheims API.
+
+    Some citations, mostly for major feasts, jump chapters mid-reference
+    with a semicolon rather than a hyphen — e.g.
+    "Revelation 11:19a; 12:1-6a, 10ab" reads chapter 11 verse 19, then
+    separately chapter 12 verses 1-6 and 10. parse_reference returns those
+    as "additional_segments"; each is fetched and appended in citation
+    order so the final text reads the same way the lectionary lays it out.
     """
     if not reference:
         return ""
@@ -45,8 +52,11 @@ async def fetch_reading_text(reference: str) -> str:
         chapter = parsed["chapter"]
         verse_ranges = parsed["verse_ranges"]
         cross_chapter_end = parsed.get("cross_chapter_end")
+        additional_segments = parsed.get("additional_segments", [])
 
-        # Handle psalm number conversion
+        # Handle psalm number conversion. Only applied to the main
+        # chapter — psalm citations don't use the semicolon chapter-jump
+        # format in practice, so additional_segments is always empty here.
         if book in ("Psalm", "Psalms"):
             first_verse = verse_ranges[0][0]
             conversion = convert_psalm_reference(chapter, first_verse)
@@ -67,7 +77,14 @@ async def fetch_reading_text(reference: str) -> str:
 
             return f"{first_part} {second_part}".strip()
 
-        return await fetch_verse_text(slug, chapter, verse_ranges)
+        parts = [await fetch_verse_text(slug, chapter, verse_ranges)]
+
+        for segment in additional_segments:
+            seg_text = await fetch_verse_text(slug, segment["chapter"], segment["verse_ranges"])
+            if seg_text:
+                parts.append(seg_text)
+
+        return " ".join(p for p in parts if p).strip()
 
     except (ValueError, NotImplementedError) as e:
         return f"[Reading unavailable: {str(e)}]"

@@ -4,7 +4,6 @@ from database import engine, Base
 from routers import auth_routes
 from routers import readings_routes
 from routers import struggle_routes
-from routers import debug_routes
 from routers.bible_routes import router as bible_router
 import models
 from routers.journal_routes import router as journal_router
@@ -18,8 +17,8 @@ app = FastAPI()
 # The reset link's domain comes from FRONTEND_URL on the backend service,
 # which is a different setting than API_URL in frontend/src/config.js. If
 # those two ever disagree, the reset page loads on a domain the browser
-# then refuses to let call the API, and Safari reports the blocked request
-# as "Load failed" with no further detail.
+# then refuses to let call the API, and the browser reports the blocked
+# request as a generic fetch failure.
 #
 # allow_origin_regex covers every Railway subdomain, so a domain rename or
 # a stale FRONTEND_URL no longer breaks the app. Auth is bearer-token
@@ -44,10 +43,6 @@ app.include_router(struggle_routes.router)
 app.include_router(bible_router)
 app.include_router(journal_router)
 app.include_router(user_router)
-
-# Temporary diagnostic routes. Delete this line and the debug_routes
-# import above once the email work is finished.
-app.include_router(debug_routes.router)
 
 
 @app.get("/")

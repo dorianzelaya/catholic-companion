@@ -208,8 +208,8 @@ function Saint() {
           <div className="saint-feria">
             <div className="saint-image-block">
               <img
-                src="/rosary/transfiguration.jpg"
-                alt="The Transfiguration of Christ"
+                src="/rosary/feria.jpg"
+                alt="Figure of Christ, by Heinrich Hofmann"
                 className="saint-image"
               />
             </div>

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import HomeHeader from '../components/HomeHeader'
 import FeatureCard from '../components/FeatureCard'
 import API_URL from '../config'
+import { getLocalDateKey } from '../utils/dateKey'
 function Home() {
   const [readings, setReadings] = useState(() => {
     try {
@@ -14,7 +15,11 @@ function Home() {
   useEffect(() => {
     async function loadReadings() {
       try {
-        const response = await fetch(`${API_URL}/readings/today`)
+        // Send the device's own local date so the backend serves the day
+        // the user is actually living, not US Eastern. Same helper feeds
+        // the Saint page and its cache key, so they can't disagree.
+        const today = getLocalDateKey()
+        const response = await fetch(`${API_URL}/readings/today?date=${today}`)
         if (!response.ok) return
         const data = await response.json()
         setReadings(data)

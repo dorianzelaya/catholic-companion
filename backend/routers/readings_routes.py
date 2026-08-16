@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from datetime import datetime
+from datetime import datetime, date as date_cls
 import pytz
 import httpx
 import re
@@ -25,13 +25,42 @@ def get_us_eastern_date():
     return datetime.now(eastern).date()
 
 
+def resolve_target_date(date_param: str | None) -> date_cls:
+    """
+    Decide which liturgical day to serve.
+
+    The client sends its own LOCAL date as ?date=YYYY-MM-DD. This matters
+    because the liturgical day should match the day the user is actually
+    living, not a fixed US coast. Previously the server always used US
+    Eastern, so a Pacific user rolled over to tomorrow's readings roughly
+    three hours early every night, and — because the frontend cache keys on
+    local date while the server keyed on Eastern — the two could disagree
+    and serve mismatched days.
+
+    If the param is missing or malformed, fall back to US Eastern exactly
+    as before. That fallback is what keeps every older client, and any
+    direct call to /readings/today with no date, working unchanged.
+
+    A malformed date never raises: it degrades to the Eastern default. A
+    bad query string should not turn today's readings into an error page.
+    """
+    if not date_param:
+        return get_us_eastern_date()
+
+    try:
+        return datetime.strptime(date_param.strip(), "%Y-%m-%d").date()
+    except (ValueError, AttributeError):
+        return get_us_eastern_date()
+
+
 @router.get("/today")
 async def get_today_readings(
+    date: str | None = None,
     db: Session = Depends(get_db),
     user: models.User = Depends(get_current_user),
 ):
-    today = get_us_eastern_date()
-    today_str = today.strftime("%Y-%m-%d")
+    target = resolve_target_date(date)
+    today_str = target.strftime("%Y-%m-%d")
 
     cached = db.query(models.DailyContent).filter(
         models.DailyContent.date == today_str
@@ -56,7 +85,7 @@ async def get_today_readings(
         }
 
     try:
-        content = await fetch_daily_content(today)
+        content = await fetch_daily_content(target)
     except Exception as e:
         raise HTTPException(status_code=503, detail=f"Could not fetch readings: {str(e)}")
 

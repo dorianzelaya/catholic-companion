@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import BackButton from '../components/BackButton'
 import { authFetch } from '../api'
+import { getLocalDateKey } from '../utils/dateKey'
 
 const WIKI_HEADERS = {
   'User-Agent': 'Commune Catholic App/1.0 (https://catholic-companion-production.up.railway.app)'
@@ -29,24 +30,17 @@ async function fetchWikipediaData(saintName, saintDescription) {
 // Solemnity under the old logic has that wrong result cached.
 const SAINT_CACHE_VERSION = 3
 
-// Local calendar date. Deliberately not toISOString(), which converts to
-// UTC and rolls the date over in the evening for US timezones.
-function getTodayKey() {
-  const d = new Date()
-  return [
-    d.getFullYear(),
-    String(d.getMonth() + 1).padStart(2, '0'),
-    String(d.getDate()).padStart(2, '0'),
-  ].join('-')
-}
-
+// The local date key now comes from a shared helper (../utils/dateKey) so
+// that the cache key here and the ?date= param sent to the backend are
+// always the same value. When they were computed separately, the cache
+// could key on one day while the server served another.
 function readCache(key) {
   try {
     const raw = localStorage.getItem(key)
     if (!raw) return null
     const { v, date, payload } = JSON.parse(raw)
     if (v !== SAINT_CACHE_VERSION) return null
-    if (date !== getTodayKey()) return null
+    if (date !== getLocalDateKey()) return null
     return payload
   } catch {
     return null
@@ -57,7 +51,7 @@ function writeCache(key, payload) {
   try {
     localStorage.setItem(key, JSON.stringify({
       v: SAINT_CACHE_VERSION,
-      date: getTodayKey(),
+      date: getLocalDateKey(),
       payload,
     }))
   } catch {
@@ -103,7 +97,10 @@ function Saint() {
 
     async function loadSaint() {
       try {
-        const response = await authFetch(`/readings/today`)
+        // Send the device's own local date so the saint matches the day
+        // the user is living, and matches what the Home page requested.
+        const today = getLocalDateKey()
+        const response = await authFetch(`/readings/today?date=${today}`)
         if (!response.ok) throw new Error('Could not load saint data')
         const json = await response.json()
         setData(json)

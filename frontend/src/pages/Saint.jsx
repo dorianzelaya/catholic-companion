@@ -206,12 +206,21 @@ function Saint() {
 
         {data && feria && (
           <div className="saint-feria">
-            <div className="saint-image-block">
+            {/*
+              Reuses the prayer-card image classes (prayer-image-block,
+              prayer-image, prayer-image-caption) so the feria image and
+              its painting credit render identically to a prayer card,
+              with no new CSS. The credit is a visible caption, separate
+              from the img alt text, which only appears if the image fails
+              to load.
+            */}
+            <div className="prayer-image-block">
               <img
                 src="/rosary/feria.jpg"
                 alt="Figure of Christ, by Heinrich Hofmann"
-                className="saint-image"
+                className="prayer-image"
               />
+              <p className="prayer-image-caption">Figure of Christ &middot; Heinrich Hofmann</p>
             </div>
             <p className="saint-feria-title">This day is not yet dedicated to a Saint recognized by the Catholic Church.</p>
             <p className="saint-feria-text">However, YOU can be a Saint today by following God's universal call to holiness. Remember to love the Lord your God with all your heart, mind, and soul — and to love your neighbor as He loved you.</p>

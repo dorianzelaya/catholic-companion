@@ -28,7 +28,9 @@ async function fetchWikipediaData(saintName, saintDescription) {
 // Bumped to 3: Solemnities used to be routed into the "no saint today"
 // fallback and never got a Wikipedia lookup at all. Anyone who loaded a
 // Solemnity under the old logic has that wrong result cached.
-const SAINT_CACHE_VERSION = 3
+// Bumped to 4: Sunday now has its own branch (Lord's Day) instead of
+// being lumped into the "no saint today" feria fallback.
+const SAINT_CACHE_VERSION = 4
 
 // The local date key now comes from a shared helper (../utils/dateKey) so
 // that the cache key here and the ?date= param sent to the backend are
@@ -68,20 +70,35 @@ function isSolemnity(data) {
   return data?.saint_type === 'SOLEMNITY'
 }
 
-// True feria: nothing is assigned today at all. This deliberately
-// excludes Solemnities now — a blank description on a Solemnity means
-// the data source didn't supply text, not that today has no observance.
+// Sunday is the Lord's Day, the weekly celebration of the Resurrection and
+// the oldest feast of the Church. It is emphatically NOT an empty day, so
+// it gets its own reverent branch rather than the "not yet dedicated to a
+// Saint" feria fallback, which read as wrong for the most important day of
+// the week.
+function isSunday(data) {
+  return data?.saint_type === 'SUNDAY'
+}
+
+// True feria: nothing is assigned today at all. This deliberately excludes
+// both Solemnities and Sundays now — each has its own branch above. A
+// blank description on either does not mean the day is unobserved.
 function isFeria(data) {
   if (!data) return false
   if (isSolemnity(data)) return false
+  if (isSunday(data)) return false
   return (
     data.saint_type === 'FERIA' ||
-    data.saint_type === 'SUNDAY' ||
     !data.saint_name ||
     (!data.saint_description && !data.saint_quote &&
       !data.saint_type?.includes('MEMORIAL') &&
       !data.saint_type?.includes('FEAST'))
   )
+}
+
+// Days that should NOT trigger a Wikipedia saint lookup: feria (no saint)
+// and Sunday (the day itself is the feast, not a person to look up).
+function skipsWikiLookup(data) {
+  return isFeria(data) || isSunday(data)
 }
 
 function Saint() {
@@ -108,7 +125,8 @@ function Saint() {
 
         // Solemnities get a Wikipedia lookup too — "The Assumption of the
         // Blessed Virgin Mary" is a real article, same as any saint's name.
-        if (!isFeria(json)) {
+        // Feria and Sunday do not: there is no person to look up.
+        if (!skipsWikiLookup(json)) {
           const wiki = await fetchWikipediaData(json.saint_name, json.saint_description)
           setWikiData(wiki)
           writeCache('cached_saint_wiki', wiki)
@@ -135,11 +153,12 @@ function Saint() {
   }
 
   const feria = isFeria(data)
+  const sunday = isSunday(data)
   const solemnity = isSolemnity(data)
 
   // Nothing at all to show: no card description/quote from the calendar
   // source, and Wikipedia turned up nothing either. Only reachable for
-  // Solemnities, since a true feria never attempts the wiki fetch.
+  // Solemnities, since feria and Sunday never attempt the wiki fetch.
   const solemnityHasNoContent =
     solemnity && !data.saint_description && !data.saint_quote && !wikiData?.text
 
@@ -156,7 +175,7 @@ function Saint() {
         {loading && <p className="readings-loading">Loading...</p>}
         {error && <p className="auth-error">{error}</p>}
 
-        {data && !feria && !solemnityHasNoContent && (
+        {data && !feria && !sunday && !solemnityHasNoContent && (
           <div className="saint-body">
             {wikiData?.image && (
               <div className="saint-image-block">
@@ -198,6 +217,31 @@ function Saint() {
               Today the Church celebrates {data.saint_name}, a Solemnity —
               the highest rank of liturgical celebration.
             </p>
+          </div>
+        )}
+
+        {data && sunday && (
+          <div className="saint-feria">
+            {/*
+              Sunday, the Lord's Day. Reuses the prayer-card image classes
+              so the image and its credit render like a prayer card, and
+              the saint-feria-* text classes so the layout matches the
+              feria block. Different content, same visual shell.
+            */}
+            <div className="prayer-image-block">
+              <img
+                src="/rosary/sunday.jpg"
+                alt="The Resurrection, by Titian"
+                className="prayer-image"
+              />
+              <p className="prayer-image-caption">The Resurrection &middot; Titian</p>
+            </div>
+            <p className="saint-feria-title">The Lord's Day</p>
+            <p className="saint-feria-text">Every Sunday is a little Easter, the weekly celebration of the Resurrection of the Lord. Today the Church sets aside her ordinary work to rejoice in the day Christ rose from the dead.</p>
+            <div className="saint-feria-verse">
+              <p className="saint-feria-verse-text">"This is the day which the Lord hath made: let us be glad and rejoice therein."</p>
+              <p className="saint-feria-verse-ref">Psalm 117:24</p>
+            </div>
           </div>
         )}
 

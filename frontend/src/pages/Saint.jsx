@@ -234,9 +234,8 @@ function Saint() {
                 alt="The Resurrection, by Titian"
                 className="prayer-image"
               />
-              <p className="prayer-image-caption">The Resurrection &middot; Titian</p>
+              <p className="prayer-image-caption">The Resurrection of Christ &mdash; Titian, c. 1542&ndash;1544</p>
             </div>
-            <p className="saint-feria-title">The Lord's Day</p>
             <p className="saint-feria-text">Every Sunday is a little Easter, the weekly celebration of the Resurrection of the Lord. Today the Church sets aside her ordinary work to rejoice in the day Christ rose from the dead.</p>
             <div className="saint-feria-verse">
               <p className="saint-feria-verse-text">"This is the day which the Lord hath made: let us be glad and rejoice therein."</p>

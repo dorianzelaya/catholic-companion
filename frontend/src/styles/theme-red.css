@@ -782,3 +782,7 @@ button {
   color: var(--brown-light);
   margin: 0;
 }
+
+.struggle-group-label {
+  color: var(--gold);
+}

@@ -713,7 +713,7 @@ button {
 }
 
 .home-tile-label {
-  font-family: var(--font-serif);
+  font-family: 'Playfair Display', serif;
   font-size: 16px;
   font-weight: 600;
   line-height: 1.2;

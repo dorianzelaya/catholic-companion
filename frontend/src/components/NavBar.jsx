@@ -16,10 +16,12 @@ const ICONS = {
   ),
   Bible: (
     <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-      <line x1="12" y1="2" x2="12" y2="22"/>
-      <line x1="6" y1="8" x2="18" y2="8"/>
+      <path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v18H6.5A2.5 2.5 0 0 0 4 22.5V4.5z"/>
+      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+      <line x1="12" y1="6.5" x2="12" y2="12"/>
+      <line x1="9.5" y1="9.25" x2="14.5" y2="9.25"/>
     </svg>
-  ),
+  ),,
   Rosary: (
     <svg width="21" height="21" viewBox="18 6 54 80" fill="currentColor" stroke="none">
       <circle cx="45" cy="14" r="4.5"/>

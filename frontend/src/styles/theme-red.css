@@ -648,8 +648,8 @@ button {
 }
 
 .home-readings-title {
-  font-size: 18px;
-  font-weight: 600;
+  font-family: var(--font-serif);
+  font-size: 19px;
   color: var(--brown-dark);
   margin: 0;
 }
@@ -713,7 +713,8 @@ button {
 }
 
 .home-tile-label {
-  font-size: 15px;
+  font-family: var(--font-serif);
+  font-size: 16px;
   font-weight: 600;
   line-height: 1.2;
   color: var(--brown-dark);

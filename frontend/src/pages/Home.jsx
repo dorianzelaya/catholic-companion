@@ -1,9 +1,34 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import HomeHeader from '../components/HomeHeader'
-import FeatureCard from '../components/FeatureCard'
 import API_URL from '../config'
 import { getLocalDateKey } from '../utils/dateKey'
+import {
+  SaintIcon,
+  BibleIcon,
+  SeekIcon,
+  ExaminationIcon,
+  RosaryIcon,
+  PrayingHandsIcon,
+} from '../components/tileIcons'
+
+// The six grid tiles, in display order:
+//   row 1: Saint of the Day, Bible, Seek
+//   row 2: Examination, Rosary, Prayers
+// Order and labels come from the redesign; each tile pairs a short label
+// with a line icon that matches the crimson/gold theme.
+const TILES = [
+  { label: 'Saint of the Day', path: '/saint', Icon: SaintIcon },
+  { label: 'Bible', path: '/bible', Icon: BibleIcon },
+  { label: 'Seek', path: '/struggle', Icon: SeekIcon },
+  { label: 'Examination', path: '/examination', Icon: ExaminationIcon },
+  { label: 'Rosary', path: '/rosary', Icon: RosaryIcon },
+  { label: 'Prayers', path: '/prayers', Icon: PrayingHandsIcon },
+]
+
 function Home() {
+  const navigate = useNavigate()
+
   const [readings, setReadings] = useState(() => {
     try {
       const saved = localStorage.getItem('cached_home_data')
@@ -12,6 +37,7 @@ function Home() {
       return null
     }
   })
+
   useEffect(() => {
     async function loadReadings() {
       try {
@@ -30,71 +56,45 @@ function Home() {
     }
     loadReadings()
   }, [])
+
   return (
     <div className="page">
       <HomeHeader readings={readings} />
       <div className="page-content">
-        <div className="card-list">
-          {/*
-            Today's Readings stays on top — it's the one card that shows
-            live daily content (the day's citation), so it earns the spot
-            even though the nav bar also links to it.
+        {/* Today's Readings: full-width feature card at the top. It's the
+            one item that shows live daily content (the day's citation), so
+            it gets the prominent banner slot above the grid. */}
+        <div
+          className="home-readings-banner"
+          onClick={() => navigate('/readings')}
+        >
+          <div>
+            <p className="home-readings-title">Today's Readings</p>
+            <p className="home-readings-ref">
+              {readings ? readings.first_reading_ref : ''}
+            </p>
+          </div>
+          <span className="home-readings-arrow">›</span>
+        </div>
 
-            Then the features you can ONLY reach from here — Saint, Seek,
-            Prayers, Examination aren't in the bottom nav, so the home page
-            is their only entry point.
-
-            Bible and Rosary sit at the bottom: the nav bar already links
-            to both, and neither shows daily content, so they're kept as
-            cards but drop below.
-          */}
-          <FeatureCard
-            title="Today's Readings"
-            subtitle={readings ? readings.first_reading_ref : ""}
-            path="/readings"
-            accent="#e8b45c"
-          />
-
-          <FeatureCard
-            title="Saint of the Day"
-            subtitle="Meet today's saint"
-            path="/saint"
-            accent="#e8b45c"
-          />
-          <FeatureCard
-            title="Seek"
-            subtitle="Scripture for every season"
-            path="/struggle"
-            accent="#e8b45c"
-          />
-          <FeatureCard
-            title="Prayers"
-            subtitle="Traditional Catholic prayers"
-            path="/prayers"
-            accent="#e8b45c"
-          />
-          <FeatureCard
-            title="Examination of Conscience"
-            subtitle="Prepare for confession"
-            path="/examination"
-            accent="#e8b45c"
-          />
-
-          <FeatureCard
-            title="Bible"
-            subtitle="Douay-Rheims Catholic Bible"
-            path="/bible"
-            accent="#e8b45c"
-          />
-          <FeatureCard
-            title="Rosary"
-            subtitle="Pray a mystery"
-            path="/rosary"
-            accent="#e8b45c"
-          />
+        {/* The six sections as a 3-column grid of icon tiles. */}
+        <div className="home-grid">
+          {TILES.map(({ label, path, Icon }) => (
+            <button
+              key={label}
+              className="home-tile"
+              onClick={() => navigate(path)}
+            >
+              <span className="home-tile-icon">
+                <Icon />
+              </span>
+              <span className="home-tile-label">{label}</span>
+            </button>
+          ))}
         </div>
       </div>
     </div>
   )
 }
+
 export default Home

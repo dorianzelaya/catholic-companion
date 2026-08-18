@@ -615,3 +615,98 @@ button {
 .home-header-season {
   color: var(--gold) !important;
 }
+
+/* ============================================================
+   HOME REDESIGN — readings banner + 3-column icon grid
+   Appended, self-contained. Uses existing theme variables
+   (--glass-card, --cream-border, --gold, --brown-dark,
+   --brown-light) so tiles match the rest of the app. Does not
+   touch .feature-card or any existing rule.
+   ============================================================ */
+
+/* Today's Readings banner across the top */
+.home-readings-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--glass-card);
+  border: 1px solid var(--cream-border);
+  border-left: 3px solid var(--gold);
+  border-radius: 14px;
+  padding: 18px 20px;
+  margin-bottom: 16px;
+  cursor: pointer;
+  transition: transform 0.12s ease, background-color 0.12s ease;
+}
+
+.home-readings-banner:active {
+  background-color: var(--glass-card-strong);
+  transform: scale(0.99);
+}
+
+.home-readings-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--brown-dark);
+  margin: 0;
+}
+
+.home-readings-ref {
+  font-size: 14px;
+  color: var(--brown-light);
+  margin: 4px 0 0;
+}
+
+.home-readings-arrow {
+  font-size: 22px;
+  color: var(--brown-light);
+  line-height: 1;
+}
+
+/* Three-column grid of section tiles */
+.home-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.home-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  aspect-ratio: 1 / 1;
+  background-color: var(--glass-card);
+  border: 1px solid var(--cream-border);
+  border-radius: 14px;
+  padding: 14px 8px;
+  cursor: pointer;
+  text-align: center;
+  transition: transform 0.12s ease, background-color 0.12s ease;
+  /* reset button defaults */
+  font-family: inherit;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.home-tile:active {
+  background-color: var(--glass-card-strong);
+  transform: scale(0.97);
+}
+
+/* The icon inherits gold via currentColor (icons use stroke=currentColor) */
+.home-tile-icon {
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+}
+
+.home-tile-label {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.25;
+  color: var(--brown-dark);
+}

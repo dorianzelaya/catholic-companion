@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext'
 import { useState, useEffect } from 'react'
 import BIBLE_BOOKS from '../data/bible'
 import { authFetch } from '../api'
+import GLOSSARY from '../data/glossary'
 
 function getTodayStr() {
   const d = new Date()
@@ -123,6 +124,7 @@ const VIEW_META = {
   'reading-plan':{ eyebrow: 'Profile',       title: 'Reading Plan' },
   saved:         { eyebrow: 'Profile',       title: 'My Prayers' },
   verses:        { eyebrow: 'Profile',       title: 'My Verses' },
+  glossary:      { eyebrow: 'Profile',       title: 'Glossary' },
   'prayer-detail': { eyebrow: 'My Prayers',  title: null }, // title = prayer name
 }
 
@@ -135,6 +137,7 @@ function Profile() {
   const [readChapters, setReadChapters] = useState({})
   const [view, setView] = useState('main')
   const [selectedPrayer, setSelectedPrayer] = useState(null)
+  const [glossaryQuery, setGlossaryQuery] = useState('')
 
   const [journal, setJournal] = useState([])
   const [journalText, setJournalText] = useState('')
@@ -153,6 +156,7 @@ function Profile() {
     function onReset() {
       setView('main')
       setSelectedPrayer(null)
+      setGlossaryQuery('')
     }
     window.addEventListener('profile:reset', onReset)
     return () => window.removeEventListener('profile:reset', onReset)
@@ -360,6 +364,46 @@ function Profile() {
           )
         )}
 
+        {/* ---------- Glossary ---------- */}
+        {activeView === 'glossary' && (
+          <>
+            <input
+              className="glossary-search"
+              type="text"
+              placeholder="Search terms..."
+              value={glossaryQuery}
+              onChange={e => setGlossaryQuery(e.target.value)}
+            />
+            {(() => {
+              const q = glossaryQuery.trim().toLowerCase()
+              const results = q
+                ? GLOSSARY.filter(
+                    e =>
+                      e.term.toLowerCase().includes(q) ||
+                      e.definition.toLowerCase().includes(q)
+                  )
+                : GLOSSARY
+              if (results.length === 0) {
+                return (
+                  <div className="profile-empty">
+                    <p className="profile-empty-text">No terms match "{glossaryQuery}".</p>
+                  </div>
+                )
+              }
+              return (
+                <div className="glossary-list">
+                  {results.map(entry => (
+                    <div key={entry.term} className="glossary-entry">
+                      <p className="glossary-term">{entry.term}</p>
+                      <p className="glossary-def">{entry.definition}</p>
+                    </div>
+                  ))}
+                </div>
+              )
+            })()}
+          </>
+        )}
+
         {/* ---------- Prayer journal ---------- */}
         {activeView === 'journal' && (
           <>
@@ -514,6 +558,11 @@ function Profile() {
                   <span className="profile-feature-badge">{savedVerses.length}</span>
                 )}
               </div>
+              <span className="profile-feature-arrow">›</span>
+            </button>
+            <div className="profile-divider" />
+            <button className="profile-feature-row" onClick={() => setView('glossary')}>
+              <span className="profile-row-label">Glossary</span>
               <span className="profile-feature-arrow">›</span>
             </button>
           </div>

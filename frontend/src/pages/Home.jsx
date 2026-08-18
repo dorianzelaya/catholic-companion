@@ -17,11 +17,11 @@ import {
 //   row 2: Examination of Conscience, Rosary, Prayers
 // Each tile keeps its subtitle (like the old cards) and a gold line icon.
 const TILES = [
-  { label: 'Saint of the Day', subtitle: "Meet today's saint", path: '/saint', Icon: SaintIcon },
   { label: 'Bible', subtitle: 'Douay-Rheims Catholic Bible', path: '/bible', Icon: BibleIcon },
+  { label: 'Saint of the Day', subtitle: "Meet today's saint", path: '/saint', Icon: SaintIcon },
   { label: 'Seek', subtitle: 'Scripture for every season', path: '/struggle', Icon: SeekIcon },
-  { label: 'Examination of Conscience', subtitle: 'Prepare for confession', path: '/examination', Icon: ExaminationIcon },
   { label: 'Rosary', subtitle: 'Pray the mysteries', path: '/rosary', Icon: RosaryIcon },
+  { label: 'Examination of Conscience', subtitle: 'Prepare for confession', path: '/examination', Icon: ExaminationIcon },
   { label: 'Prayers', subtitle: 'Traditional Catholic prayers', path: '/prayers', Icon: PrayingHandsIcon },
 ]
 

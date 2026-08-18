@@ -14,16 +14,15 @@ import {
 
 // The six grid tiles, in display order:
 //   row 1: Saint of the Day, Bible, Seek
-//   row 2: Examination, Rosary, Prayers
-// Order and labels come from the redesign; each tile pairs a short label
-// with a line icon that matches the crimson/gold theme.
+//   row 2: Examination of Conscience, Rosary, Prayers
+// Each tile keeps its subtitle (like the old cards) and a gold line icon.
 const TILES = [
-  { label: 'Saint of the Day', path: '/saint', Icon: SaintIcon },
-  { label: 'Bible', path: '/bible', Icon: BibleIcon },
-  { label: 'Seek', path: '/struggle', Icon: SeekIcon },
-  { label: 'Examination', path: '/examination', Icon: ExaminationIcon },
-  { label: 'Rosary', path: '/rosary', Icon: RosaryIcon },
-  { label: 'Prayers', path: '/prayers', Icon: PrayingHandsIcon },
+  { label: 'Saint of the Day', subtitle: "Meet today's saint", path: '/saint', Icon: SaintIcon },
+  { label: 'Bible', subtitle: 'Douay-Rheims Catholic Bible', path: '/bible', Icon: BibleIcon },
+  { label: 'Seek', subtitle: 'Scripture for every season', path: '/struggle', Icon: SeekIcon },
+  { label: 'Examination of Conscience', subtitle: 'Prepare for confession', path: '/examination', Icon: ExaminationIcon },
+  { label: 'Rosary', subtitle: 'Pray the mysteries', path: '/rosary', Icon: RosaryIcon },
+  { label: 'Prayers', subtitle: 'Traditional Catholic prayers', path: '/prayers', Icon: PrayingHandsIcon },
 ]
 
 function Home() {
@@ -61,9 +60,9 @@ function Home() {
     <div className="page">
       <HomeHeader readings={readings} />
       <div className="page-content">
-        {/* Today's Readings: full-width feature card at the top. It's the
+        {/* Today's Readings: full-width feature banner at the top. It's the
             one item that shows live daily content (the day's citation), so
-            it gets the prominent banner slot above the grid. */}
+            it gets the prominent slot above the grid. */}
         <div
           className="home-readings-banner"
           onClick={() => navigate('/readings')}
@@ -77,9 +76,10 @@ function Home() {
           <span className="home-readings-arrow">›</span>
         </div>
 
-        {/* The six sections as a 3-column grid of icon tiles. */}
+        {/* The six sections as a 3-column grid of tiles: gold accent, icon,
+            title, and subtitle, matching the taller card proportions. */}
         <div className="home-grid">
-          {TILES.map(({ label, path, Icon }) => (
+          {TILES.map(({ label, subtitle, path, Icon }) => (
             <button
               key={label}
               className="home-tile"
@@ -89,6 +89,7 @@ function Home() {
                 <Icon />
               </span>
               <span className="home-tile-label">{label}</span>
+              <span className="home-tile-subtitle">{subtitle}</span>
             </button>
           ))}
         </div>

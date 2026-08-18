@@ -21,7 +21,7 @@ const ICONS = {
       <line x1="12" y1="6.5" x2="12" y2="12"/>
       <line x1="9.5" y1="9.25" x2="14.5" y2="9.25"/>
     </svg>
-  ),,
+  ),
   Rosary: (
     <svg width="21" height="21" viewBox="18 6 54 80" fill="currentColor" stroke="none">
       <circle cx="45" cy="14" r="4.5"/>

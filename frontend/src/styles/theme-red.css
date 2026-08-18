@@ -618,10 +618,13 @@ button {
 
 /* ============================================================
    HOME REDESIGN — readings banner + 3-column icon grid
-   Appended, self-contained. Uses existing theme variables
-   (--glass-card, --cream-border, --gold, --brown-dark,
-   --brown-light) so tiles match the rest of the app. Does not
-   touch .feature-card or any existing rule.
+   Matches the mockup: gold left-accent, taller tiles, icon
+   top-left, title + subtitle stacked and left-aligned.
+   Appended, self-contained. Uses existing theme variables so
+   tiles match the app. Does not touch .feature-card.
+
+   NOTE: if an earlier .home-grid / .home-tile block was already
+   appended, DELETE that older block — this one replaces it.
    ============================================================ */
 
 /* Today's Readings banner across the top */
@@ -670,19 +673,21 @@ button {
   gap: 12px;
 }
 
+/* Taller-than-wide tile, gold left-accent, content aligned to the
+   top-left like the mockup. */
 .home-tile {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  aspect-ratio: 1 / 1;
+  align-items: flex-start;
+  justify-content: flex-start;
+  min-height: 150px;
   background-color: var(--glass-card);
   border: 1px solid var(--cream-border);
+  border-left: 3px solid var(--gold);
   border-radius: 14px;
-  padding: 14px 8px;
+  padding: 16px 14px;
   cursor: pointer;
-  text-align: center;
+  text-align: left;
   transition: transform 0.12s ease, background-color 0.12s ease;
   /* reset button defaults */
   font-family: inherit;
@@ -695,18 +700,28 @@ button {
   transform: scale(0.97);
 }
 
-/* The icon inherits gold via currentColor (icons use stroke=currentColor) */
+/* Icon sits top-left, gold, fixed box so all six align. Gold comes from
+   currentColor (every icon uses stroke="currentColor"). */
 .home-tile-icon {
   color: var(--gold);
+  width: 28px;
+  height: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 30px;
+  margin-bottom: 14px;
 }
 
 .home-tile-label {
-  font-size: 13px;
-  font-weight: 500;
-  line-height: 1.25;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.2;
   color: var(--brown-dark);
+  margin-bottom: 4px;
+}
+
+.home-tile-subtitle {
+  font-size: 12px;
+  line-height: 1.3;
+  color: var(--brown-light);
 }

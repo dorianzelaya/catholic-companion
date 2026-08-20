@@ -24,7 +24,6 @@ def search_struggle(
     user: models.User = Depends(get_current_user),
 ):
     category = payload.get("category", "").strip()
-
     if not category:
         raise HTTPException(status_code=400, detail="Category is required")
 
@@ -35,7 +34,12 @@ def search_struggle(
     if not passages:
         raise HTTPException(status_code=404, detail=f"No passages found for: {category}")
 
-    selected_passages = random.sample(passages, min(3, len(passages)))
+    # Previously this returned only 3 passages chosen at random, which meant
+    # seeing more required backing out and re-entering the category. The
+    # whole pool is now returned in a shuffled order so the client can show
+    # one verse at a time and cycle through every passage without another
+    # round trip and without repeating until the pool is exhausted.
+    shuffled_passages = random.sample(passages, len(passages))
 
     prayer = db.query(StrugglePrayer).filter(
         StrugglePrayer.category == category
@@ -49,7 +53,7 @@ def search_struggle(
         "category": category,
         "passages": [
             {"reference": p.reference, "text": p.text}
-            for p in selected_passages
+            for p in shuffled_passages
         ],
         "saint": {
             "name": saint.saint_name,

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import BackButton from '../components/BackButton'
 import { authFetch } from '../api'
 
@@ -37,6 +38,11 @@ function Struggle() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [selected, setSelected] = useState('')
+  // Index into result.passages. The backend now sends the whole pool
+  // pre-shuffled, so stepping this forward walks every verse once before
+  // wrapping around — no repeats until the pool is exhausted, and no
+  // second network request.
+  const [verseIndex, setVerseIndex] = useState(0)
 
   useEffect(() => {
     const el = document.querySelector('.page-content')
@@ -48,6 +54,7 @@ function Struggle() {
     setLoading(true)
     setError('')
     setResult(null)
+    setVerseIndex(0)
 
     try {
       const response = await authFetch('/struggle/search', {
@@ -65,10 +72,16 @@ function Struggle() {
     }
   }
 
+  function handleNewVerse() {
+    if (!result?.passages?.length) return
+    setVerseIndex(i => (i + 1) % result.passages.length)
+  }
+
   function handleBack() {
     setResult(null)
     setSelected('')
     setError('')
+    setVerseIndex(0)
   }
 
   // Loading
@@ -89,6 +102,10 @@ function Struggle() {
 
   // Result
   if (result) {
+    const passages = result.passages || []
+    const current = passages[verseIndex]
+    const hasMore = passages.length > 1
+
     return (
       <div className="page">
         <div className="page-header">
@@ -107,12 +124,31 @@ function Struggle() {
 
             <div className="struggle-section">
               <p className="struggle-section-label">Scripture</p>
-              {result.passages.map((p, i) => (
-                <div key={i} className="struggle-passage">
-                  <p className="struggle-ref">{p.reference}</p>
-                  <p className="struggle-text">"{p.text}"</p>
-                </div>
-              ))}
+
+              {/* One verse at a time. AnimatePresence with mode="wait"
+                  fades the current verse out before fading the next in,
+                  so the two never overlap mid-transition. */}
+              <AnimatePresence mode="wait">
+                {current && (
+                  <motion.div
+                    key={verseIndex}
+                    className="struggle-passage"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.28, ease: 'easeInOut' }}
+                  >
+                    <p className="struggle-ref">{current.reference}</p>
+                    <p className="struggle-text">"{current.text}"</p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {hasMore && (
+                <button className="struggle-new-verse-btn" onClick={handleNewVerse}>
+                  New Verse
+                </button>
+              )}
             </div>
 
             {result.saint && (

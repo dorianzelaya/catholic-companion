@@ -125,24 +125,29 @@ function Struggle() {
             <div className="struggle-section">
               <p className="struggle-section-label">Scripture</p>
 
-              {/* One verse at a time. AnimatePresence with mode="wait"
-                  fades the current verse out before fading the next in,
-                  so the two never overlap mid-transition. */}
-              <AnimatePresence mode="wait">
-                {current && (
-                  <motion.div
-                    key={verseIndex}
-                    className="struggle-passage"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.28, ease: 'easeInOut' }}
-                  >
-                    <p className="struggle-ref">{current.reference}</p>
-                    <p className="struggle-text">"{current.text}"</p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              {/* Fixed-height slot so short and long verses occupy the same
+                  space. Without it, everything below (saint, prayer) jumps
+                  up and down as verses of different lengths cycle through. */}
+              <div className="struggle-verse-slot">
+                {/* One verse at a time. AnimatePresence with mode="wait"
+                    fades the current verse out before fading the next in,
+                    so the two never overlap mid-transition. */}
+                <AnimatePresence mode="wait">
+                  {current && (
+                    <motion.div
+                      key={verseIndex}
+                      className="struggle-passage"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.28, ease: 'easeInOut' }}
+                    >
+                      <p className="struggle-ref">{current.reference}</p>
+                      <p className="struggle-text">"{current.text}"</p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
 
               {hasMore && (
                 <button className="struggle-new-verse-btn" onClick={handleNewVerse}>

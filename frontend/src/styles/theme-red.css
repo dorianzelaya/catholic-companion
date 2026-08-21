@@ -788,23 +788,38 @@ button {
 }
 
 /* ============================================================
-   SEEK — "New Verse" button
-   Shows below the single displayed passage and cycles to the
-   next verse in the shuffled pool. Appended, self-contained.
+   SEEK — verse slot + shuffle button
+   REPLACE the earlier .struggle-new-verse-btn and
+   .struggle-verse-slot blocks with these. Delete the old ones
+   first so there are no conflicting rules.
    ============================================================ */
 
+/* Hard height, not min-height. A min-height only sets a floor, so a long
+   verse still pushed the saint and prayer sections down. A fixed height
+   with internal scrolling means every verse occupies exactly the same
+   space and nothing below ever moves. */
+.struggle-verse-slot {
+  height: 230px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Circular gold icon button, centered under the verse. */
 .struggle-new-verse-btn {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
   margin: 14px auto 0;
-  padding: 10px 22px;
+  padding: 0;
   background-color: var(--gold);
   border: none;
-  border-radius: 999px;
+  border-radius: 50%;
   color: #4a1420;
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
   cursor: pointer;
   transition: opacity 0.15s ease, transform 0.12s ease;
   -webkit-appearance: none;
@@ -813,5 +828,5 @@ button {
 
 .struggle-new-verse-btn:active {
   opacity: 0.85;
-  transform: scale(0.97);
+  transform: scale(0.94) rotate(180deg);
 }

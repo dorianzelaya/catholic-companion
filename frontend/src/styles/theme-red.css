@@ -838,3 +838,12 @@ button {
 .bible-continue-card {
   border-left: 3px solid var(--gold);
 }
+
+/* Unify card accents on --gold. These used --gold-light, which reads
+   cream or gray depending on the card background. */
+.home-header-verse,
+.saint-summary-card,
+.struggle-prayer,
+.examination-act-of-contrition {
+  border-left-color: var(--gold);
+}

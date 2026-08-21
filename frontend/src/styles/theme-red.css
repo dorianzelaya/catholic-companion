@@ -847,3 +847,7 @@ button {
 .examination-act-of-contrition {
   border-left-color: var(--gold);
 }
+
+.prayer-detail-card {
+  border-left: 3px solid var(--gold);
+}

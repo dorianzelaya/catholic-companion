@@ -830,3 +830,11 @@ button {
   opacity: 0.85;
   transform: scale(0.94) rotate(180deg);
 }
+
+
+/* Gold left-accent on Bible cards, matching the home screen tiles */
+.bible-testament-btn,
+.bible-verse-card,
+.bible-continue-card {
+  border-left: 3px solid var(--gold);
+}
